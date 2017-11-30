@@ -15,16 +15,16 @@ class EnumPickerViewController: UITableViewController {
     private let values: [Any]
     private let titles: [String]
     private let validTitles: [String]
-    private let changesRequiresRestart: Bool
+    private let requiresRestart: Bool
     private let setValue: (Any) -> Void
     
-    init(rootSpiceDispenser: SpiceDispenser, title: String, currentValue: Any, values: [Any], titles: [String], validTitles: [String], changesRequiresRestart: Bool, setValue: @escaping (Any) -> Void) {
+    init(rootSpiceDispenser: SpiceDispenser, title: String, currentValue: Any, values: [Any], titles: [String], validTitles: [String], requiresRestart: Bool, setValue: @escaping (Any) -> Void) {
         self.rootSpiceDispenser = rootSpiceDispenser
         self.currentValue = currentValue        
         self.values = values
         self.titles = titles
         self.validTitles = validTitles
-        self.changesRequiresRestart = changesRequiresRestart
+        self.requiresRestart = requiresRestart
         self.setValue = setValue
         super.init(nibName: nil, bundle: nil)
         self.title = title
@@ -76,7 +76,7 @@ extension EnumPickerViewController {
         currentValue = value
         rootSpiceDispenser.validateValues()
         tableView.reloadData()    
-        if changesRequiresRestart {
+        if requiresRestart {
             UIApplication.shared.shp_restart()
         }
     }

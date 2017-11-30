@@ -91,14 +91,14 @@ private extension SpicesContentViewController {
         return cell
     }
     
-    private func boolCell(in tableView: UITableView, at indexPath: IndexPath, name: String, currentValue: Bool, changesRequiresRestart: Bool, setValue: @escaping (Bool) -> Void) -> BoolTableViewCell {
+    private func boolCell(in tableView: UITableView, at indexPath: IndexPath, name: String, currentValue: Bool, requiresRestart: Bool, setValue: @escaping (Bool) -> Void) -> BoolTableViewCell {
         let reuseIdentifier = ReuseIdentifier.boolCell
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! BoolTableViewCell
         cell.titleLabel.text = name
         cell.boolSwitch.isOn = currentValue
         cell.valueChanged = { [weak self] newValue in
             setValue(newValue)
-            if changesRequiresRestart {
+            if requiresRestart {
                 UIApplication.shared.shp_restart()
             }
             self?.validateValues()
@@ -138,7 +138,7 @@ private extension SpicesContentViewController {
                 values: values,
                 titles: titles,
                 validTitles: validTitles,
-                changesRequiresRestart: spice.changesRequireRestart,
+                requiresRestart: spice.requiresRestart,
                 setValue: setValue)
             navigationController?.pushViewController(enumPickerViewController, animated: true)
         default:
@@ -175,7 +175,7 @@ extension SpicesContentViewController {
                     at: indexPath,
                     name: spice.name,
                     currentValue: isOn,
-                    changesRequiresRestart: spice.changesRequireRestart,
+                    requiresRestart: spice.requiresRestart,
                     setValue: setValue)
             }
         }

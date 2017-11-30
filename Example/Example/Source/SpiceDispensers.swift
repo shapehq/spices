@@ -22,7 +22,7 @@ final class ExampleSpiceDispenser: SpiceDispenser {
 final class GeneralSpiceDispenser: SpiceDispenser {
     static let shared = GeneralSpiceDispenser()
 
-    let environment: Spice<Environment> = Spice(.development)
+    let environment: Spice<Environment> = Spice(.development, requiresRestart: true)
 
     private init() {}
 }

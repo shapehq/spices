@@ -11,7 +11,7 @@ import Foundation
 protocol SpiceType {
     var key: String { get set }
     var name: String { get }
-    var changesRequireRestart: Bool { get }
+    var requiresRestart: Bool { get }
     var store: UserDefaults { get set }
     var viewData: SpiceViewData { get }
     func validateCurrentValue()
@@ -35,7 +35,7 @@ public class Spice<T>: SpiceType {
         }
     }
     internal private(set) var name: String = ""
-    internal let changesRequireRestart: Bool
+    internal let requiresRestart: Bool
     internal var store: UserDefaults = .standard {
         didSet {
             _value = valueLoader?()
@@ -62,10 +62,10 @@ public class Spice<T>: SpiceType {
     private var valuePersister: ((T) -> Void)?
     private var haveLoadedValue = false
     
-    private init(defaultValue: T, name: String?, changesRequireRestart: Bool, valueValidator: ((T) -> T)? = nil) {
+    private init(defaultValue: T, name: String?, requiresRestart: Bool, valueValidator: ((T) -> T)? = nil) {
         self.defaultValue = defaultValue
         self.specifiedName = name
-        self.changesRequireRestart = changesRequireRestart
+        self.requiresRestart = requiresRestart
         self.valueValidator = valueValidator
         if let name = name {
             self.name = name
@@ -86,11 +86,11 @@ public class Spice<T>: SpiceType {
 }
 
 extension Spice where T: SpiceEnum, T: RawRepresentable {
-    public convenience init(_ defaultValue: T, name: String? = nil, changesRequireRestart: Bool = false) {
+    public convenience init(_ defaultValue: T, name: String? = nil, requiresRestart: Bool = false) {
         self.init(
             defaultValue: defaultValue,
             name: name,
-            changesRequireRestart: changesRequireRestart,
+            requiresRestart: requiresRestart,
             valueValidator: T.validate)
         valueLoader = { [weak self] in self?.loadStoredValue() }
         valuePersister = { [weak self] in self?.storeValue($0) }
@@ -128,11 +128,11 @@ extension Spice where T: SpiceEnum, T: RawRepresentable {
 }
 
 extension Spice where T == Bool {
-    public convenience init(_ defaultValue: T, name: String? = nil, changesRequireRestart: Bool = false, valueValidator: ((T) -> T)? = nil) {
+    public convenience init(_ defaultValue: T, name: String? = nil, requiresRestart: Bool = false, valueValidator: ((T) -> T)? = nil) {
         self.init(
             defaultValue: defaultValue,
             name: name,
-            changesRequireRestart: changesRequireRestart,
+            requiresRestart: requiresRestart,
             valueValidator: valueValidator)
         valueLoader = { [weak self] in self?.loadStoredValue() }
         valuePersister = { [weak self] in self?.storeValue($0) }
