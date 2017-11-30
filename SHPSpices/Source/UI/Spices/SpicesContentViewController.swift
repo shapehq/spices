@@ -23,7 +23,7 @@ class SpicesContentViewController: UITableViewController {
         self.init(
             spiceDispenser: spiceDispenser,
             rootSpiceDispenser: spiceDispenser,
-            title: Localizable.SpicesContent.rootTitle)
+            title: spiceDispenser.title ?? Localizable.SpicesContent.rootTitle)
     }
     
     init(spiceDispenser: SpiceDispenser, rootSpiceDispenser: SpiceDispenser, title: String) {
@@ -124,7 +124,7 @@ private extension SpicesContentViewController {
         let spicesContentViewController = SpicesContentViewController(
             spiceDispenser: spiceDispenser,
             rootSpiceDispenser: rootSpiceDispenser,
-            title: name.shp_camelCaseToReadable())
+            title: spiceDispenser.title ?? name.shp_camelCaseToReadable())
         navigationController?.pushViewController(spicesContentViewController, animated: true)
     }
     

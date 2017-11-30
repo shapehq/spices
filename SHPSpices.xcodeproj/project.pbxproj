@@ -120,8 +120,8 @@
 			isa = PBXGroup;
 			children = (
 				7282E6E31FD07CFC00612148 /* BoolTableViewCell.swift */,
-				7282E6E41FD07CFC00612148 /* SpicesContentViewController.swift */,
 				7282E6E51FD07CFC00612148 /* SpicesViewController.swift */,
+				7282E6E41FD07CFC00612148 /* SpicesContentViewController.swift */,
 			);
 			path = Spices;
 			sourceTree = "<group>";

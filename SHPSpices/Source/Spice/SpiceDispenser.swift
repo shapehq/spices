@@ -15,6 +15,13 @@ enum SpiceDispenserProperty {
 
 public protocol SpiceDispenser {
     var store: UserDefaults { get }
+    var title: String? { get }
+}
+
+public extension SpiceDispenser {
+    var title: String? {
+        return nil
+    }
 }
 
 public extension SpiceDispenser {
