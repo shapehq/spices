@@ -1,0 +1,30 @@
+# Builds
+pkg/
+
+## Build generated
+iOS/Build/
+DerivedData
+
+## Various settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+.idea/
+.DS_Store
+
+## Other
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+*.xcscmblueprint
+*.bcsymbolmap
+
+## Obj-C/Swift specific
+*.hmap
+

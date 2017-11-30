@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  Spices
+
+  Created by Simon Støvring on 21/11/2017.
+  Copyright © 2017 Shape. All rights reserved.
+*/
+
+"APP_RESTART_ALERT_TITLE" = "Restart required";
+"APP_RESTART_ALERT_MESSAGE" = "Shutting down app...";
+
+"SPICES_ROOT_TITLE" = "Spices";
