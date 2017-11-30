@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum SpiceDispenserProperty {
+    case spiceDispenser(String, SpiceDispenser)
+    case spice(String, SpiceType)
+}
+
 public protocol SpiceDispenser {
     var store: UserDefaults { get }
 }
@@ -22,37 +27,38 @@ public extension SpiceDispenser {
     }
     
     internal func updateKeys(path: [String]) {
-        let spicyMirror = Mirror(reflecting: self)
-        for (name, value) in spicyMirror.children {
-            guard let name = name else { continue }
-            if let spiceDispenser = value as? SpiceDispenser {
+        properties().forEach { property in
+            switch property {
+            case .spiceDispenser(let name, let spiceDispenser):
                 spiceDispenser.updateKeys(path: path + [name])
-            } else if var spice = value as? SpiceType {
+            case .spice(let name, var spice):
                 spice.key = key(from: path + [name])
                 spice.store = store
             }
         }
     }
     
-    internal func allSpices() -> [AnySpice] {
-        var spices: [AnySpice] = []
-        let spicyMirror = Mirror(reflecting: self)
-        for (_, value) in spicyMirror.children {
-            if let spice = value as? SpiceType {
-                spices.append(AnySpice(spice))
+    internal func validateValues() {
+        properties().forEach { property in
+            switch property {
+            case .spiceDispenser(_, let spiceDispenser):
+                return spiceDispenser.validateValues()
+            case .spice(_, let spice):
+                spice.validateCurrentValue()
             }
         }
-        return spices
     }
     
-    internal func validateValues() {
+    internal func properties() -> [SpiceDispenserProperty] {
         let spicyMirror = Mirror(reflecting: self)
-        for (name, value) in spicyMirror.children {
-            guard let name = name else { continue }
+        return spicyMirror.children.flatMap { name, value in
+            guard let name = name else { return nil }
             if let spiceDispenser = value as? SpiceDispenser {
-                spiceDispenser.validateValues()
-            } else if var spice = value as? SpiceType {
-                spice.validateCurrentValue()
+                return .spiceDispenser(name, spiceDispenser)
+            } else if let spice = value as? SpiceType {
+                return .spice(name, spice)
+            } else {
+                return nil
             }
         }
     }

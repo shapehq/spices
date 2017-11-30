@@ -8,14 +8,9 @@
 
 import UIKit
 
-protocol EnumPickerViewControllerDelegate: class {
-    func enumPickerViewControllerDidChangeValue(_ enumPickerViewController: EnumPickerViewController)
-}
-
 class EnumPickerViewController: UITableViewController {
-    var delegate: EnumPickerViewControllerDelegate?
-    
     private let reuseIdentifier = "optionCell"
+    private let rootSpiceDispenser: SpiceDispenser
     private var currentValue: Any
     private let values: [Any]
     private let titles: [String]
@@ -23,8 +18,9 @@ class EnumPickerViewController: UITableViewController {
     private let changesRequiresRestart: Bool
     private let setValue: (Any) -> Void
     
-    init(title: String, currentValue: Any, values: [Any], titles: [String], validTitles: [String], changesRequiresRestart: Bool, setValue: @escaping (Any) -> Void) {
-        self.currentValue = currentValue
+    init(rootSpiceDispenser: SpiceDispenser, title: String, currentValue: Any, values: [Any], titles: [String], validTitles: [String], changesRequiresRestart: Bool, setValue: @escaping (Any) -> Void) {
+        self.rootSpiceDispenser = rootSpiceDispenser
+        self.currentValue = currentValue        
         self.values = values
         self.titles = titles
         self.validTitles = validTitles
@@ -78,8 +74,8 @@ extension EnumPickerViewController {
         guard !isValuesEqual(value, other: currentValue) else { return }
         setValue(value)
         currentValue = value
-        tableView.reloadData()
-        delegate?.enumPickerViewControllerDidChangeValue(self)
+        rootSpiceDispenser.validateValues()
+        tableView.reloadData()    
         if changesRequiresRestart {
             UIApplication.shared.shp_restart()
         }

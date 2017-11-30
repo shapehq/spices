@@ -11,6 +11,7 @@ import Foundation
 enum SpiceViewData {
     case enumeration(
         currentValue: Any,
+        currentTitle: String,
         values: [Any],
         titles: [String],
         validTitles: [String],

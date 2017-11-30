@@ -10,31 +10,48 @@ import UIKit
 
 class SpicesContentViewController: UITableViewController {
     private struct ReuseIdentifier {
+        static let spiceDispenserCell = "spiceDispenserCell"
         static let enumerationCell = "enumerationCell"
         static let boolCell = "boolCell"
     }
     
     private let spiceDispenser: SpiceDispenser
-    private let spices: [AnySpice]
+    private let rootSpiceDispenser: SpiceDispenser
+    private let properties: [SpiceDispenserProperty]
     
-    init(spiceDispenser: SpiceDispenser) {
+    convenience init(spiceDispenser: SpiceDispenser) {
+        self.init(
+            spiceDispenser: spiceDispenser,
+            rootSpiceDispenser: spiceDispenser,
+            title: Localizable.SpicesContent.rootTitle)
+    }
+    
+    init(spiceDispenser: SpiceDispenser, rootSpiceDispenser: SpiceDispenser, title: String) {
         self.spiceDispenser = spiceDispenser
-        self.spices = spiceDispenser.allSpices()
+        self.rootSpiceDispenser = rootSpiceDispenser
+        self.properties = spiceDispenser.properties()
         super.init(nibName: nil, bundle: nil)
-        title = Localizable.SpicesContent.rootTitle
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .cancel,
-            target: self,
-            action: #selector(close))
+        self.title = title
+        NotificationCenter.`default`.addObserver(self, selector: #selector(valuesChanged(notification:)), name: UserDefaults.didChangeNotification, object: spiceDispenser.store)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        NotificationCenter.`default`.removeObserver(self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(BoolTableViewCell.self, forCellReuseIdentifier: ReuseIdentifier.boolCell)
+        if navigationController?.viewControllers.first == self {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(
+                barButtonSystemItem: .cancel,
+                target: self,
+                action: #selector(close))
+        }
     }
 }
 
@@ -43,20 +60,40 @@ private extension SpicesContentViewController {
         dismiss(animated: true)
     }
     
-    private func spice(at indexPath: IndexPath) -> AnySpice {
-        return spices[indexPath.row]
+    @objc private func valuesChanged(notification: Notification) {
+        tableView.reloadData()
+    }
+    
+    private func validateValues() {
+        rootSpiceDispenser.validateValues()
+    }
+    
+    private func property(at indexPath: IndexPath) -> SpiceDispenserProperty {
+        return properties[indexPath.row]
+    }
+    
+    private func spiceDispenserCell(in tableView: UITableView, at indexPath: IndexPath, name: String) -> UITableViewCell {
+        let reuseIdentifier = ReuseIdentifier.spiceDispenserCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)
+            ?? UITableViewCell(style: .`default`, reuseIdentifier: reuseIdentifier)
+        cell.textLabel?.text = name.shp_camelCaseToReadable()
+        cell.accessoryType = .disclosureIndicator
+        return cell
     }
     
     private func enumerationCell(in tableView: UITableView, at indexPath: IndexPath, name: String, currentValue: String) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.enumerationCell) ?? UITableViewCell(style: .value1, reuseIdentifier: ReuseIdentifier.enumerationCell)
+        let reuseIdentifier = ReuseIdentifier.enumerationCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)
+            ?? UITableViewCell(style: .value1, reuseIdentifier: reuseIdentifier)
         cell.textLabel?.text = name
-        cell.detailTextLabel?.text = currentValue
+        cell.detailTextLabel?.text = currentValue.shp_camelCaseToReadable()
         cell.accessoryType = .disclosureIndicator
         return cell
     }
     
     private func boolCell(in tableView: UITableView, at indexPath: IndexPath, name: String, currentValue: Bool, changesRequiresRestart: Bool, setValue: @escaping (Bool) -> Void) -> BoolTableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.boolCell, for: indexPath) as! BoolTableViewCell
+        let reuseIdentifier = ReuseIdentifier.boolCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! BoolTableViewCell
         cell.titleLabel.text = name
         cell.boolSwitch.isOn = currentValue
         cell.valueChanged = { [weak self] newValue in
@@ -64,7 +101,7 @@ private extension SpicesContentViewController {
             if changesRequiresRestart {
                 UIApplication.shared.shp_restart()
             }
-            self?.spiceDispenser.validateValues()
+            self?.validateValues()
             // We don't reload the cell in which the value was changed.
             // Reloading this cell would cause the UISwitch animation
             // to appear incorrectly.
@@ -82,6 +119,32 @@ private extension SpicesContentViewController {
         let reloadIndexPaths = Set(arrIndexPaths).subtracting([indexPath])
         tableView.reloadRows(at: Array(reloadIndexPaths), with: .none)
     }
+    
+    private func didSelect(_ spiceDispenser: SpiceDispenser, named name: String) {
+        let spicesContentViewController = SpicesContentViewController(
+            spiceDispenser: spiceDispenser,
+            rootSpiceDispenser: rootSpiceDispenser,
+            title: name.shp_camelCaseToReadable())
+        navigationController?.pushViewController(spicesContentViewController, animated: true)
+    }
+    
+    private func didSelect(_ spice: SpiceType) {
+        switch spice.viewData {
+        case .enumeration(let currentValue, _, let values, let titles, let validTitles, let setValue):
+            let enumPickerViewController = EnumPickerViewController(
+                rootSpiceDispenser: rootSpiceDispenser,
+                title: spice.name,
+                currentValue: currentValue,
+                values: values,
+                titles: titles,
+                validTitles: validTitles,
+                changesRequiresRestart: spice.changesRequireRestart,
+                setValue: setValue)
+            navigationController?.pushViewController(enumPickerViewController, animated: true)
+        default:
+            break
+        }
+    }
 }
 
 extension SpicesContentViewController {
@@ -90,52 +153,42 @@ extension SpicesContentViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return spices.count
+        return properties.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let spice = self.spice(at: indexPath)
-        switch spice.viewData {
-        case .enumeration(let currentValue, _, _, _, _):
-            return enumerationCell(
-                in: tableView,
-                at: indexPath,
-                name: spice.name,
-                currentValue: String(describing: currentValue).shp_camelCaseToReadable())
-        case .bool(let isOn, let setValue):
-            return boolCell(
-                in: tableView,
-                at: indexPath,
-                name: spice.name,
-                currentValue: isOn,
-                changesRequiresRestart: spice.changesRequireRestart,
-                setValue: setValue)
+        let property = self.property(at: indexPath)
+        switch property {
+        case .spiceDispenser(let name, _):
+            return spiceDispenserCell(in: tableView, at: indexPath, name: name)
+        case .spice(_, let spice):
+            switch spice.viewData {
+            case .enumeration(_, let currentTitle, _, _, _, _):
+                return enumerationCell(
+                    in: tableView,
+                    at: indexPath,
+                    name: spice.name,
+                    currentValue: currentTitle)
+            case .bool(let isOn, let setValue):
+                return boolCell(
+                    in: tableView,
+                    at: indexPath,
+                    name: spice.name,
+                    currentValue: isOn,
+                    changesRequiresRestart: spice.changesRequireRestart,
+                    setValue: setValue)
+            }
         }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let spice = self.spice(at: indexPath)
-        switch spice.viewData {
-        case .enumeration(let currentValue, let values, let titles, let validTitles, let setValue):
-            let enumPickerViewController = EnumPickerViewController(
-                title: spice.name,
-                currentValue: currentValue,
-                values: values,
-                titles: titles,
-                validTitles: validTitles,
-                changesRequiresRestart: spice.changesRequireRestart,
-                setValue: setValue)
-            enumPickerViewController.delegate = self
-            navigationController?.pushViewController(enumPickerViewController, animated: true)
-        default:
-            break
+        let property = self.property(at: indexPath)
+        switch property {
+        case .spiceDispenser(let name, let spiceDispenser):
+            didSelect(spiceDispenser, named: name)
+        case .spice(_, let spice):
+            didSelect(spice)
         }
     }
 }
 
-extension SpicesContentViewController: EnumPickerViewControllerDelegate {
-    func enumPickerViewControllerDidChangeValue(_ enumPickerViewController: EnumPickerViewController) {
-        spiceDispenser.validateValues()
-        tableView.reloadData()
-    }
-}

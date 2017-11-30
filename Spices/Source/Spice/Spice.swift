@@ -117,6 +117,7 @@ extension Spice where T: SpiceEnum, T: RawRepresentable {
         }
         return .enumeration(
             currentValue: value,
+            currentTitle: title(for: value),
             values: T.shp_allCases(),
             titles: T.shp_allCases().map(title),
             validTitles: T.validCases().map(title),
