@@ -19,11 +19,12 @@ public protocol SpiceDispenser {
 
 public extension SpiceDispenser {
     public var store: UserDefaults {
-        return .standard
+        return UserDefaults(suiteName: "dk.shape.SpiceDispenser") ?? .standard
     }
     
     public func prepare() {
         updateKeys(path: [])
+        validateValues()
     }
     
     internal func updateKeys(path: [String]) {
