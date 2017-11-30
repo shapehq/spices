@@ -41,15 +41,15 @@ class BoolTableViewCell: UITableViewCell {
     }
     
     private func setupLayout() {
-        titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: contentView.readableContentGuide.leadingAnchor).isActive = true
         titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: boolSwitch.leadingAnchor, constant: -15).isActive = true
-        titleLabel.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 10).isActive = true
-        titleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -10).isActive = true
+        titleLabel.topAnchor.constraint(greaterThanOrEqualTo: readableContentGuide.topAnchor).isActive = true
+        titleLabel.bottomAnchor.constraint(lessThanOrEqualTo: readableContentGuide.bottomAnchor).isActive = true
         titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         
-        boolSwitch.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
-        boolSwitch.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 10).isActive = true
-        boolSwitch.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -10).isActive = true
+        boolSwitch.trailingAnchor.constraint(equalTo: contentView.readableContentGuide.trailingAnchor).isActive = true
+        boolSwitch.topAnchor.constraint(greaterThanOrEqualTo: contentView.readableContentGuide.topAnchor).isActive = true
+        boolSwitch.bottomAnchor.constraint(lessThanOrEqualTo: contentView.readableContentGuide.bottomAnchor).isActive = true
         boolSwitch.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
     }
     
