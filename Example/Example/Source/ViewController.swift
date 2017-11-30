@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Spices
+import SHPSpices
 
 class ViewController: UIViewController {
     private let spicesButton: UIButton = {

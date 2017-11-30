@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Spices
+import SHPSpices
 
 final class ExampleSpiceDispenser: SpiceDispenser {
     static let shared = ExampleSpiceDispenser()

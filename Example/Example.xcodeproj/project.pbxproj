@@ -12,24 +12,24 @@
 		724D43911FC1A756007924C3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724D43901FC1A756007924C3 /* ViewController.swift */; };
 		724D43961FC1A756007924C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 724D43951FC1A756007924C3 /* Assets.xcassets */; };
 		724D43991FC1A756007924C3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 724D43971FC1A756007924C3 /* LaunchScreen.storyboard */; };
-		724D43AA1FC1A7DB007924C3 /* Spices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 724D43A91FC1A7CD007924C3 /* Spices.framework */; };
-		724D43AB1FC1A7DB007924C3 /* Spices.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 724D43A91FC1A7CD007924C3 /* Spices.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7282E6FA1FD07D5400612148 /* SHPSpices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7282E6F91FD07D4900612148 /* SHPSpices.framework */; };
+		7282E6FB1FD07D5400612148 /* SHPSpices.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7282E6F91FD07D4900612148 /* SHPSpices.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		724D43A81FC1A7CD007924C3 /* PBXContainerItemProxy */ = {
+		7282E6F81FD07D4900612148 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 724D43A41FC1A7CD007924C3 /* Spices.xcodeproj */;
+			containerPortal = 7282E6F41FD07D4900612148 /* SHPSpices.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 724D435E1FC1A3F3007924C3;
-			remoteInfo = Spices;
+			remoteGlobalIDString = 7282E6CB1FD07CB400612148;
+			remoteInfo = SHPSpices;
 		};
-		724D43AC1FC1A7DB007924C3 /* PBXContainerItemProxy */ = {
+		7282E6FC1FD07D5400612148 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 724D43A41FC1A7CD007924C3 /* Spices.xcodeproj */;
+			containerPortal = 7282E6F41FD07D4900612148 /* SHPSpices.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 724D435D1FC1A3F3007924C3;
-			remoteInfo = Spices;
+			remoteGlobalIDString = 7282E6CA1FD07CB400612148;
+			remoteInfo = SHPSpices;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -40,7 +40,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				724D43AB1FC1A7DB007924C3 /* Spices.framework in Embed Frameworks */,
+				7282E6FB1FD07D5400612148 /* SHPSpices.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -55,7 +55,7 @@
 		724D43951FC1A756007924C3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		724D43981FC1A756007924C3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		724D439A1FC1A756007924C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		724D43A41FC1A7CD007924C3 /* Spices.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Spices.xcodeproj; path = ../../Spices.xcodeproj; sourceTree = "<group>"; };
+		7282E6F41FD07D4900612148 /* SHPSpices.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SHPSpices.xcodeproj; path = ../SHPSpices.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				724D43AA1FC1A7DB007924C3 /* Spices.framework in Frameworks */,
+				7282E6FA1FD07D5400612148 /* SHPSpices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,7 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				724D438D1FC1A756007924C3 /* Example */,
-				724D43A31FC1A7C0007924C3 /* Frameworks */,
+				7282E6F31FD07D3E00612148 /* Frameworks */,
 				724D438C1FC1A756007924C3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -124,18 +124,18 @@
 			path = Source;
 			sourceTree = "<group>";
 		};
-		724D43A31FC1A7C0007924C3 /* Frameworks */ = {
+		7282E6F31FD07D3E00612148 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				724D43A41FC1A7CD007924C3 /* Spices.xcodeproj */,
+				7282E6F41FD07D4900612148 /* SHPSpices.xcodeproj */,
 			);
-			path = Frameworks;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		724D43A51FC1A7CD007924C3 /* Products */ = {
+		7282E6F51FD07D4900612148 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				724D43A91FC1A7CD007924C3 /* Spices.framework */,
+				7282E6F91FD07D4900612148 /* SHPSpices.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -155,7 +155,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				724D43AD1FC1A7DB007924C3 /* PBXTargetDependency */,
+				7282E6FD1FD07D5400612148 /* PBXTargetDependency */,
 			);
 			name = Example;
 			productName = Example;
@@ -191,8 +191,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 724D43A51FC1A7CD007924C3 /* Products */;
-					ProjectRef = 724D43A41FC1A7CD007924C3 /* Spices.xcodeproj */;
+					ProductGroup = 7282E6F51FD07D4900612148 /* Products */;
+					ProjectRef = 7282E6F41FD07D4900612148 /* SHPSpices.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -203,11 +203,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		724D43A91FC1A7CD007924C3 /* Spices.framework */ = {
+		7282E6F91FD07D4900612148 /* SHPSpices.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = Spices.framework;
-			remoteRef = 724D43A81FC1A7CD007924C3 /* PBXContainerItemProxy */;
+			path = SHPSpices.framework;
+			remoteRef = 7282E6F81FD07D4900612148 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -238,10 +238,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		724D43AD1FC1A7DB007924C3 /* PBXTargetDependency */ = {
+		7282E6FD1FD07D5400612148 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = Spices;
-			targetProxy = 724D43AC1FC1A7DB007924C3 /* PBXContainerItemProxy */;
+			name = SHPSpices;
+			targetProxy = 7282E6FC1FD07D5400612148 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
