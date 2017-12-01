@@ -86,7 +86,7 @@ private extension SpicesContentViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)
             ?? UITableViewCell(style: .value1, reuseIdentifier: reuseIdentifier)
         cell.textLabel?.text = name
-        cell.detailTextLabel?.text = currentValue.shp_camelCaseToReadable()
+        cell.detailTextLabel?.text = currentValue
         cell.accessoryType = .disclosureIndicator
         return cell
     }
