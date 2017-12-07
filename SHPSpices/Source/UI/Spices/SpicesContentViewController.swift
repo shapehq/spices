@@ -98,10 +98,10 @@ private extension SpicesContentViewController {
         cell.boolSwitch.isOn = currentValue
         cell.valueChanged = { [weak self] newValue in
             setValue(newValue)
+            self?.validateValues()
             if requiresRestart {
                 UIApplication.shared.shp_restart()
-            }
-            self?.validateValues()
+            }            
             // We don't reload the cell in which the value was changed.
             // Reloading this cell would cause the UISwitch animation
             // to appear incorrectly.

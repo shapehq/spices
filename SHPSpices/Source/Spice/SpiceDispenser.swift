@@ -13,7 +13,7 @@ enum SpiceDispenserProperty {
     case spice(String, SpiceType)
 }
 
-public protocol SpiceDispenser {
+public protocol SpiceDispenser: class {
     var store: UserDefaults { get }
     var title: String? { get }
 }
@@ -30,16 +30,17 @@ public extension SpiceDispenser {
     }
     
     public func prepare() {
-        updateKeys(path: [])
+        recursivePrepare(rootSpiceDispenser: self, path: [])
         validateValues()
     }
     
-    internal func updateKeys(path: [String]) {
+    internal func recursivePrepare(rootSpiceDispenser: SpiceDispenser, path: [String]) {
         properties().forEach { property in
             switch property {
             case .spiceDispenser(let name, let spiceDispenser):
-                spiceDispenser.updateKeys(path: path + [name])
+                spiceDispenser.recursivePrepare(rootSpiceDispenser: rootSpiceDispenser, path: path + [name])
             case .spice(let name, var spice):
+                spice.rootSpiceDispenser = rootSpiceDispenser
                 spice.key = key(from: path + [name])
                 spice.store = store
             }

@@ -9,6 +9,7 @@
 import Foundation
 
 protocol SpiceType {
+    weak var rootSpiceDispenser: SpiceDispenser? { get set }
     var key: String { get set }
     var name: String { get }
     var requiresRestart: Bool { get }
@@ -18,6 +19,8 @@ protocol SpiceType {
 }
 
 public class Spice<T>: SpiceType {
+    var rootSpiceDispenser: SpiceDispenser?
+    
     public var value: T {
         return _value ?? defaultValue
     }
@@ -97,6 +100,11 @@ extension Spice where T: SpiceEnum, T: RawRepresentable {
         viewDataProvider = { [weak self] in self?.createViewData() }
     }
     
+    public func setValue(_ value: T) {
+        storeValue(value)
+        rootSpiceDispenser?.validateValues()
+    }
+    
     private func storeValue(_ value: T) {
         _value = value
         store.setValue(value.rawValue, forKey: key)
@@ -139,9 +147,14 @@ extension Spice where T == Bool {
         viewDataProvider = { [weak self] in self?.createViewData() }
     }
     
+    public func setValue(_ value: T) {
+        storeValue(value)
+        rootSpiceDispenser?.validateValues()
+    }
+    
     private func storeValue(_ value: T) {
         _value = value
-        store.set(value, forKey: key)
+        store.setValue(value, forKey: key)
         store.synchronize()
     }
     
