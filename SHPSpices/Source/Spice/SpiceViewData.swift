@@ -15,7 +15,9 @@ enum SpiceViewData {
         values: [Any],
         titles: [String],
         validTitles: [String],
-        setValue: (Any) -> Void)
+        setValue: (Any) -> Void,
+        hasButtonBehaviour: Bool,
+        didSelect: ((Any) -> Void)?)
     
     case bool(
         currentValue: Bool,

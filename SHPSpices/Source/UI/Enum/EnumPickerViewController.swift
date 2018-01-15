@@ -17,8 +17,10 @@ class EnumPickerViewController: UITableViewController {
     private let validTitles: [String]
     private let requiresRestart: Bool
     private let setValue: (Any) -> Void
+    private let hasButtonBehaviour: Bool
+    private let didSelect: ((Any) -> Void)?
     
-    init(rootSpiceDispenser: SpiceDispenser, title: String, currentValue: Any, values: [Any], titles: [String], validTitles: [String], requiresRestart: Bool, setValue: @escaping (Any) -> Void) {
+    init(rootSpiceDispenser: SpiceDispenser, title: String, currentValue: Any, values: [Any], titles: [String], validTitles: [String], requiresRestart: Bool, setValue: @escaping (Any) -> Void, hasButtonBehaviour: Bool, didSelect: ((Any) -> Void)?) {
         self.rootSpiceDispenser = rootSpiceDispenser
         self.currentValue = currentValue        
         self.values = values
@@ -26,6 +28,8 @@ class EnumPickerViewController: UITableViewController {
         self.validTitles = validTitles
         self.requiresRestart = requiresRestart
         self.setValue = setValue
+        self.hasButtonBehaviour = hasButtonBehaviour
+        self.didSelect = didSelect
         super.init(nibName: nil, bundle: nil)
         self.title = title
     }
@@ -64,18 +68,21 @@ extension EnumPickerViewController {
             ?? UITableViewCell(style: .`default`, reuseIdentifier: reuseIdentifier)
         cell.textLabel?.text = title
         cell.textLabel?.textColor = isValueValid ? .black : .gray
-        cell.accessoryType = isCurrentValue ? .checkmark : .none
+        cell.accessoryType = isCurrentValue && !hasButtonBehaviour ? .checkmark : .none
         cell.selectionStyle = .none
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let value = values[indexPath.row]
-        guard !isValuesEqual(value, other: currentValue) else { return }
+        guard hasButtonBehaviour || !isValuesEqual(value, other: currentValue) else { return }
         setValue(value)
         currentValue = value
         rootSpiceDispenser.validateValues()
-        tableView.reloadData()    
+        tableView.reloadData()
+        if hasButtonBehaviour {
+            didSelect?(value)
+        }
         if requiresRestart {
             UIApplication.shared.shp_restart()
         }

@@ -81,12 +81,16 @@ private extension SpicesContentViewController {
         return cell
     }
     
-    private func enumerationCell(in tableView: UITableView, at indexPath: IndexPath, name: String, currentValue: String) -> UITableViewCell {
+    private func enumerationCell(in tableView: UITableView, at indexPath: IndexPath, name: String, currentValue: String, hasButtonBehaviour: Bool) -> UITableViewCell {
         let reuseIdentifier = ReuseIdentifier.enumerationCell
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)
             ?? UITableViewCell(style: .value1, reuseIdentifier: reuseIdentifier)
         cell.textLabel?.text = name
-        cell.detailTextLabel?.text = currentValue
+        if !hasButtonBehaviour {
+            cell.detailTextLabel?.text = currentValue
+        } else {
+            cell.detailTextLabel?.text = nil
+        }
         cell.accessoryType = .disclosureIndicator
         return cell
     }
@@ -130,7 +134,7 @@ private extension SpicesContentViewController {
     
     private func didSelect(_ spice: SpiceType) {
         switch spice.viewData {
-        case .enumeration(let currentValue, _, let values, let titles, let validTitles, let setValue):
+        case .enumeration(let currentValue, _, let values, let titles, let validTitles, let setValue, let hasButtonBehaviour, let didSelect):
             let enumPickerViewController = EnumPickerViewController(
                 rootSpiceDispenser: rootSpiceDispenser,
                 title: spice.name,
@@ -139,7 +143,9 @@ private extension SpicesContentViewController {
                 titles: titles,
                 validTitles: validTitles,
                 requiresRestart: spice.requiresRestart,
-                setValue: setValue)
+                setValue: setValue,
+                hasButtonBehaviour: hasButtonBehaviour,
+                didSelect: didSelect)
             navigationController?.pushViewController(enumPickerViewController, animated: true)
         default:
             break
@@ -163,12 +169,13 @@ extension SpicesContentViewController {
             return spiceDispenserCell(in: tableView, at: indexPath, name: name)
         case .spice(_, let spice):
             switch spice.viewData {
-            case .enumeration(_, let currentTitle, _, _, _, _):
+            case .enumeration(_, let currentTitle, _, _, _, _, let hasButtonBehaviour, _):
                 return enumerationCell(
                     in: tableView,
                     at: indexPath,
                     name: spice.name,
-                    currentValue: currentTitle)
+                    currentValue: currentTitle,
+                hasButtonBehaviour: hasButtonBehaviour)
             case .bool(let isOn, let setValue):
                 return boolCell(
                     in: tableView,

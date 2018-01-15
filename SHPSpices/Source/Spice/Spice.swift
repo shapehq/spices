@@ -64,6 +64,11 @@ public class Spice<T>: SpiceType {
     // Used for storing values when validating a current value.
     private var valuePersister: ((T) -> Void)?
     private var haveLoadedValue = false
+    // The spice can choose to call this when a value is selected
+    // in order to send a callback to the creator of the spice.
+    private var didSelect: ((T) -> Void)?
+    // Used for enumerations.
+    private(set) var hasButtonBehaviour = false
     
     private init(defaultValue: T, name: String?, requiresRestart: Bool, valueValidator: ((T) -> T)? = nil) {
         self.defaultValue = defaultValue
@@ -100,6 +105,19 @@ extension Spice where T: SpiceEnum, T: RawRepresentable {
         viewDataProvider = { [weak self] in self?.createViewData() }
     }
     
+    public convenience init(name: String? = nil, requiresRestart: Bool = false, didSelect: @escaping (T) -> Void) {
+        self.init(
+            defaultValue: T.shp_allCases()[0],
+            name: name,
+            requiresRestart: requiresRestart,
+            valueValidator: T.validate)
+        valueLoader = { [weak self] in self?.loadStoredValue() }
+        valuePersister = { [weak self] in self?.storeValue($0) }
+        viewDataProvider = { [weak self] in self?.createViewData() }
+        self.didSelect = didSelect
+        hasButtonBehaviour = true
+    }
+    
     public func setValue(_ value: T) {
         storeValue(value)
         rootSpiceDispenser?.validateValues()
@@ -131,6 +149,10 @@ extension Spice where T: SpiceEnum, T: RawRepresentable {
             validTitles: T.validCases().map(title),
             setValue: { [weak self] newValue in
                 self?.storeValue(Spice.convert(newValue))
+            },
+            hasButtonBehaviour: hasButtonBehaviour,
+            didSelect: { [weak self] newValue in
+                self?.didSelect?(Spice.convert(newValue))
         })
     }
 }
