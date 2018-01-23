@@ -10,6 +10,7 @@ import UIKit
 
 class EnumPickerViewController: UITableViewController {
     private let reuseIdentifier = "optionCell"
+    private weak var application: UIApplication?
     private let rootSpiceDispenser: SpiceDispenser
     private var currentValue: Any
     private let values: [Any]
@@ -20,7 +21,8 @@ class EnumPickerViewController: UITableViewController {
     private let hasButtonBehaviour: Bool
     private let didSelect: ((Any) -> Void)?
     
-    init(rootSpiceDispenser: SpiceDispenser, title: String, currentValue: Any, values: [Any], titles: [String], validTitles: [String], requiresRestart: Bool, setValue: @escaping (Any) -> Void, hasButtonBehaviour: Bool, didSelect: ((Any) -> Void)?) {
+    init(application: UIApplication?, rootSpiceDispenser: SpiceDispenser, title: String, currentValue: Any, values: [Any], titles: [String], validTitles: [String], requiresRestart: Bool, setValue: @escaping (Any) -> Void, hasButtonBehaviour: Bool, didSelect: ((Any) -> Void)?) {
+        self.application = application
         self.rootSpiceDispenser = rootSpiceDispenser
         self.currentValue = currentValue        
         self.values = values
@@ -84,7 +86,7 @@ extension EnumPickerViewController {
             didSelect?(value)
         }
         if requiresRestart {
-            UIApplication.shared.shp_restart()
+            application?.shp_restart()
         }
     }
     

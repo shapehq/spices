@@ -29,17 +29,21 @@ public extension SpiceDispenser {
         return UserDefaults(suiteName: "dk.shape.SpiceDispenser") ?? .standard
     }
     
-    public func prepare() {
-        recursivePrepare(rootSpiceDispenser: self, path: [])
+    public func prepare(with application: UIApplication? = nil) {
+        recursivePrepare(with: application, rootSpiceDispenser: self, path: [])
         validateValues()
     }
     
-    internal func recursivePrepare(rootSpiceDispenser: SpiceDispenser, path: [String]) {
+    internal func recursivePrepare(with application: UIApplication?, rootSpiceDispenser: SpiceDispenser, path: [String]) {
         properties().forEach { property in
             switch property {
             case .spiceDispenser(let name, let spiceDispenser):
-                spiceDispenser.recursivePrepare(rootSpiceDispenser: rootSpiceDispenser, path: path + [name])
+                spiceDispenser.recursivePrepare(
+                    with: application,
+                    rootSpiceDispenser: rootSpiceDispenser,
+                    path: path + [name])
             case .spice(let name, var spice):
+                spice.application = application
                 spice.rootSpiceDispenser = rootSpiceDispenser
                 spice.key = key(from: path + [name])
                 spice.store = store

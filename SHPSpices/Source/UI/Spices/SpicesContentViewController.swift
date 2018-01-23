@@ -95,7 +95,7 @@ private extension SpicesContentViewController {
         return cell
     }
     
-    private func boolCell(in tableView: UITableView, at indexPath: IndexPath, name: String, currentValue: Bool, requiresRestart: Bool, setValue: @escaping (Bool) -> Void) -> BoolTableViewCell {
+    private func boolCell(in tableView: UITableView, at indexPath: IndexPath, application: UIApplication?, name: String, currentValue: Bool, requiresRestart: Bool, setValue: @escaping (Bool) -> Void) -> BoolTableViewCell {
         let reuseIdentifier = ReuseIdentifier.boolCell
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! BoolTableViewCell
         cell.titleLabel.text = name
@@ -104,8 +104,8 @@ private extension SpicesContentViewController {
             setValue(newValue)
             self?.validateValues()
             if requiresRestart {
-                UIApplication.shared.shp_restart()
-            }            
+                application?.shp_restart()
+            }
             // We don't reload the cell in which the value was changed.
             // Reloading this cell would cause the UISwitch animation
             // to appear incorrectly.
@@ -136,6 +136,7 @@ private extension SpicesContentViewController {
         switch spice.viewData {
         case .enumeration(let currentValue, _, let values, let titles, let validTitles, let setValue, let hasButtonBehaviour, let didSelect):
             let enumPickerViewController = EnumPickerViewController(
+                application: spice.application,
                 rootSpiceDispenser: rootSpiceDispenser,
                 title: spice.name,
                 currentValue: currentValue,
@@ -180,6 +181,7 @@ extension SpicesContentViewController {
                 return boolCell(
                     in: tableView,
                     at: indexPath,
+                    application: spice.application,
                     name: spice.name,
                     currentValue: isOn,
                     requiresRestart: spice.requiresRestart,
