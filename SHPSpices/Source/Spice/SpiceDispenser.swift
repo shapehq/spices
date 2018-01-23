@@ -26,7 +26,7 @@ public extension SpiceDispenser {
 
 public extension SpiceDispenser {
     public var store: UserDefaults {
-        return UserDefaults(suiteName: "dk.shape.SpiceDispenser") ?? .standard
+        return .standard
     }
     
     public func prepare(with application: UIApplication? = nil) {
