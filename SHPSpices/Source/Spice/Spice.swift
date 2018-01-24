@@ -193,10 +193,10 @@ extension Spice where T == Bool {
     }
 }
 
-extension Spice where T == ButtonSpice {
+extension Spice where T == SpiceButton {
     public convenience init(name: String? = nil, requiresRestart: Bool = false, didSelect: @escaping (@escaping (Swift.Error?) -> Void) -> Void) {
         self.init(
-            defaultValue: ButtonSpice(),
+            defaultValue: SpiceButton(),
             name: name,
             requiresRestart: requiresRestart,
             valueValidator: nil)
@@ -206,6 +206,6 @@ extension Spice where T == ButtonSpice {
     }
     
     private func createViewData() -> SpiceViewData {
-        return .button(didSelect: { [weak self] completion in self?.didSelect?(ButtonSpice(), completion) })
+        return .button(didSelect: { [weak self] completion in self?.didSelect?(SpiceButton(), completion) })
     }
 }

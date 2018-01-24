@@ -19,7 +19,7 @@ final class ExampleSpiceDispenser: SpiceDispenser {
     let environment = EnvironmentSpiceDispenser.shared
     let showsDebugInfo: Spice<Bool> = Spice(false)
     let testUser: Spice<TestUser> = Spice(.userA)
-    let doTheBoogie = Spice<ButtonSpice>(name: "Don't blame it on the boogie") { completion in
+    let doTheBoogie = Spice<SpiceButton>(name: "Don't blame it on the boogie") { completion in
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             UIApplication.shared.open(URL(string: "https://www.youtube.com/watch?v=mkBS4zUjJZo")!)
             completion(nil)

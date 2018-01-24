@@ -1,5 +1,5 @@
 //
-//  ButtonSpice.swift
+//  SpiceButton.swift
 //  SHPSpices
 //
 //  Created by Simon Støvring on 24/01/2018.
@@ -8,6 +8,4 @@
 
 import Foundation
 
-public struct ButtonSpice {
-  
-}
+public struct SpiceButton { }
