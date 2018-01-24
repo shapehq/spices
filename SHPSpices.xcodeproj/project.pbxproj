@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		722FC2812018B6F700DB5B5A /* ButtonSpice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722FC2802018B6F700DB5B5A /* ButtonSpice.swift */; };
+		722FC2832018BA7B00DB5B5A /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722FC2822018BA7B00DB5B5A /* LoadingViewController.swift */; };
 		7282E6D01FD07CB400612148 /* SHPSpices.h in Headers */ = {isa = PBXBuildFile; fileRef = 7282E6CE1FD07CB400612148 /* SHPSpices.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7282E6E71FD07CFC00612148 /* Spice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7282E6D91FD07CFC00612148 /* Spice.swift */; };
 		7282E6E81FD07CFC00612148 /* SpiceDispenser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7282E6DA1FD07CFC00612148 /* SpiceDispenser.swift */; };
@@ -23,6 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		722FC2802018B6F700DB5B5A /* ButtonSpice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSpice.swift; sourceTree = "<group>"; };
+		722FC2822018BA7B00DB5B5A /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		7282E6CB1FD07CB400612148 /* SHPSpices.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SHPSpices.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7282E6CE1FD07CB400612148 /* SHPSpices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SHPSpices.h; sourceTree = "<group>"; };
 		7282E6CF1FD07CB400612148 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -93,6 +97,7 @@
 				7282E6DB1FD07CFC00612148 /* SpiceEnum.swift */,
 				7282E6DC1FD07CFC00612148 /* SpiceViewData.swift */,
 				7282E6DD1FD07CFC00612148 /* String+CamelCase.swift */,
+				722FC2802018B6F700DB5B5A /* ButtonSpice.swift */,
 			);
 			path = Spice;
 			sourceTree = "<group>";
@@ -122,6 +127,7 @@
 				7282E6E31FD07CFC00612148 /* BoolTableViewCell.swift */,
 				7282E6E51FD07CFC00612148 /* SpicesViewController.swift */,
 				7282E6E41FD07CFC00612148 /* SpicesContentViewController.swift */,
+				722FC2822018BA7B00DB5B5A /* LoadingViewController.swift */,
 			);
 			path = Spices;
 			sourceTree = "<group>";
@@ -224,8 +230,10 @@
 				7282E6E71FD07CFC00612148 /* Spice.swift in Sources */,
 				7282E6F01FD07CFC00612148 /* SpicesViewController.swift in Sources */,
 				7282E6EF1FD07CFC00612148 /* SpicesContentViewController.swift in Sources */,
+				722FC2812018B6F700DB5B5A /* ButtonSpice.swift in Sources */,
 				7282E6EB1FD07CFC00612148 /* String+CamelCase.swift in Sources */,
 				7282E6EA1FD07CFC00612148 /* SpiceViewData.swift in Sources */,
+				722FC2832018BA7B00DB5B5A /* LoadingViewController.swift in Sources */,
 				7282E6EC1FD07CFC00612148 /* EnumPickerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,3 +10,6 @@
 "APP_RESTART_ALERT_MESSAGE" = "Shutting down app...";
 
 "SPICES_ROOT_TITLE" = "Spices";
+
+"BUTTON_ACTION_FAILURE_TITLE" = "Action failed";
+"BUTTON_ACTION_FAILURE_CONTINUE" = "OK";

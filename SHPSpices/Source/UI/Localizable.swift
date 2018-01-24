@@ -38,4 +38,20 @@ extension Localizable.SpicesContent {
             bundle: Bundle(for: SpicesViewController.self),
             value: "",
             comment: "Title of root spices")
+    static let buttonActionFailureTitle =
+        NSLocalizedString(
+            "BUTTON_ACTION_FAILURE_TITLE",
+            tableName: nil,
+            bundle: Bundle(for: SpicesViewController.self),
+            value: "",
+            comment: "Title in alert shown when button action fails")
+    static let buttonActionFailureContinue =
+        NSLocalizedString(
+            "BUTTON_ACTION_FAILURE_CONTINUE",
+            tableName: nil,
+            bundle: Bundle(for: SpicesViewController.self),
+            value: "",
+            comment: "Continue button in alert shown when button action fails")
 }
+
+

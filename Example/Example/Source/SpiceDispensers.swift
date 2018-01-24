@@ -9,12 +9,22 @@
 import Foundation
 import SHPSpices
 
+enum MyError: Error {
+    case itWentBad
+}
+
 final class ExampleSpiceDispenser: SpiceDispenser {
     static let shared = ExampleSpiceDispenser()
     
     let environment = EnvironmentSpiceDispenser.shared
     let showsDebugInfo: Spice<Bool> = Spice(false)
     let testUser: Spice<TestUser> = Spice(.userA)
+    let doTheBoogie = Spice<ButtonSpice>(name: "Don't blame it on the boogie") { completion in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            UIApplication.shared.open(URL(string: "https://www.youtube.com/watch?v=mkBS4zUjJZo")!)
+            completion(nil)
+        }
+    }
     
     private init() {}
 }
@@ -24,9 +34,10 @@ final class EnvironmentSpiceDispenser: SpiceDispenser {
 
     let serviceOne: Spice<Environment> = Spice(.development, requiresRestart: true)
     let serviceTwo: Spice<Environment> = Spice(.development, requiresRestart: true)
-    let all: Spice<Environment> = Spice(requiresRestart: true, didSelect: { newValue in
+    let all: Spice<Environment> = Spice(requiresRestart: true, didSelect: { newValue, completion in
         EnvironmentSpiceDispenser.shared.serviceOne.setValue(newValue)
         EnvironmentSpiceDispenser.shared.serviceTwo.setValue(newValue)
+        completion(nil)
     })
 
     private init() {}

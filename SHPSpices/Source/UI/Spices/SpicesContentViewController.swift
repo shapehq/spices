@@ -13,6 +13,7 @@ class SpicesContentViewController: UITableViewController {
         static let spiceDispenserCell = "spiceDispenserCell"
         static let enumerationCell = "enumerationCell"
         static let boolCell = "boolCell"
+        static let buttonCell = "buttonCell"
     }
     
     private let spiceDispenser: SpiceDispenser
@@ -95,7 +96,7 @@ private extension SpicesContentViewController {
         return cell
     }
     
-    private func boolCell(in tableView: UITableView, at indexPath: IndexPath, application: UIApplication?, name: String, currentValue: Bool, requiresRestart: Bool, setValue: @escaping (Bool) -> Void) -> BoolTableViewCell {
+    private func boolCell(in tableView: UITableView, at indexPath: IndexPath, application: UIApplication?, name: String, currentValue: Bool, requiresRestart: Bool, setValue: @escaping (Bool) -> Void) -> UITableViewCell {
         let reuseIdentifier = ReuseIdentifier.boolCell
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! BoolTableViewCell
         cell.titleLabel.text = name
@@ -111,6 +112,14 @@ private extension SpicesContentViewController {
             // to appear incorrectly.
             self?.reloadAllCellsButCell(at: indexPath)
         }
+        return cell
+    }
+    
+    private func buttonCell(in tableView: UITableView, at indexPath: IndexPath, application: UIApplication?, name: String) -> UITableViewCell {
+        let reuseIdentifier = ReuseIdentifier.buttonCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)
+            ?? UITableViewCell(style: .`default`, reuseIdentifier: reuseIdentifier)
+        cell.textLabel?.text = name
         return cell
     }
     
@@ -132,7 +141,7 @@ private extension SpicesContentViewController {
         navigationController?.pushViewController(spicesContentViewController, animated: true)
     }
     
-    private func didSelect(_ spice: SpiceType) {
+    private func didSelect(_ spice: SpiceType, indexPath: IndexPath) {
         switch spice.viewData {
         case .enumeration(let currentValue, _, let values, let titles, let validTitles, let setValue, let hasButtonBehaviour, let didSelect):
             let enumPickerViewController = EnumPickerViewController(
@@ -148,8 +157,39 @@ private extension SpicesContentViewController {
                 hasButtonBehaviour: hasButtonBehaviour,
                 didSelect: didSelect)
             navigationController?.pushViewController(enumPickerViewController, animated: true)
+        case .button(let didSelect):
+            tableView.deselectRow(at: indexPath, animated: true)
+            didSelectButton(
+                didSelect: didSelect,
+                requiresRestart: spice.requiresRestart,
+                application: spice.application)
         default:
             break
+        }
+    }
+    
+    private func didSelectButton(didSelect: ((@escaping (Swift.Error?) -> Void) -> Void)?, requiresRestart: Bool, application: UIApplication?) {
+        let loadingViewController = LoadingViewController()
+        let currentController = self
+        present(loadingViewController, animated: true) {
+            didSelect?({ error in
+                loadingViewController.dismiss(animated: true)
+                if let error = error {
+                    let alertController = UIAlertController(
+                        title: Localizable.SpicesContent.buttonActionFailureTitle,
+                        message: error.localizedDescription,
+                        preferredStyle: .alert)
+                    alertController.addAction(UIAlertAction(
+                        title: Localizable.SpicesContent.buttonActionFailureContinue,
+                        style: .cancel,
+                        handler: nil))
+                    currentController.present(alertController, animated: true)
+                } else {
+                    if requiresRestart {
+                        application?.shp_restart()
+                    }
+                }
+            })
         }
     }
 }
@@ -186,6 +226,12 @@ extension SpicesContentViewController {
                     currentValue: isOn,
                     requiresRestart: spice.requiresRestart,
                     setValue: setValue)
+            case .button:
+                return buttonCell(
+                    in: tableView,
+                    at: indexPath,
+                    application: spice.application,
+                    name: spice.name)
             }
         }
     }
@@ -196,7 +242,7 @@ extension SpicesContentViewController {
         case .spiceDispenser(let name, let spiceDispenser):
             didSelect(spiceDispenser, named: name)
         case .spice(_, let spice):
-            didSelect(spice)
+            didSelect(spice, indexPath: indexPath)
         }
     }
 }
