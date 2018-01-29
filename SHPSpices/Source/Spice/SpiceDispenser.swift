@@ -67,7 +67,7 @@ public extension SpiceDispenser {
         return spicyMirror.children.flatMap { name, value in
             guard let name = name else { return nil }
             if let spiceDispenser = value as? SpiceDispenser {
-                return .spiceDispenser(name, spiceDispenser)
+                return .spiceDispenser(spiceDispenser.title ?? name, spiceDispenser)
             } else if let spice = value as? SpiceType {
                 return .spice(name, spice)
             } else {
