@@ -77,7 +77,7 @@ private extension SpicesContentViewController {
         let reuseIdentifier = ReuseIdentifier.spiceDispenserCell
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)
             ?? UITableViewCell(style: .`default`, reuseIdentifier: reuseIdentifier)
-        cell.textLabel?.text = name.shp_camelCaseToReadable()
+        cell.textLabel?.text = name
         cell.accessoryType = .disclosureIndicator
         return cell
     }
@@ -137,7 +137,7 @@ private extension SpicesContentViewController {
         let spicesContentViewController = SpicesContentViewController(
             spiceDispenser: spiceDispenser,
             rootSpiceDispenser: rootSpiceDispenser,
-            title: spiceDispenser.title ?? name.shp_camelCaseToReadable())
+            title: name)
         navigationController?.pushViewController(spicesContentViewController, animated: true)
     }
     
