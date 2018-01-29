@@ -17,6 +17,7 @@ final class ExampleSpiceDispenser: SpiceDispenser {
     static let shared = ExampleSpiceDispenser()
     
     let environment = EnvironmentSpiceDispenser.shared
+    let sslPinning = SSLPinningDispenser.shared
     let showsDebugInfo: Spice<Bool> = Spice(false)
     let testUser: Spice<TestUser> = Spice(.userA)
     let doTheBoogie = Spice<SpiceButton>(name: "Don't blame it on the boogie") { completion in
@@ -43,6 +44,22 @@ final class EnvironmentSpiceDispenser: SpiceDispenser {
     private init() {}
 }
 
+final class SSLPinningDispenser: SpiceDispenser {
+    fileprivate static let shared = SSLPinningDispenser()
+    
+    let title: String? = "SSL Pinning"
+    let catalogService = Spice(true, requiresRestart: true)
+    let bookingService = Spice(true, requiresRestart: true)
+    let accountService = Spice(true, requiresRestart: true)
+    let all = Spice<EnabledDisabled>(requiresRestart: true) { state, completion in
+        let isEnabled = state == .enabled
+        SSLPinningDispenser.shared.catalogService.setValue(isEnabled)
+        SSLPinningDispenser.shared.bookingService.setValue(isEnabled)
+        SSLPinningDispenser.shared.accountService.setValue(isEnabled)
+        completion(nil)
+    }
+}
+
 enum Environment: String, SpiceEnum {
     case production
     case development
@@ -66,4 +83,9 @@ enum TestUser: Int, SpiceEnum {
         case .development: return [ .userC ]
         }
     }
+}
+
+enum EnabledDisabled: String, SpiceEnum {
+    case enabled
+    case disabled
 }

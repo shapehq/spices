@@ -183,7 +183,9 @@ extension Spice where T == Bool {
     }
     
     private func loadStoredValue() -> T? {
-        return store.bool(forKey: key)
+        // Cannot use store.bool(forKey:) as that defaults to false
+        // when no value is available. In that case, we use self.defaultValue.
+        return store.object(forKey: key) as? Bool
     }
     
     private func createViewData() -> SpiceViewData {
