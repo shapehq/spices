@@ -59,8 +59,9 @@ class SpicesContentViewController: UITableViewController {
 
 private extension SpicesContentViewController {
     @objc private func close() {
-        dismiss(animated: true)
-        completion?()
+        dismiss(animated: true) {
+            self.completion?()
+        }
     }
     
     @objc private func valuesChanged(notification: Notification) {
