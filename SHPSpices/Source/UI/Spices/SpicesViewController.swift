@@ -8,12 +8,23 @@
 
 import UIKit
 
+
 public class SpicesViewController: UIViewController {
     private let contentNavigationController: UINavigationController
+    private let spicesContentViewController: SpicesContentViewController
     
+    public var completion: (() -> Void)? {
+        set {
+            spicesContentViewController.completion = newValue
+        }
+        get {
+            return spicesContentViewController.completion
+        }
+    }
     public init(spiceDispenser: SpiceDispenser) {
         let spicesContentViewController = SpicesContentViewController(spiceDispenser: spiceDispenser)
-        contentNavigationController = UINavigationController(rootViewController: spicesContentViewController)
+        self.contentNavigationController = UINavigationController(rootViewController: spicesContentViewController)
+        self.spicesContentViewController = spicesContentViewController
         super.init(nibName: nil, bundle: nil)
     }
     

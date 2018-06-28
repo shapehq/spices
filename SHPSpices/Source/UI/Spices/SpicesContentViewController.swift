@@ -19,6 +19,7 @@ class SpicesContentViewController: UITableViewController {
     private let spiceDispenser: SpiceDispenser
     private let rootSpiceDispenser: SpiceDispenser
     private let properties: [SpiceDispenserProperty]
+    var completion: (() -> Void)?
     
     convenience init(spiceDispenser: SpiceDispenser) {
         self.init(
@@ -59,6 +60,7 @@ class SpicesContentViewController: UITableViewController {
 private extension SpicesContentViewController {
     @objc private func close() {
         dismiss(animated: true)
+        completion?()
     }
     
     @objc private func valuesChanged(notification: Notification) {
