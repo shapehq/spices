@@ -107,7 +107,7 @@ extension Spice where T: SpiceEnum, T: RawRepresentable {
         viewDataProvider = { [weak self] in self?.createViewData() }
     }
     
-    public convenience init(name: String? = nil, requiresRestart: Bool = false, didSelect: @escaping (T, @escaping (Swift.Error?) -> Void) -> Void) {
+    public convenience init(name: String? = nil, requiresRestart: Bool = false, hasButtonBehaviour: Bool = true, didSelect: @escaping (T, @escaping (Swift.Error?) -> Void) -> Void) {
         self.init(
             defaultValue: T.shp_allCases()[0],
             name: name,
@@ -117,7 +117,7 @@ extension Spice where T: SpiceEnum, T: RawRepresentable {
         valuePersister = { [weak self] in self?.storeValue($0) }
         viewDataProvider = { [weak self] in self?.createViewData() }
         self.didSelect = didSelect
-        hasButtonBehaviour = true
+        self.hasButtonBehaviour = hasButtonBehaviour
     }
     
     public func setValue(_ value: T) {

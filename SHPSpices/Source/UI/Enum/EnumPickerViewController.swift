@@ -82,31 +82,33 @@ extension EnumPickerViewController {
         currentValue = value
         rootSpiceDispenser.validateValues()
         tableView.reloadData()
-        if hasButtonBehaviour {
-            let loadingViewController = LoadingViewController()
-            let currentController = self
-            let didSelect = self.didSelect
-            let requiresRestart = self.requiresRestart
-            let application = self.application
-            present(loadingViewController, animated: true) {
-                didSelect?(value, { error in
-                    loadingViewController.dismiss(animated: true)
-                    if let error = error {
-                        let alertController = UIAlertController(
-                            title: Localizable.SpicesContent.buttonActionFailureTitle,
-                            message: error.localizedDescription,
-                            preferredStyle: .alert)
-                        alertController.addAction(UIAlertAction(
-                            title: Localizable.SpicesContent.buttonActionFailureContinue,
-                            style: .cancel,
-                            handler: nil))
-                        currentController.present(alertController, animated: true)
-                    } else {
-                        if requiresRestart {
-                            application?.shp_restart()
+        if let didSelect = self.didSelect {
+            // Dispatch in didSelectRowAt to ensure a presentation is made
+            DispatchQueue.main.async {
+                let loadingViewController = LoadingViewController()
+                let currentController = self
+                let requiresRestart = self.requiresRestart
+                let application = self.application
+                self.present(loadingViewController, animated: true) {
+                    didSelect(value, { error in
+                        loadingViewController.dismiss(animated: true)
+                        if let error = error {
+                            let alertController = UIAlertController(
+                                title: Localizable.SpicesContent.buttonActionFailureTitle,
+                                message: error.localizedDescription,
+                                preferredStyle: .alert)
+                            alertController.addAction(UIAlertAction(
+                                title: Localizable.SpicesContent.buttonActionFailureContinue,
+                                style: .cancel,
+                                handler: nil))
+                            currentController.present(alertController, animated: true)
+                        } else {
+                            if requiresRestart {
+                                application?.shp_restart()
+                            }
                         }
-                    }
-                })
+                    })
+                }
             }
         } else {
             if requiresRestart {

@@ -26,13 +26,17 @@ final class ExampleSpiceDispenser: SpiceDispenser {
             completion(nil)
         }
     }
+    let tourDeFranceWinner = Spice<TourDeFranceWinner>(hasButtonBehaviour: false) { newValue, completion in
+        print(newValue)
+        completion(nil)
+    }
     
     private init() {}
 }
 
 final class EnvironmentSpiceDispenser: SpiceDispenser {
     static let shared = EnvironmentSpiceDispenser()
-
+    
     let serviceOne: Spice<Environment> = Spice(.development, requiresRestart: true)
     let serviceTwo: Spice<Environment> = Spice(.development, requiresRestart: true)
     let all: Spice<Environment> = Spice(requiresRestart: true, didSelect: { newValue, completion in
@@ -40,7 +44,7 @@ final class EnvironmentSpiceDispenser: SpiceDispenser {
         EnvironmentSpiceDispenser.shared.serviceTwo.setValue(newValue)
         completion(nil)
     })
-
+    
     private init() {}
 }
 
@@ -70,6 +74,12 @@ enum Environment: String, SpiceEnum {
         case .development: return "🤓 Development"
         }
     }
+}
+
+enum TourDeFranceWinner: String, SpiceEnum {
+    case peterSagan
+    case markCavendish
+    case jakobFuglsang
 }
 
 enum TestUser: Int, SpiceEnum {
