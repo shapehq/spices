@@ -9,8 +9,8 @@
 import Foundation
 
 protocol SpiceType {
-    weak var application: UIApplication? { get set }
-    weak var rootSpiceDispenser: SpiceDispenser? { get set }    
+    var application: UIApplication? { get set }
+    var rootSpiceDispenser: SpiceDispenser? { get set }
     var key: String { get set }
     var name: String { get }
     var requiresRestart: Bool { get }

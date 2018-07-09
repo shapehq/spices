@@ -64,7 +64,7 @@ public extension SpiceDispenser {
     
     internal func properties() -> [SpiceDispenserProperty] {
         let spicyMirror = Mirror(reflecting: self)
-        return spicyMirror.children.flatMap { name, value in
+        return spicyMirror.children.compactMap { name, value in
             guard let name = name else { return nil }
             if let spiceDispenser = value as? SpiceDispenser {
                 return .spiceDispenser(spiceDispenser.title ?? name.shp_camelCaseToReadable(), spiceDispenser)
