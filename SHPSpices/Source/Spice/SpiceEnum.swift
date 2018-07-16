@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol SpiceEnum: Hashable {
+public protocol SpiceEnum: Hashable, CaseIterable {
     var title: String? { get }
     static func validCases() -> [Self]
     static func validate(currentValue: Self) -> Self
@@ -20,7 +20,7 @@ public extension SpiceEnum {
     }
     
     static func validCases() -> [Self] {
-        return Self.shp_allCases()
+        return Array(allCases)
     }
     
     static func validate(currentValue: Self) -> Self {
@@ -31,27 +31,6 @@ public extension SpiceEnum {
         } else {
             // Find another value or allow the current value in worst case.
             return validCases.first ?? currentValue
-        }
-    }
-}
-
-extension SpiceEnum {
-    static func shp_allCases() -> [Self] {
-        return Array(shp_cases())
-    }
-    
-    static func shp_cases() -> AnySequence<Self> {
-        typealias S = Self
-        return AnySequence { () -> AnyIterator<S> in
-            var raw = 0
-            return AnyIterator {
-                let current: Self = withUnsafePointer(to: &raw) {
-                    $0.withMemoryRebound(to: S.self, capacity: 1) { $0.pointee }
-                }
-                guard current.hashValue == raw else { return nil }
-                raw += 1
-                return current
-            }
         }
     }
 }

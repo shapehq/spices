@@ -76,7 +76,7 @@ enum Environment: String, SpiceEnum {
     }
 }
 
-enum TourDeFranceWinner: String, SpiceEnum {
+enum TourDeFranceWinner: String, CaseIterable {
     case peterSagan
     case markCavendish
     case jakobFuglsang
@@ -95,7 +95,7 @@ enum TestUser: Int, SpiceEnum {
     }
 }
 
-enum EnabledDisabled: String, SpiceEnum {
+enum EnabledDisabled: String, CaseIterable {
     case enabled
     case disabled
 }

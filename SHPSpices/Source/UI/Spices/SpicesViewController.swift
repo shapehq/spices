@@ -35,12 +35,12 @@ public class SpicesViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         contentNavigationController.view.translatesAutoresizingMaskIntoConstraints = false
-        addChildViewController(contentNavigationController)
+        addChild(contentNavigationController)
         view.addSubview(contentNavigationController.view)
         contentNavigationController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         contentNavigationController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         contentNavigationController.view.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         contentNavigationController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        contentNavigationController.didMove(toParentViewController: self)
+        contentNavigationController.didMove(toParent: self)
     }
 }

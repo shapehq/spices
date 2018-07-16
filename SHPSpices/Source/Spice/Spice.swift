@@ -109,7 +109,7 @@ extension Spice where T: SpiceEnum, T: RawRepresentable {
     
     public convenience init(name: String? = nil, requiresRestart: Bool = false, hasButtonBehaviour: Bool = true, didSelect: @escaping (T, @escaping (Swift.Error?) -> Void) -> Void) {
         self.init(
-            defaultValue: T.shp_allCases()[0],
+            defaultValue: Array(T.allCases)[0],
             name: name,
             requiresRestart: requiresRestart,
             valueValidator: T.validate)
@@ -146,9 +146,77 @@ extension Spice where T: SpiceEnum, T: RawRepresentable {
         return .enumeration(
             currentValue: value,
             currentTitle: title(for: value),
-            values: T.shp_allCases(),
-            titles: T.shp_allCases().map(title),
+            values: Array(T.allCases),
+            titles: T.allCases.map(title),
             validTitles: T.validCases().map(title),
+            setValue: { [weak self] newValue in
+                self?.storeValue(Spice.convert(newValue))
+            },
+            hasButtonBehaviour: hasButtonBehaviour,
+            didSelect: { [weak self] newValue, completion in
+                if let didSelect = self?.didSelect {
+                    didSelect(Spice.convert(newValue), completion)
+                } else {
+                    completion(nil)
+                }
+        })
+    }
+}
+
+extension Spice where T: CaseIterable, T: RawRepresentable {
+    public convenience init(_ defaultValue: T, name: String? = nil, requiresRestart: Bool = false) {
+        self.init(
+            defaultValue: defaultValue,
+            name: name,
+            requiresRestart: requiresRestart,
+            valueValidator: nil)
+        valueLoader = { [weak self] in self?.loadStoredValue() }
+        valuePersister = { [weak self] in self?.storeValue($0) }
+        viewDataProvider = { [weak self] in self?.createViewData() }
+    }
+    
+    public convenience init(name: String? = nil, requiresRestart: Bool = false, hasButtonBehaviour: Bool = true, didSelect: @escaping (T, @escaping (Swift.Error?) -> Void) -> Void) {
+        self.init(
+            defaultValue: Array(T.allCases)[0],
+            name: name,
+            requiresRestart: requiresRestart,
+            valueValidator: nil)
+        valueLoader = { [weak self] in self?.loadStoredValue() }
+        valuePersister = { [weak self] in self?.storeValue($0) }
+        viewDataProvider = { [weak self] in self?.createViewData() }
+        self.didSelect = didSelect
+        self.hasButtonBehaviour = hasButtonBehaviour
+    }
+    
+    public func setValue(_ value: T) {
+        storeValue(value)
+        rootSpiceDispenser?.validateValues()
+    }
+    
+    private func storeValue(_ value: T) {
+        _value = value
+        store.setValue(value.rawValue, forKey: key)
+        store.synchronize()
+    }
+    
+    private func loadStoredValue() -> T? {
+        if let rawValue = store.value(forKey: key) as? T.RawValue {
+            return T(rawValue: rawValue)
+        } else {
+            return nil
+        }
+    }
+    
+    private func createViewData() -> SpiceViewData {
+        func title(for _case: T) -> String {
+            return String(describing: _case).shp_camelCaseToReadable()
+        }
+        return .enumeration(
+            currentValue: value,
+            currentTitle: title(for: value),
+            values: Array(T.allCases),
+            titles: T.allCases.map(title),
+            validTitles: T.allCases.map(title),
             setValue: { [weak self] newValue in
                 self?.storeValue(Spice.convert(newValue))
             },
