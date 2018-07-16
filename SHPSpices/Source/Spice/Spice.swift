@@ -154,7 +154,11 @@ extension Spice where T: SpiceEnum, T: RawRepresentable {
             },
             hasButtonBehaviour: hasButtonBehaviour,
             didSelect: { [weak self] newValue, completion in
-                self?.didSelect?(Spice.convert(newValue), completion)
+                if let didSelect = self?.didSelect {
+                    didSelect(Spice.convert(newValue), completion)
+                } else {
+                    completion(nil)
+                }
         })
     }
 }
