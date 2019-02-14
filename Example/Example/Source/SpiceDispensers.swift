@@ -26,7 +26,7 @@ final class ExampleSpiceDispenser: SpiceDispenser {
             completion(nil)
         }
     }
-    let tourDeFranceWinner = Spice<TourDeFranceWinner>(hasButtonBehaviour: false) { newValue, completion in
+    let tourDeFranceWinner = Spice<TourDeFranceWinner>(.jakobFuglsang, hasButtonBehaviour: false) { newValue, completion in
         print(newValue)
         completion(nil)
     }
