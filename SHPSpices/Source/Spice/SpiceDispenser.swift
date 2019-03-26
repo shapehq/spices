@@ -25,11 +25,11 @@ public extension SpiceDispenser {
 }
 
 public extension SpiceDispenser {
-    public var store: UserDefaults {
+    var store: UserDefaults {
         return .standard
     }
     
-    public func prepare(with application: UIApplication? = nil) {
+    func prepare(with application: UIApplication? = nil) {
         recursivePrepare(with: application, rootSpiceDispenser: self, path: [])
         validateValues()
     }

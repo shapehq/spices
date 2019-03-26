@@ -196,6 +196,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 7282E6C11FD07CB400612148;
 			productRefGroup = 7282E6CC1FD07CB400612148 /* Products */;
@@ -379,7 +380,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = dk.shape.SHPSpices;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -402,7 +403,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = dk.shape.SHPSpices;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
