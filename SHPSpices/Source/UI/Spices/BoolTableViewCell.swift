@@ -13,7 +13,11 @@ class BoolTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.textColor = .black
+        if #available(iOSApplicationExtension 13.0, *) {
+            label.textColor = .label
+        } else {
+            label.textColor = .black
+        }
         return label
     }()
     let boolSwitch: UISwitch = {
