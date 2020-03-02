@@ -6,7 +6,7 @@
 //  Copyright © 2017 Shape. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 protocol SpiceType {
     var application: UIApplication? { get set }

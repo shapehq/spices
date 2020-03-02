@@ -69,7 +69,7 @@ extension EnumPickerViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)
             ?? UITableViewCell(style: .`default`, reuseIdentifier: reuseIdentifier)
         cell.textLabel?.text = title
-        if #available(iOSApplicationExtension 13.0, *) {
+        if #available(iOS 13.0, *) {
             cell.textLabel?.textColor = isValueValid ? .label : .secondaryLabel
         } else {
             cell.textLabel?.textColor = isValueValid ? .black : .gray

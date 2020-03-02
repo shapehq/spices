@@ -6,7 +6,7 @@
 //  Copyright © 2017 Shape. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 enum SpiceDispenserProperty {
     case spiceDispenser(String, SpiceDispenser)
