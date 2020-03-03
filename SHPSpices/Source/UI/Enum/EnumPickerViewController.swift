@@ -98,11 +98,11 @@ extension EnumPickerViewController {
                         loadingViewController.dismiss(animated: true)
                         if let error = error {
                             let alertController = UIAlertController(
-                                title: Localizable.SpicesContent.buttonActionFailureTitle,
+                                title: "Action failed",
                                 message: error.localizedDescription,
                                 preferredStyle: .alert)
                             alertController.addAction(UIAlertAction(
-                                title: Localizable.SpicesContent.buttonActionFailureContinue,
+                                title: "OK",
                                 style: .cancel,
                                 handler: nil))
                             currentController.present(alertController, animated: true)

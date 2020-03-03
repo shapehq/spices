@@ -16,12 +16,10 @@
 		7282E6EA1FD07CFC00612148 /* SpiceViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7282E6DC1FD07CFC00612148 /* SpiceViewData.swift */; };
 		7282E6EB1FD07CFC00612148 /* String+CamelCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7282E6DD1FD07CFC00612148 /* String+CamelCase.swift */; };
 		7282E6EC1FD07CFC00612148 /* EnumPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7282E6E01FD07CFC00612148 /* EnumPickerViewController.swift */; };
-		7282E6ED1FD07CFC00612148 /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7282E6E11FD07CFC00612148 /* Localizable.swift */; };
 		7282E6EE1FD07CFC00612148 /* BoolTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7282E6E31FD07CFC00612148 /* BoolTableViewCell.swift */; };
 		7282E6EF1FD07CFC00612148 /* SpicesContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7282E6E41FD07CFC00612148 /* SpicesContentViewController.swift */; };
 		7282E6F01FD07CFC00612148 /* SpicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7282E6E51FD07CFC00612148 /* SpicesViewController.swift */; };
 		7282E6F11FD07CFC00612148 /* UIApplication+Restart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7282E6E61FD07CFC00612148 /* UIApplication+Restart.swift */; };
-		7282E6FF1FD07DCD00612148 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7282E6FE1FD07DCD00612148 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,12 +34,10 @@
 		7282E6DC1FD07CFC00612148 /* SpiceViewData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpiceViewData.swift; sourceTree = "<group>"; };
 		7282E6DD1FD07CFC00612148 /* String+CamelCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+CamelCase.swift"; sourceTree = "<group>"; };
 		7282E6E01FD07CFC00612148 /* EnumPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnumPickerViewController.swift; sourceTree = "<group>"; };
-		7282E6E11FD07CFC00612148 /* Localizable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localizable.swift; sourceTree = "<group>"; };
 		7282E6E31FD07CFC00612148 /* BoolTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoolTableViewCell.swift; sourceTree = "<group>"; };
 		7282E6E41FD07CFC00612148 /* SpicesContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpicesContentViewController.swift; sourceTree = "<group>"; };
 		7282E6E51FD07CFC00612148 /* SpicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpicesViewController.swift; sourceTree = "<group>"; };
 		7282E6E61FD07CFC00612148 /* UIApplication+Restart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+Restart.swift"; sourceTree = "<group>"; };
-		7282E6FE1FD07DCD00612148 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +103,6 @@
 			children = (
 				7282E6E21FD07CFC00612148 /* Spices */,
 				7282E6DF1FD07CFC00612148 /* Enum */,
-				7282E6E11FD07CFC00612148 /* Localizable.swift */,
 				7282E6E61FD07CFC00612148 /* UIApplication+Restart.swift */,
 			);
 			path = UI;
@@ -135,7 +130,6 @@
 		7282E6F21FD07D0000612148 /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
-				7282E6FE1FD07DCD00612148 /* Localizable.strings */,
 				7282E6CE1FD07CB400612148 /* SHPSpices.h */,
 				7282E6CF1FD07CB400612148 /* Info.plist */,
 			);
@@ -213,7 +207,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7282E6FF1FD07DCD00612148 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,7 +219,6 @@
 			files = (
 				7282E6E91FD07CFC00612148 /* SpiceEnum.swift in Sources */,
 				7282E6EE1FD07CFC00612148 /* BoolTableViewCell.swift in Sources */,
-				7282E6ED1FD07CFC00612148 /* Localizable.swift in Sources */,
 				7282E6E81FD07CFC00612148 /* SpiceDispenser.swift in Sources */,
 				7282E6F11FD07CFC00612148 /* UIApplication+Restart.swift in Sources */,
 				7282E6E71FD07CFC00612148 /* Spice.swift in Sources */,

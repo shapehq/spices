@@ -20,8 +20,8 @@ extension UIApplication {
     
     func shp_restart() {
         let alertController = UIAlertController(
-            title: Localizable.Application.appRestartAlertTitle,
-            message: Localizable.Application.appRestartAlertMessage,
+            title: "Restart required",
+            message: "Shutting down app...",
             preferredStyle: .alert)
         shp_getTopViewController()?.present(alertController, animated: true)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
