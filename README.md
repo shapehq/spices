@@ -1,6 +1,3 @@
-OBS!
-This repository has been migrated to GitHub: https://github.com/shapehq/shpspices
-
 # 🌶 SHPSpices
 
 ## Usage
