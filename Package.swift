@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "SHPSpices",
     platforms: [
-        .iOS(.v11)
+        .iOS(.v9)
     ],
     products: [
         .library(name: "SHPSpices", targets: ["SHPSpices"])
