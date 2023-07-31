@@ -14,7 +14,12 @@ class LoadingViewController: UIViewController {
     }
     
     private let activityIndicatorView: UIActivityIndicatorView = {
-        let activityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
+        #if os(xrOS)
+        let style: UIActivityIndicatorView.Style = .large
+        #else
+        let style: UIActivityIndicatorView.Style = .whiteLarge
+        #endif
+        let activityIndicatorView = UIActivityIndicatorView(style: style)
         activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicatorView
     }()
