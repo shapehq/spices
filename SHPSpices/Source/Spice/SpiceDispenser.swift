@@ -13,8 +13,8 @@ enum SpiceDispenserProperty {
     case spice(String, SpiceType)
 }
 
-public protocol SpiceDispenser: class {
-    var store: UserDefaults { get }
+public protocol SpiceDispenser: AnyObject {
+    @MainActor var store: UserDefaults { get }
     var title: String? { get }
 }
 
@@ -29,11 +29,13 @@ public extension SpiceDispenser {
         return .standard
     }
     
+    @MainActor
     func prepare(with application: UIApplication? = nil) {
         recursivePrepare(with: application, rootSpiceDispenser: self, path: [])
         validateValues()
     }
     
+    @MainActor
     internal func recursivePrepare(with application: UIApplication?, rootSpiceDispenser: SpiceDispenser, path: [String]) {
         properties().forEach { property in
             switch property {
