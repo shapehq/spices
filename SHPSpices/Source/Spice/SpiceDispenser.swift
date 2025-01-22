@@ -1,11 +1,3 @@
-//
-//  SpiceDispenser.swift
-//  Spices
-//
-//  Created by Simon Støvring on 19/11/2017.
-//  Copyright © 2017 Shape. All rights reserved.
-//
-
 import UIKit
 
 enum SpiceDispenserProperty {
@@ -28,22 +20,27 @@ public extension SpiceDispenser {
     var store: UserDefaults {
         return .standard
     }
-    
+
     @MainActor
     func prepare(with application: UIApplication? = nil) {
         recursivePrepare(with: application, rootSpiceDispenser: self, path: [])
         validateValues()
     }
-    
+
     @MainActor
-    internal func recursivePrepare(with application: UIApplication?, rootSpiceDispenser: SpiceDispenser, path: [String]) {
+    internal func recursivePrepare(
+        with application: UIApplication?,
+        rootSpiceDispenser: SpiceDispenser,
+        path: [String]
+    ) {
         properties().forEach { property in
             switch property {
             case .spiceDispenser(let name, let spiceDispenser):
                 spiceDispenser.recursivePrepare(
                     with: application,
                     rootSpiceDispenser: rootSpiceDispenser,
-                    path: path + [name])
+                    path: path + [name]
+                )
             case .spice(let name, var spice):
                 spice.application = application
                 spice.rootSpiceDispenser = rootSpiceDispenser
@@ -52,7 +49,7 @@ public extension SpiceDispenser {
             }
         }
     }
-    
+
     internal func validateValues() {
         properties().forEach { property in
             switch property {
@@ -63,7 +60,7 @@ public extension SpiceDispenser {
             }
         }
     }
-    
+
     internal func properties() -> [SpiceDispenserProperty] {
         let spicyMirror = Mirror(reflecting: self)
         return spicyMirror.children.compactMap { name, value in
@@ -77,9 +74,8 @@ public extension SpiceDispenser {
             }
         }
     }
-    
+
     private func key(from path: [String]) -> String {
-        return path.joined(separator: ".")
+        path.joined(separator: ".")
     }
 }
-

@@ -1,14 +1,6 @@
-//
-//  EnumPickerViewController.swift
-//  Spices
-//
-//  Created by Simon Støvring on 21/11/2017.
-//  Copyright © 2017 Shape. All rights reserved.
-//
-
 import UIKit
 
-class EnumPickerViewController: UITableViewController {
+final class EnumPickerViewController: UITableViewController {
     private let reuseIdentifier = "optionCell"
     private weak var application: UIApplication?
     private let rootSpiceDispenser: SpiceDispenser
@@ -20,11 +12,23 @@ class EnumPickerViewController: UITableViewController {
     private let setValue: (Any) -> Void
     private let hasButtonBehaviour: Bool
     private let didSelect: ((Any, @escaping (Swift.Error?) -> Void) -> Void)?
-    
-    init(application: UIApplication?, rootSpiceDispenser: SpiceDispenser, title: String, currentValue: Any, values: [Any], titles: [String], validTitles: [String], requiresRestart: Bool, setValue: @escaping (Any) -> Void, hasButtonBehaviour: Bool, didSelect: ((Any, @escaping (Swift.Error?) -> Void) -> Void)?) {
+
+    init(
+        application: UIApplication?,
+        rootSpiceDispenser: SpiceDispenser,
+        title: String,
+        currentValue: Any,
+        values: [Any],
+        titles: [String],
+        validTitles: [String],
+        requiresRestart: Bool,
+        setValue: @escaping (Any) -> Void,
+        hasButtonBehaviour: Bool,
+        didSelect: ((Any, @escaping (Swift.Error?) -> Void) -> Void)?
+    ) {
         self.application = application
         self.rootSpiceDispenser = rootSpiceDispenser
-        self.currentValue = currentValue        
+        self.currentValue = currentValue
         self.values = values
         self.titles = titles
         self.validTitles = validTitles
@@ -35,7 +39,7 @@ class EnumPickerViewController: UITableViewController {
         super.init(nibName: nil, bundle: nil)
         self.title = title
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -45,7 +49,7 @@ private extension EnumPickerViewController {
     private func isValuesEqual(_ value: Any, other: Any) -> Bool {
         return String(describing: value) == String(describing: currentValue)
     }
-    
+
     private func isValueValid(valueAt indexPath: IndexPath) -> Bool {
         let title = titles[indexPath.row]
         return validTitles.contains(title)
@@ -56,11 +60,11 @@ extension EnumPickerViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return values.count
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let value = values[indexPath.row]
         let title = titles[indexPath.row]
@@ -78,7 +82,7 @@ extension EnumPickerViewController {
         cell.selectionStyle = .none
         return cell
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let value = values[indexPath.row]
         guard hasButtonBehaviour || !isValuesEqual(value, other: currentValue) else { return }
@@ -100,11 +104,13 @@ extension EnumPickerViewController {
                             let alertController = UIAlertController(
                                 title: "Action failed",
                                 message: error.localizedDescription,
-                                preferredStyle: .alert)
+                                preferredStyle: .alert
+                            )
                             alertController.addAction(UIAlertAction(
                                 title: "OK",
                                 style: .cancel,
-                                handler: nil))
+                                handler: nil)
+                            )
                             currentController.present(alertController, animated: true)
                         } else {
                             if requiresRestart {
@@ -120,8 +126,8 @@ extension EnumPickerViewController {
             }
         }
     }
-    
+
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-       return isValueValid(valueAt: indexPath)
+        isValueValid(valueAt: indexPath)
     }
 }

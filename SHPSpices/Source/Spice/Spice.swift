@@ -1,11 +1,3 @@
-//
-//  Spice.swift
-//  Spices
-//
-//  Created by Simon Støvring on 20/11/2017.
-//  Copyright © 2017 Shape. All rights reserved.
-//
-
 import UIKit
 
 protocol SpiceType {
@@ -22,11 +14,11 @@ protocol SpiceType {
 public class Spice<T>: SpiceType {
     weak var application: UIApplication?
     weak var rootSpiceDispenser: SpiceDispenser?
-    
+
     public var value: T {
         return _value ?? defaultValue
     }
-    
+
     internal var key: String = "" {
         didSet {
             if key != oldValue {
@@ -52,7 +44,7 @@ public class Spice<T>: SpiceType {
         }
         return viewData
     }
-    
+
     private let defaultValue: T
     private var _value: T?
     private let specifiedName: String?
@@ -71,7 +63,7 @@ public class Spice<T>: SpiceType {
     private var didSelect: ((T, @escaping (Swift.Error?) -> Void) -> Void)?
     // Used for enumerations.
     private(set) var hasButtonBehaviour = false
-    
+
     private init(defaultValue: T, name: String?, requiresRestart: Bool, valueValidator: ((T) -> T)? = nil) {
         self.defaultValue = defaultValue
         self.specifiedName = name
@@ -81,12 +73,12 @@ public class Spice<T>: SpiceType {
             self.name = name
         }
     }
-    
+
     internal func validateCurrentValue() {
         guard let valueValidator = valueValidator else { return }
         valuePersister?(valueValidator(value))
     }
-    
+
     static private func convert(_ value: Any) -> T {
         guard let convertedValue = value as? T else {
             fatalError("Cannot convert value to expected type '\(T.self)'.")
@@ -106,14 +98,20 @@ extension Spice where T: SpiceEnum, T: RawRepresentable {
         valuePersister = { [weak self] in self?.storeValue($0) }
         viewDataProvider = { [weak self] in self?.createViewData() }
     }
-    
-    public convenience init(name: String? = nil, requiresRestart: Bool = false, hasButtonBehaviour: Bool = true, didSelect: @escaping (T, @escaping (Swift.Error?) -> Void) -> Void) {
+
+    public convenience init(
+        name: String? = nil,
+        requiresRestart: Bool = false,
+        hasButtonBehaviour: Bool = true,
+        didSelect: @escaping (T, @escaping (Swift.Error?) -> Void) -> Void
+    ) {
         self.init(
             Array(T.allCases)[0],
             name: name,
             requiresRestart: requiresRestart,
             hasButtonBehaviour: hasButtonBehaviour,
-            didSelect: didSelect)
+            didSelect: didSelect
+        )
         valueLoader = { [weak self] in self?.loadStoredValue() }
         valuePersister = { [weak self] in self?.storeValue($0) }
         viewDataProvider = { [weak self] in self?.createViewData() }
@@ -121,30 +119,37 @@ extension Spice where T: SpiceEnum, T: RawRepresentable {
         self.hasButtonBehaviour = hasButtonBehaviour
     }
 
-    public convenience init(_ defaultValue: T, name: String? = nil, requiresRestart: Bool = false, hasButtonBehaviour: Bool = true, didSelect: @escaping (T, @escaping (Swift.Error?) -> Void) -> Void) {
+    public convenience init(
+        _ defaultValue: T,
+        name: String? = nil,
+        requiresRestart: Bool = false,
+        hasButtonBehaviour: Bool = true,
+        didSelect: @escaping (T, @escaping (Swift.Error?) -> Void) -> Void
+    ) {
         self.init(
             defaultValue: defaultValue,
             name: name,
             requiresRestart: requiresRestart,
-            valueValidator: T.validate)
+            valueValidator: T.validate
+        )
         valueLoader = { [weak self] in self?.loadStoredValue() }
         valuePersister = { [weak self] in self?.storeValue($0) }
         viewDataProvider = { [weak self] in self?.createViewData() }
         self.didSelect = didSelect
         self.hasButtonBehaviour = hasButtonBehaviour
     }
-    
+
     public func setValue(_ value: T) {
         storeValue(value)
         rootSpiceDispenser?.validateValues()
     }
-    
+
     private func storeValue(_ value: T) {
         _value = value
         store.setValue(value.rawValue, forKey: key)
         store.synchronize()
     }
-    
+
     private func loadStoredValue() -> T? {
         if let rawValue = store.value(forKey: key) as? T.RawValue {
             return T(rawValue: rawValue)
@@ -152,10 +157,10 @@ extension Spice where T: SpiceEnum, T: RawRepresentable {
             return nil
         }
     }
-    
+
     private func createViewData() -> SpiceViewData {
-        func title(for _case: T) -> String {
-            return _case.title ?? String(describing: _case).shp_camelCaseToReadable()
+        func title(for theCase: T) -> String {
+            return theCase.title ?? String(describing: theCase).shp_camelCaseToReadable()
         }
         return .enumeration(
             currentValue: value,
@@ -188,13 +193,19 @@ extension Spice where T: CaseIterable, T: RawRepresentable {
         viewDataProvider = { [weak self] in self?.createViewData() }
     }
 
-    public convenience init(name: String? = nil, requiresRestart: Bool = false, hasButtonBehaviour: Bool = true, didSelect: @escaping (T, @escaping (Swift.Error?) -> Void) -> Void) {
+    public convenience init(
+        name: String? = nil,
+        requiresRestart: Bool = false,
+        hasButtonBehaviour: Bool = true,
+        didSelect: @escaping (T, @escaping (Swift.Error?) -> Void) -> Void
+    ) {
         self.init(
             Array(T.allCases)[0],
             name: name,
             requiresRestart: requiresRestart,
             hasButtonBehaviour: hasButtonBehaviour,
-            didSelect: didSelect)
+            didSelect: didSelect
+        )
         valueLoader = { [weak self] in self?.loadStoredValue() }
         valuePersister = { [weak self] in self?.storeValue($0) }
         viewDataProvider = { [weak self] in self?.createViewData() }
@@ -202,11 +213,18 @@ extension Spice where T: CaseIterable, T: RawRepresentable {
         self.hasButtonBehaviour = hasButtonBehaviour
     }
 
-    public convenience init(_ defaultValue: T, name: String? = nil, requiresRestart: Bool = false, hasButtonBehaviour: Bool = true, didSelect: @escaping (T, @escaping (Swift.Error?) -> Void) -> Void) {
+    public convenience init(
+        _ defaultValue: T,
+        name: String? = nil,
+        requiresRestart: Bool = false,
+        hasButtonBehaviour: Bool = true,
+        didSelect: @escaping (T, @escaping (Swift.Error?) -> Void) -> Void
+    ) {
         self.init(
             defaultValue: defaultValue,
             name: name,
-            requiresRestart: requiresRestart)
+            requiresRestart: requiresRestart
+        )
         valueLoader = { [weak self] in self?.loadStoredValue() }
         valuePersister = { [weak self] in self?.storeValue($0) }
         viewDataProvider = { [weak self] in self?.createViewData() }
@@ -218,13 +236,13 @@ extension Spice where T: CaseIterable, T: RawRepresentable {
         storeValue(value)
         rootSpiceDispenser?.validateValues()
     }
-    
+
     private func storeValue(_ value: T) {
         _value = value
         store.setValue(value.rawValue, forKey: key)
         store.synchronize()
     }
-    
+
     private func loadStoredValue() -> T? {
         if let rawValue = store.value(forKey: key) as? T.RawValue {
             return T(rawValue: rawValue)
@@ -232,10 +250,10 @@ extension Spice where T: CaseIterable, T: RawRepresentable {
             return nil
         }
     }
-    
+
     private func createViewData() -> SpiceViewData {
-        func title(for _case: T) -> String {
-            return String(describing: _case).shp_camelCaseToReadable()
+        func title(for theCase: T) -> String {
+            String(describing: theCase).shp_camelCaseToReadable()
         }
         return .enumeration(
             currentValue: value,
@@ -258,7 +276,12 @@ extension Spice where T: CaseIterable, T: RawRepresentable {
 }
 
 extension Spice where T == Bool {
-    public convenience init(_ defaultValue: T, name: String? = nil, requiresRestart: Bool = false, valueValidator: ((T) -> T)? = nil) {
+    public convenience init(
+        _ defaultValue: T,
+        name: String? = nil,
+        requiresRestart: Bool = false,
+        valueValidator: ((T) -> T)? = nil
+    ) {
         self.init(
             defaultValue: defaultValue,
             name: name,
@@ -268,24 +291,24 @@ extension Spice where T == Bool {
         valuePersister = { [weak self] in self?.storeValue($0) }
         viewDataProvider = { [weak self] in self?.createViewData() }
     }
-    
+
     public func setValue(_ value: T) {
         storeValue(value)
         rootSpiceDispenser?.validateValues()
     }
-    
+
     private func storeValue(_ value: T) {
         _value = value
         store.setValue(value, forKey: key)
         store.synchronize()
     }
-    
+
     private func loadStoredValue() -> T? {
         // Cannot use store.bool(forKey:) as that defaults to false
         // when no value is available. In that case, we use self.defaultValue.
         return store.object(forKey: key) as? Bool
     }
-    
+
     private func createViewData() -> SpiceViewData {
         return .bool(currentValue: value, setValue: { [weak self] newValue in
             self?.storeValue(newValue)
@@ -294,18 +317,29 @@ extension Spice where T == Bool {
 }
 
 extension Spice where T == SpiceButton {
-    public convenience init(name: String? = nil, requiresRestart: Bool = false, didSelect: @escaping (@escaping (Swift.Error?) -> Void) -> Void) {
+    public convenience init(
+        name: String? = nil,
+        requiresRestart: Bool = false,
+        didSelect: @escaping (@escaping (Swift.Error?) -> Void) -> Void
+    ) {
         self.init(
             defaultValue: SpiceButton(),
             name: name,
             requiresRestart: requiresRestart,
-            valueValidator: nil)
-        self.didSelect = { _, completion in didSelect(completion) }
-        viewDataProvider = { [weak self] in self?.createViewData() }
+            valueValidator: nil
+        )
+        self.didSelect = { _, completion in
+            didSelect(completion)
+        }
+        viewDataProvider = { [weak self] in
+            self?.createViewData()
+        }
         hasButtonBehaviour = true
     }
-    
+
     private func createViewData() -> SpiceViewData {
-        return .button(didSelect: { [weak self] completion in self?.didSelect?(SpiceButton(), completion) })
+        .button { [weak self] completion in
+            self?.didSelect?(SpiceButton(), completion)
+        }
     }
 }

@@ -1,29 +1,23 @@
-//
-//  ViewController.swift
-//  Example
-//
-//  Created by Simon Støvring on 19/11/2017.
-//  Copyright © 2017 Shape. All rights reserved.
-//
-
 import UIKit
 import SHPSpices
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
     private let spicesButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Present 🌶 Spices", for: .normal)
-        return button
+        let this = UIButton(type: .system)
+        this.translatesAutoresizingMaskIntoConstraints = false
+        this.setTitle("Present 🌶 Spices", for: .normal)
+        return this
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         spicesButton.addTarget(self, action: #selector(presentSpices), for: .touchUpInside)
         view.addSubview(spicesButton)
-        spicesButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        spicesButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            spicesButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            spicesButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
 }
 
