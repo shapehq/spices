@@ -23,7 +23,7 @@ final class ViewController: UIViewController {
 
 private extension ViewController {
     @objc private func presentSpices() {
-        let spicesViewController = SpicesViewController(spiceDispenser: ExampleSpiceDispenser.shared)
+        let spicesViewController = SpicesViewController(spiceDispenser: RootSpiceDispenser.shared)
         present(spicesViewController, animated: true)
     }
 }
