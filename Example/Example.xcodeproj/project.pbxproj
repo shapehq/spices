@@ -12,6 +12,7 @@
 		724D43911FC1A756007924C3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724D43901FC1A756007924C3 /* ViewController.swift */; };
 		724D43961FC1A756007924C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 724D43951FC1A756007924C3 /* Assets.xcassets */; };
 		724D43991FC1A756007924C3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 724D43971FC1A756007924C3 /* LaunchScreen.storyboard */; };
+		725EF64B2D411E8A00D8674B /* InAppDebugMenuWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725EF64A2D411E8600D8674B /* InAppDebugMenuWindow.swift */; };
 		7282E6FA1FD07D5400612148 /* SHPSpices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7282E6F91FD07D4900612148 /* SHPSpices.framework */; };
 		7282E6FB1FD07D5400612148 /* SHPSpices.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7282E6F91FD07D4900612148 /* SHPSpices.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -55,6 +56,7 @@
 		724D43951FC1A756007924C3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		724D43981FC1A756007924C3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		724D439A1FC1A756007924C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		725EF64A2D411E8600D8674B /* InAppDebugMenuWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppDebugMenuWindow.swift; sourceTree = "<group>"; };
 		7282E6F41FD07D4900612148 /* SHPSpices.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SHPSpices.xcodeproj; path = ../SHPSpices.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -117,6 +119,7 @@
 		724D43A21FC1A79D007924C3 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				725EF64A2D411E8600D8674B /* InAppDebugMenuWindow.swift */,
 				723A67AE1FC1B4C600B9FB82 /* SpiceDispensers.swift */,
 				724D438E1FC1A756007924C3 /* AppDelegate.swift */,
 				724D43901FC1A756007924C3 /* ViewController.swift */,
@@ -231,6 +234,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				724D43911FC1A756007924C3 /* ViewController.swift in Sources */,
+				725EF64B2D411E8A00D8674B /* InAppDebugMenuWindow.swift in Sources */,
 				723A67AF1FC1B4C600B9FB82 /* SpiceDispensers.swift in Sources */,
 				724D438F1FC1A756007924C3 /* AppDelegate.swift in Sources */,
 			);
@@ -379,6 +383,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 566MC7D8D4;
 				INFOPLIST_FILE = "$(SRCROOT)/Example/Supporting files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = dk.shape.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -395,6 +400,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 566MC7D8D4;
 				INFOPLIST_FILE = "$(SRCROOT)/Example/Supporting files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = dk.shape.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";

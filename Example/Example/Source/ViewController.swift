@@ -8,15 +8,35 @@ final class ViewController: UIViewController {
         this.setTitle("Present 🌶 Spices", for: .normal)
         return this
     }()
+    private let shakeLabel: UILabel = {
+        let this = UILabel()
+        this.translatesAutoresizingMaskIntoConstraints = false
+        this.font = .preferredFont(forTextStyle: .body)
+        this.textColor = .secondaryLabel
+        this.textAlignment = .center
+        this.numberOfLines = 0
+        this.text = "🫨 or shake the device to present the menu."
+        return this
+    }()
+    private let stackView: UIStackView = {
+        let this = UIStackView()
+        this.translatesAutoresizingMaskIntoConstraints = false
+        this.axis = .vertical
+        this.spacing = 30
+        return this
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         spicesButton.addTarget(self, action: #selector(presentSpices), for: .touchUpInside)
-        view.addSubview(spicesButton)
+        stackView.addArrangedSubview(spicesButton)
+        stackView.addArrangedSubview(shakeLabel)
+        view.addSubview(stackView)
         NSLayoutConstraint.activate([
-            spicesButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            spicesButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            stackView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor, constant: 60),
+            stackView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor, constant: -60),
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
 }
