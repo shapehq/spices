@@ -49,7 +49,7 @@ final class RootSpiceDispenser: SpiceDispenser {
 
 Based on the above code, SHPSpices will generate an in-app debug menu like the one shown below.
 
-![](/introduction/1.gif)
+<img src="/introduction/1.gif" width="300"/>
 
 ### Step 3: Prepare the Spice Dispenser
 
@@ -121,7 +121,7 @@ final class FeatureFlagsSpiceDispenser: SpiceDispenser {
 
 SHPSpices automatically shows a title for each menu item based on the variable name. This can be overridden by explicitly providing a name, as shown above for `enableInAppSupport` and `enableNewIAPFlow`. The code produces a debug menu that looks like the one shown below.
 
-![](/introduction/2.gif)
+<img src="/introduction/2.gif" width="300"/>
 
 > [!NOTE]
 > When using multiple spice dispensers and nesting them as shown in the above, it is only necessary to call `prepare(with:)` on the root spice dispenser.
@@ -144,7 +144,7 @@ enum Environment: String, CaseIterable, SpiceEnum {
 }
 ```
 
-![](/introduction/3.gif)
+<img src="/introduction/3.gif" width="300"/>
 
 Conforming to `SpiceEnum` also enables validation of enum cases to disable options under certain circumstances. For example, an enum containing a list of test users can ensure that only certain options are enabled for the currently selected environment, as shown below.
 
@@ -167,7 +167,7 @@ enum TestUser: String, SpiceEnum {
 
 This will produce a picker that behaves as shown in the following video.
 
-![](/introduction/4.gif)
+<img src="/introduction/4.gif" width="300"/>
 
 ## 🧪 Example Project
 
