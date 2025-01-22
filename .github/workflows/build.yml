@@ -1,0 +1,31 @@
+name: Build
+on:
+  workflow_dispatch: {}
+  pull_request:
+    types: [opened, synchronize]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+env:
+  XCODE_VERSION: 16.1.x
+  XCODE_SCHEME: SHPSpices
+  BUILD_DESTINATION: platform=iOS Simulator,name=iPhone 16 Pro,OS=18.1
+jobs:
+  build:
+    name: Build (Xcode ${{ matrix.xcode }})
+    runs-on: shape
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Select Xcode Version
+        uses: shapehq/actions/xcode-select@main
+        with:
+          version: ${{ env.XCODE_VERSION }}
+      - name: Build
+        run: |
+          set -o pipefail &&\
+          xcodebuild build-for-testing\
+            -scheme ${{ env.XCODE_SCHEME }}\
+            -sdk iphonesimulator\
+            -destination "${{ env.BUILD_DESTINATION }}"\
+          | xcbeautify --renderer github-actions
