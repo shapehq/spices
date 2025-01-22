@@ -46,6 +46,7 @@ private extension UIApplication {
     }
 
     @available(iOS 13.0, *)
+    // swiftlint:disable:next identifier_name
     private var shp_preferredScene: UIWindowScene? {
         let windowScenes = connectedScenes.compactMap { $0 as? UIWindowScene }
         if let scene = windowScenes.first(where: { $0.activationState == .foregroundActive }) {
@@ -57,6 +58,7 @@ private extension UIApplication {
 }
 
 private extension UIViewController {
+    // swiftlint:disable:next identifier_name
     var shp_topViewController: UIViewController {
         var topViewController = self
         while let presentedViewController = topViewController.presentedViewController {

@@ -21,15 +21,17 @@ final class InAppDebugWindow: UIWindow {
 }
 
 private extension UIApplication {
+    // swiftlint:disable:next identifier_name
     var shp_activeWindow: UIWindow? {
-        if let scene = getPreferredScene() {
+        if let scene = shp_preferredScene {
             return scene.windows.first(where: { $0.isKeyWindow }) ?? scene.windows.first
         } else {
             return nil
         }
     }
 
-    private func getPreferredScene() -> UIWindowScene? {
+    // swiftlint:disable:next identifier_name
+    private var shp_preferredScene: UIWindowScene? {
         let windowScenes = connectedScenes.compactMap { $0 as? UIWindowScene }
         if let scene = windowScenes.first(where: { $0.activationState == .foregroundActive }) {
             return scene
@@ -40,6 +42,7 @@ private extension UIApplication {
 }
 
 private extension UIViewController {
+    // swiftlint:disable:next identifier_name
     var shp_topViewController: UIViewController {
         var topViewController = self
         while let presentedViewController = topViewController.presentedViewController {

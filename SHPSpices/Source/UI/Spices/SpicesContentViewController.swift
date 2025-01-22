@@ -107,6 +107,7 @@ private extension SpicesContentViewController {
         return cell
     }
 
+    // swiftlint:disable:next function_parameter_count
     private func boolCell(
         in tableView: UITableView,
         at indexPath: IndexPath,
@@ -117,7 +118,10 @@ private extension SpicesContentViewController {
         setValue: @escaping (Bool) -> Void
     ) -> UITableViewCell {
         let reuseIdentifier = ReuseIdentifier.boolCell
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! BoolTableViewCell
+        let untypedCell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+        guard let cell = untypedCell as? BoolTableViewCell else {
+            fatalError("Expected to dequeue cell of type BoolTableViewCell but got \(type(of: untypedCell))")
+        }
         cell.titleLabel.text = name
         cell.boolSwitch.isOn = currentValue
         cell.valueChanged = { [weak self] newValue in
