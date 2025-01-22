@@ -2,6 +2,10 @@
 
 SHPSpices makes it straightforward to create in-app debug menus.
 
+[![Build](https://github.com/shapehq/shpspices/actions/workflows/build.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/build.yml)
+[![Build Example Project](https://github.com/shapehq/shpspices/actions/workflows/build_example_project.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/build_example_project.yml)
+[![SwiftLint](https://github.com/shapehq/shpspices/actions/workflows/swiftlint.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/swiftlint.yml)
+
 ## 🚀 Getting Started
 
 This section details the steps needed to add an in-app debug menu using SHPSpices.
