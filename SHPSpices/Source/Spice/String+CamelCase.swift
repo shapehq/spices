@@ -1,11 +1,3 @@
-//
-//  String+CamelCase.swift
-//  Spices
-//
-//  Created by Simon Støvring on 22/11/2017.
-//  Copyright © 2017 Shape. All rights reserved.
-//
-
 import Foundation
 
 extension String {

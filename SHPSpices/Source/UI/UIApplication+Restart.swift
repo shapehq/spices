@@ -1,11 +1,3 @@
-//
-//  UIApplication+Restart.swift
-//  Spices
-//
-//  Created by Simon Støvring on 22/11/2017.
-//  Copyright © 2017 Shape. All rights reserved.
-//
-
 import UIKit
 
 extension UIApplication {
@@ -19,13 +11,21 @@ extension UIApplication {
         }
         return topViewController
     }
-    
+
     func shp_restart() {
         let topViewController = shp_activeWindow?.rootViewController?.shp_topViewController
-        let alertController = UIAlertController(title: "Restart required", message: "Shutting down app...", preferredStyle: .alert)
+        let alertController = UIAlertController(
+            title: "Restart required",
+            message: "Shutting down app...",
+            preferredStyle: .alert
+        )
         topViewController?.present(alertController, animated: true)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.performSelector(onMainThread: NSSelectorFromString("su" + "sp" + "end"), with: nil, waitUntilDone: true)
+            self.performSelector(
+                onMainThread: NSSelectorFromString("su" + "sp" + "end"),
+                with: nil,
+                waitUntilDone: true
+            )
             Thread.sleep(forTimeInterval: 0.2)
             exit(0)
         }
@@ -55,7 +55,6 @@ private extension UIApplication {
         }
     }
 }
-
 
 private extension UIViewController {
     var shp_topViewController: UIViewController {

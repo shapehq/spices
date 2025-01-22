@@ -1,50 +1,48 @@
-//
-//  SpicesContentViewController.swift
-//  Spices
-//
-//  Created by Simon Støvring on 21/11/2017.
-//  Copyright © 2017 Shape. All rights reserved.
-//
-
 import UIKit
 
-class SpicesContentViewController: UITableViewController {
+final class SpicesContentViewController: UITableViewController {
     private struct ReuseIdentifier {
         static let spiceDispenserCell = "spiceDispenserCell"
         static let enumerationCell = "enumerationCell"
         static let boolCell = "boolCell"
         static let buttonCell = "buttonCell"
     }
-    
+
     private let spiceDispenser: SpiceDispenser
     private let rootSpiceDispenser: SpiceDispenser
     private let properties: [SpiceDispenserProperty]
     var completion: (() -> Void)?
-    
+
     convenience init(spiceDispenser: SpiceDispenser) {
         self.init(
             spiceDispenser: spiceDispenser,
             rootSpiceDispenser: spiceDispenser,
-            title: spiceDispenser.title ?? "Spices")
+            title: spiceDispenser.title ?? "Spices"
+        )
     }
-    
+
     init(spiceDispenser: SpiceDispenser, rootSpiceDispenser: SpiceDispenser, title: String) {
         self.spiceDispenser = spiceDispenser
         self.rootSpiceDispenser = rootSpiceDispenser
         self.properties = spiceDispenser.properties()
         super.init(nibName: nil, bundle: nil)
         self.title = title
-        NotificationCenter.`default`.addObserver(self, selector: #selector(valuesChanged(notification:)), name: UserDefaults.didChangeNotification, object: spiceDispenser.store)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(valuesChanged(notification:)),
+            name: UserDefaults.didChangeNotification,
+            object: spiceDispenser.store
+        )
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     deinit {
         NotificationCenter.`default`.removeObserver(self)
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(BoolTableViewCell.self, forCellReuseIdentifier: ReuseIdentifier.boolCell)
@@ -63,20 +61,24 @@ private extension SpicesContentViewController {
             self.completion?()
         }
     }
-    
+
     @objc private func valuesChanged(notification: Notification) {
         tableView.reloadData()
     }
-    
+
     private func validateValues() {
         rootSpiceDispenser.validateValues()
     }
-    
+
     private func property(at indexPath: IndexPath) -> SpiceDispenserProperty {
-        return properties[indexPath.row]
+        properties[indexPath.row]
     }
-    
-    private func spiceDispenserCell(in tableView: UITableView, at indexPath: IndexPath, name: String) -> UITableViewCell {
+
+    private func spiceDispenserCell(
+        in tableView: UITableView,
+        at indexPath: IndexPath,
+        name: String
+    ) -> UITableViewCell {
         let reuseIdentifier = ReuseIdentifier.spiceDispenserCell
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)
             ?? UITableViewCell(style: .`default`, reuseIdentifier: reuseIdentifier)
@@ -84,8 +86,14 @@ private extension SpicesContentViewController {
         cell.accessoryType = .disclosureIndicator
         return cell
     }
-    
-    private func enumerationCell(in tableView: UITableView, at indexPath: IndexPath, name: String, currentValue: String, hasButtonBehaviour: Bool) -> UITableViewCell {
+
+    private func enumerationCell(
+        in tableView: UITableView,
+        at indexPath: IndexPath,
+        name: String,
+        currentValue: String,
+        hasButtonBehaviour: Bool
+    ) -> UITableViewCell {
         let reuseIdentifier = ReuseIdentifier.enumerationCell
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)
             ?? UITableViewCell(style: .value1, reuseIdentifier: reuseIdentifier)
@@ -98,8 +106,16 @@ private extension SpicesContentViewController {
         cell.accessoryType = .disclosureIndicator
         return cell
     }
-    
-    private func boolCell(in tableView: UITableView, at indexPath: IndexPath, application: UIApplication?, name: String, currentValue: Bool, requiresRestart: Bool, setValue: @escaping (Bool) -> Void) -> UITableViewCell {
+
+    private func boolCell(
+        in tableView: UITableView,
+        at indexPath: IndexPath,
+        application: UIApplication?,
+        name: String,
+        currentValue: Bool,
+        requiresRestart: Bool,
+        setValue: @escaping (Bool) -> Void
+    ) -> UITableViewCell {
         let reuseIdentifier = ReuseIdentifier.boolCell
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! BoolTableViewCell
         cell.titleLabel.text = name
@@ -117,15 +133,20 @@ private extension SpicesContentViewController {
         }
         return cell
     }
-    
-    private func buttonCell(in tableView: UITableView, at indexPath: IndexPath, application: UIApplication?, name: String) -> UITableViewCell {
+
+    private func buttonCell(
+        in tableView: UITableView,
+        at indexPath: IndexPath,
+        application: UIApplication?,
+        name: String
+    ) -> UITableViewCell {
         let reuseIdentifier = ReuseIdentifier.buttonCell
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)
             ?? UITableViewCell(style: .`default`, reuseIdentifier: reuseIdentifier)
         cell.textLabel?.text = name
         return cell
     }
-    
+
     private func reloadAllCellsButCell(at indexPath: IndexPath) {
         let arrIndexPaths: [IndexPath] = (0 ..< tableView.numberOfSections).reduce([]) { current, section in
             return current + (0 ..< tableView.numberOfRows(inSection: section)).map { row in
@@ -135,7 +156,7 @@ private extension SpicesContentViewController {
         let reloadIndexPaths = Set(arrIndexPaths).subtracting([indexPath])
         tableView.reloadRows(at: Array(reloadIndexPaths), with: .none)
     }
-    
+
     private func didSelect(_ spiceDispenser: SpiceDispenser, named name: String) {
         let spicesContentViewController = SpicesContentViewController(
             spiceDispenser: spiceDispenser,
@@ -143,10 +164,19 @@ private extension SpicesContentViewController {
             title: name)
         navigationController?.pushViewController(spicesContentViewController, animated: true)
     }
-    
+
     private func didSelect(_ spice: SpiceType, indexPath: IndexPath) {
         switch spice.viewData {
-        case .enumeration(let currentValue, _, let values, let titles, let validTitles, let setValue, let hasButtonBehaviour, let didSelect):
+        case .enumeration(
+            let currentValue,
+            _,
+            let values,
+            let titles,
+            let validTitles,
+            let setValue,
+            let hasButtonBehaviour,
+            let didSelect
+        ):
             let enumPickerViewController = EnumPickerViewController(
                 application: spice.application,
                 rootSpiceDispenser: rootSpiceDispenser,
@@ -158,20 +188,26 @@ private extension SpicesContentViewController {
                 requiresRestart: spice.requiresRestart,
                 setValue: setValue,
                 hasButtonBehaviour: hasButtonBehaviour,
-                didSelect: didSelect)
+                didSelect: didSelect
+            )
             navigationController?.pushViewController(enumPickerViewController, animated: true)
         case .button(let didSelect):
             tableView.deselectRow(at: indexPath, animated: true)
             didSelectButton(
                 didSelect: didSelect,
                 requiresRestart: spice.requiresRestart,
-                application: spice.application)
+                application: spice.application
+            )
         default:
             break
         }
     }
-    
-    private func didSelectButton(didSelect: ((@escaping (Swift.Error?) -> Void) -> Void)?, requiresRestart: Bool, application: UIApplication?) {
+
+    private func didSelectButton(
+        didSelect: ((@escaping (Swift.Error?) -> Void) -> Void)?,
+        requiresRestart: Bool,
+        application: UIApplication?
+    ) {
         let loadingViewController = LoadingViewController()
         let currentController = self
         present(loadingViewController, animated: true) {
@@ -201,11 +237,11 @@ extension SpicesContentViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return properties.count
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let property = self.property(at: indexPath)
         switch property {
@@ -238,7 +274,7 @@ extension SpicesContentViewController {
             }
         }
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let property = self.property(at: indexPath)
         switch property {
@@ -249,4 +285,3 @@ extension SpicesContentViewController {
         }
     }
 }
-
