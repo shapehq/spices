@@ -2,7 +2,7 @@ import SHPSpices
 import UIKit
 
 final class InAppDebugWindow: UIWindow {
-    #if DEBUG || BETA
+    #if DEBUG
     override public func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
             showDebugMenu()
