@@ -12,7 +12,7 @@ env:
   BUILD_DESTINATION: platform=iOS Simulator,name=iPhone 16 Pro,OS=18.1
 jobs:
   build:
-    name: Build (Xcode ${{ matrix.xcode }})
+    name: Build
     runs-on: shape
     steps:
       - name: Checkout
