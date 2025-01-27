@@ -9,7 +9,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         RootSpiceDispenser.shared.prepare(with: application)
-        window = InAppDebugWindow(frame: UIScreen.main.bounds)
+        window = InAppDebugMenuWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = ViewController()
         window?.makeKeyAndVisible()
         return true

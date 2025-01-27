@@ -1,7 +1,7 @@
 import SHPSpices
 import UIKit
 
-final class InAppDebugWindow: UIWindow {
+final class InAppDebugMenuWindow: UIWindow {
     // 🚨 Only enable the in-app debug menu in debug and beta builds.
     #if DEBUG || BETA
     override public func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
