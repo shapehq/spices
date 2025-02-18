@@ -27,4 +27,6 @@ final class ExampleSpiceStore: SpiceStore {
 final class FeatureFlagsSpiceStore: SpiceStore {
     @Spice var notifications = false
     @Spice var fastRefreshWidgets = false
+
+    fileprivate init() {}
 }
