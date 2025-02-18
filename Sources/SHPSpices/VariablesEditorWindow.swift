@@ -41,22 +41,4 @@ private extension VariablesEditorWindow {
         Self.presentedVariablesEditorViewController = viewController
     }
 }
-
-private extension UIApplication {
-    var shp_activeWindow: UIWindow? {
-        guard let preferredScene = shp_preferredScene else {
-            return nil
-        }
-        return preferredScene.windows.first(where: { $0.isKeyWindow }) ?? preferredScene.windows.first
-    }
-
-    private var shp_preferredScene: UIWindowScene? {
-        let windowScenes = connectedScenes.compactMap { $0 as? UIWindowScene }
-        if let scene = windowScenes.first(where: { $0.activationState == .foregroundActive }) {
-            return scene
-        } else {
-            return windowScenes.first
-        }
-    }
-}
 #endif

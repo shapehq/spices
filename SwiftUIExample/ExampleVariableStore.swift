@@ -6,7 +6,7 @@ enum ServiceEnvironment: String, CaseIterable {
 }
 
 final class ExampleVariableStore: VariableStore {
-    @Variable var environment: ServiceEnvironment = .production
+    @Variable(requiresRestart: true) var environment: ServiceEnvironment = .production
     @Variable var enableLogging = false
     let featureFlags = FeatureFlagsVariableStore()
 }

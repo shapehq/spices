@@ -14,24 +14,32 @@ import Foundation
 
     let name: Name
     let storage: Storage<Value>
-    let editorItem: EditorItem
+    let menuItem: MenuItem
 
     private let initialValue: Value
 
-    public init(wrappedValue: Value, name rawName: String? = nil) where Value == Bool {
+    public init(
+        wrappedValue: Value,
+        name rawName: String? = nil,
+        requiresRestart: Bool = false
+    ) where Value == Bool {
         self.initialValue = wrappedValue
         self.name = Name(rawName)
         self.storage = Storage(default: wrappedValue)
-        self.editorItem = .toggle(.init(name: name, storage: storage))
+        self.menuItem = .toggle(.init(name: name, requiresRestart: requiresRestart, storage: storage))
     }
 
-    public init(wrappedValue: Value, name rawName: String? = nil) where Value: RawRepresentable & CaseIterable {
+    public init(
+        wrappedValue: Value,
+        name rawName: String? = nil,
+        requiresRestart: Bool = false
+    ) where Value: RawRepresentable & CaseIterable {
         self.initialValue = wrappedValue
         self.name = Name(rawName)
         let storage = Storage(default: wrappedValue)
         self.storage = storage
         let options = Value.pickerOptions(persistingTo: storage)
-        self.editorItem = .picker(.init(name: name, options: options) {
+        self.menuItem = .picker(.init(name: name, requiresRestart: requiresRestart, options: options) {
             String(describing: storage.value.optionId)
         })
     }
@@ -59,13 +67,13 @@ extension Variable: Preparable {
     }
 }
 
-extension Variable: EditorItemProvider {}
+extension Variable: MenuItemProvider {}
 
 private extension CaseIterable where Self: RawRepresentable {
     @MainActor
-    static func pickerOptions(persistingTo storage: Storage<Self>) -> [EditorItem.PickerParameters.Option] {
+    static func pickerOptions(persistingTo storage: Storage<Self>) -> [MenuItem.PickerParameters.Option] {
         allCases.map { value in
-            EditorItem.PickerParameters.Option(id: value.optionId, title: value.optionTitle) {
+            MenuItem.PickerParameters.Option(id: value.optionId, title: value.optionTitle) {
                 storage.value = value
             }
         }

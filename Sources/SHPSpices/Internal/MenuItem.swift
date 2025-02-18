@@ -1,10 +1,11 @@
 import Foundation
 
 @MainActor
-enum EditorItem: @preconcurrency Identifiable {
+enum MenuItem: @preconcurrency Identifiable {
     struct ToggleParameters {
         let id = UUID().uuidString
         let name: Name
+        let requiresRestart: Bool
         let storage: Storage<Bool>
     }
 
@@ -25,6 +26,7 @@ enum EditorItem: @preconcurrency Identifiable {
 
         let id = UUID().uuidString
         let name: Name
+        let requiresRestart: Bool
         let options: [Option]
         let selectedOptionId: () -> String
         var selection: Option {
@@ -51,8 +53,8 @@ enum EditorItem: @preconcurrency Identifiable {
         store.prepareIfNeeded()
         let mirror = Mirror(reflecting: store)
         return mirror.children.compactMap { _, value in
-            if let variable = value as? EditorItemProvider {
-                return variable.editorItem
+            if let variable = value as? MenuItemProvider {
+                return variable.menuItem
             } else if let variableStore = value as? any VariableStore {
                 return .variableStore(variableStore)
             } else {

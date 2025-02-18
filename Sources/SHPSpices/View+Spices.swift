@@ -1,5 +1,4 @@
 #if canImport(UIKit)
-import SHPSpices
 import SwiftUI
 
 public extension View {

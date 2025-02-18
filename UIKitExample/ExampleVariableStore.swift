@@ -8,7 +8,7 @@ enum ServiceEnvironment: String, CaseIterable {
 final class ExampleVariableStore: VariableStore {
     static let shared = ExampleVariableStore()
 
-    @Variable var environment: ServiceEnvironment = .production
+    @Variable(requiresRestart: true) var environment: ServiceEnvironment = .production
     @Variable var enableLogging = false
     let featureFlags = FeatureFlagsVariableStore()
 
