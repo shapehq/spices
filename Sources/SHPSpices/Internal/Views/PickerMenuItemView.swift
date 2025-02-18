@@ -19,7 +19,7 @@ struct PickerMenuItemView: View {
             Text(parameters.name.rawValue)
         }
         .onChange(of: selection) { newValue in
-            newValue.persist()
+            newValue.write()
         }
         .restartOnChange(selection, enabled: parameters.requiresRestart)
     }

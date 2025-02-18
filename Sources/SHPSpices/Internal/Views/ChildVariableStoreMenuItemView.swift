@@ -1,19 +1,19 @@
 import SwiftUI
 
 struct ChildVariableStoreMenuItemView: View {
-    let variableStore: any VariableStore
+    let parameters: MenuItem.VariableStoreParameters
     let dismiss: () -> Void
 
     var body: some View {
         NavigationLink {
             MenuItemListView(
-                items: MenuItem.all(from: variableStore),
-                title: variableStore.name,
+                items: MenuItem.all(from: parameters.variableStore),
+                title: parameters.variableStore.name,
                 dismiss: dismiss
             )
             .navigationBarTitleDisplayMode(.inline)
         } label: {
-            Text(variableStore.name)
+            Text(parameters.variableStore.name)
         }
     }
 }

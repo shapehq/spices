@@ -6,14 +6,15 @@ enum MenuItem: @preconcurrency Identifiable {
         let id = UUID().uuidString
         let name: Name
         let requiresRestart: Bool
-        let storage: Storage<Bool>
+        let read: () -> Bool
+        let write: (Bool) -> Void
     }
 
     struct PickerParameters {
         struct Option: Hashable, Identifiable {
             let id: String
             let title: String
-            let persist: () -> Void
+            let write: () -> Void
 
             static func == (lhs: Self, rhs: Self) -> Bool {
                 lhs.id == rhs.id
@@ -34,15 +35,30 @@ enum MenuItem: @preconcurrency Identifiable {
         }
     }
 
+    struct ButtonParameters {
+        let id = UUID().uuidString
+        let name: Name
+        let requiresRestart: Bool
+        let handler: () -> Void
+    }
+
+    struct VariableStoreParameters {
+        let id = UUID().uuidString
+        let variableStore: any VariableStore
+    }
+
     case toggle(ToggleParameters)
     case picker(PickerParameters)
-    case variableStore(any VariableStore)
+    case button(ButtonParameters)
+    case variableStore(VariableStoreParameters)
 
     var id: String {
         switch self {
         case .picker(let parameters):
             parameters.id
         case .toggle(let parameters):
+            parameters.id
+        case .button(let parameters):
             parameters.id
         case .variableStore(let parameters):
             parameters.id
@@ -56,10 +72,33 @@ enum MenuItem: @preconcurrency Identifiable {
             if let variable = value as? MenuItemProvider {
                 return variable.menuItem
             } else if let variableStore = value as? any VariableStore {
-                return .variableStore(variableStore)
+                return .variableStore(.init(variableStore: variableStore))
             } else {
                 return nil
             }
+        }
+    }
+}
+
+extension CaseIterable where Self: RawRepresentable {
+    @MainActor
+    static func pickerOptions(write: @escaping (Self) -> Void) -> [MenuItem.PickerParameters.Option] {
+        allCases.map { value in
+            MenuItem.PickerParameters.Option(id: value.optionId, title: value.optionTitle) {
+                write(value)
+            }
+        }
+    }
+
+    var optionId: String {
+        String(describing: self)
+    }
+
+    private var optionTitle: String {
+        if let titleProvider = self as? VariableTitleProvider {
+            titleProvider.title
+        } else {
+            String(describing: self).camelCaseToNaturalText()
         }
     }
 }

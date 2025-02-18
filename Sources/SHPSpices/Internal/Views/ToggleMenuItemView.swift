@@ -6,7 +6,7 @@ struct ToggleMenuItemView: View {
 
     init(parameters: MenuItem.ToggleParameters) {
         self.parameters = parameters
-        self.selection = parameters.storage.value
+        self.selection = parameters.read()
     }
 
     var body: some View {
@@ -14,7 +14,7 @@ struct ToggleMenuItemView: View {
             Text(parameters.name.rawValue)
         }
         .onChange(of: selection) { newValue in
-            parameters.storage.value = newValue
+            parameters.write(newValue)
         }
         .restartOnChange(selection, enabled: parameters.requiresRestart)
     }

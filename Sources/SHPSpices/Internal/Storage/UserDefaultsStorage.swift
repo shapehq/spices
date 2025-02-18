@@ -2,7 +2,7 @@ import Combine
 import Foundation
 
 @MainActor
-final class Storage<Value> {
+final class UserDefaultsStorage<Value>: Storage {
     let publisher: AnyPublisher<Value, Never>
     var value: Value {
         get {
@@ -77,7 +77,7 @@ final class Storage<Value> {
     }
 }
 
-extension Storage: Preparable {
+extension UserDefaultsStorage: Preparable {
     func prepare(representingVariableNamed variableName: String, ownedBy variableStore: some VariableStore) {
         _variableName = variableName
         _variableStore = variableStore

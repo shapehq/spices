@@ -3,6 +3,8 @@ import Foundation
 
 @MainActor
 @propertyWrapper public struct Variable<Value> {
+    public typealias ButtonHandler = () -> Void
+
     @available(*, unavailable, message: "@Variable can only be applied to classes")
     public var wrappedValue: Value {
         get { fatalError() }
@@ -13,10 +15,11 @@ import Foundation
     }
 
     let name: Name
-    let storage: Storage<Value>
     let menuItem: MenuItem
 
     private let initialValue: Value
+    private let storage: AnyStorage<Value>
+    private let userDefaultsStorage: UserDefaultsStorage<Value>?
 
     public init(
         wrappedValue: Value,
@@ -25,8 +28,14 @@ import Foundation
     ) where Value == Bool {
         self.initialValue = wrappedValue
         self.name = Name(rawName)
-        self.storage = Storage(default: wrappedValue)
-        self.menuItem = .toggle(.init(name: name, requiresRestart: requiresRestart, storage: storage))
+        let userDefaultsStorage = UserDefaultsStorage(default: wrappedValue)
+        self.userDefaultsStorage = userDefaultsStorage
+        self.storage = AnyStorage(userDefaultsStorage)
+        self.menuItem = .toggle(.init(name: name, requiresRestart: requiresRestart, read: {
+            return userDefaultsStorage.value
+        }, write: { newValue in
+            userDefaultsStorage.value = newValue
+        }))
     }
 
     public init(
@@ -36,12 +45,25 @@ import Foundation
     ) where Value: RawRepresentable & CaseIterable {
         self.initialValue = wrappedValue
         self.name = Name(rawName)
-        let storage = Storage(default: wrappedValue)
-        self.storage = storage
-        let options = Value.pickerOptions(persistingTo: storage)
+        let userDefaultsStorage = UserDefaultsStorage(default: wrappedValue)
+        self.userDefaultsStorage = userDefaultsStorage
+        self.storage = AnyStorage(userDefaultsStorage)
+        let options = Value.pickerOptions { userDefaultsStorage.value = $0 }
         self.menuItem = .picker(.init(name: name, requiresRestart: requiresRestart, options: options) {
-            String(describing: storage.value.optionId)
+            String(describing: userDefaultsStorage.value.optionId)
         })
+    }
+
+    public init(
+        wrappedValue: Value,
+        name rawName: String? = nil,
+        requiresRestart: Bool = false
+    ) where Value == ButtonHandler {
+        self.initialValue = wrappedValue
+        self.name = Name(rawName)
+        self.storage = AnyStorage(ThrowingStorage(default: wrappedValue))
+        self.userDefaultsStorage = nil
+        self.menuItem = .button(.init(name: name, requiresRestart: requiresRestart, handler: wrappedValue))
     }
 
     static public subscript<T: VariableStore>(
@@ -63,31 +85,8 @@ import Foundation
 extension Variable: Preparable {
     func prepare(representingVariableNamed variableName: String, ownedBy variableStore: some VariableStore) {
         name.rawValue = variableName.camelCaseToNaturalText()
-        storage.prepare(representingVariableNamed: variableName, ownedBy: variableStore)
+        userDefaultsStorage?.prepare(representingVariableNamed: variableName, ownedBy: variableStore)
     }
 }
 
 extension Variable: MenuItemProvider {}
-
-private extension CaseIterable where Self: RawRepresentable {
-    @MainActor
-    static func pickerOptions(persistingTo storage: Storage<Self>) -> [MenuItem.PickerParameters.Option] {
-        allCases.map { value in
-            MenuItem.PickerParameters.Option(id: value.optionId, title: value.optionTitle) {
-                storage.value = value
-            }
-        }
-    }
-
-    var optionId: String {
-        String(describing: self)
-    }
-
-    private var optionTitle: String {
-        if let titleProvider = self as? VariableTitleProvider {
-            titleProvider.title
-        } else {
-            String(describing: self).camelCaseToNaturalText()
-        }
-    }
-}
