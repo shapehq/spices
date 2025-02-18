@@ -6,6 +6,23 @@ SHPSpices makes it straightforward to create in-app debug menus.
 [![Build Example Project](https://github.com/shapehq/shpspices/actions/workflows/build_example_project.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/build_example_project.yml)
 [![SwiftLint](https://github.com/shapehq/shpspices/actions/workflows/swiftlint.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/swiftlint.yml)
 
+- [🚀 Getting Started](#-getting-started)
+    - [Step 1: Add the SHPSpices Swift Package](#step-1-add-the-shpspices-swift-package)
+    - [Step 2: Create an In-App Debug Menu](#step-2-create-an-in-app-debug-menu)
+    - [Step 3: Present the In-App Debug Menu](#step-3-present-the-in-app-debug-menu)
+    - [Step 4: Observing Values](#step-4-observing-values)
+- [🧪 Example Project](#-getting-started)
+- [📖 Reference](#-reference)
+  - [Toggles](#toggles)
+  - [Pickers](#pickers)
+  - [Buttons](#buttons)
+  - [Hierarchical Navigation](#hierarchical-navigation)
+  - [Require Restart](#require-restart)
+  - [Store Values in Custom UserDefaults](#store-values-in-custom-userdefaults)
+  - [Custom Name](#custom-name)
+  - [Custom UserDefaults Key](#custom-userdefaults-key)
+  - [Using with @AppStorage](#using-with-appstorage)
+
 ## 🚀 Getting Started
 
 This section details the steps needed to add an in-app debug menu using SHPSpices.
@@ -246,7 +263,7 @@ Providing an asynchronous closure causes a loading indicator to be displayed for
 
 An error message is automatically shown if the closure throws an error.
 
-### Nested Spice Stores
+### Hierarchical Navigation
 
 Spice stores can be nested to create a hierarchical user interface.
 
@@ -273,7 +290,7 @@ final class ExampleSpiceStore: SpiceStore {
 }
 ```
 
-### Specifying an Instance of UserDefaults
+### Store Values in Custom UserDefaults
 
 By default, values are stored in UserDefaults.standard](https://developer.apple.com/documentation/foundation/userdefaults/1416603-standard). To use a different [UserDefaults](https://developer.apple.com/documentation/foundation/userdefaults) instance, such as for sharing data with an app group, implement the `userDefaults` property of `SpiceStore`.
 
@@ -283,7 +300,7 @@ final class ExampleSpiceStore: SpiceStore {
 }
 ```
 
-### Override the Name
+### Custom Name
 
 By default, the editor displays a formatted version of the property name. You can override this by manually specifying a custom name.
 
@@ -293,7 +310,7 @@ final class ExampleSpiceStore: SpiceStore {
 }
 ```
 
-### Override the Key
+### Custom UserDefaults Key
 
 Values are stored in [UserDefaults](https://developer.apple.com/documentation/foundation/userdefaults) using a key derived from the property name, optionally prefixed with the names of nested spice stores. You can override this by specifying a custom key.
 
