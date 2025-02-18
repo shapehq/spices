@@ -39,7 +39,14 @@ enum MenuItem: @preconcurrency Identifiable {
         let id = UUID().uuidString
         let name: Name
         let requiresRestart: Bool
-        let handler: () -> Void
+        let handler: () throws -> Void
+    }
+
+    struct AsyncButtonParameters {
+        let id = UUID().uuidString
+        let name: Name
+        let requiresRestart: Bool
+        let handler: () async throws -> Void
     }
 
     struct VariableStoreParameters {
@@ -50,6 +57,7 @@ enum MenuItem: @preconcurrency Identifiable {
     case toggle(ToggleParameters)
     case picker(PickerParameters)
     case button(ButtonParameters)
+    case asyncButton(AsyncButtonParameters)
     case variableStore(VariableStoreParameters)
 
     var id: String {
@@ -59,6 +67,8 @@ enum MenuItem: @preconcurrency Identifiable {
         case .toggle(let parameters):
             parameters.id
         case .button(let parameters):
+            parameters.id
+        case .asyncButton(let parameters):
             parameters.id
         case .variableStore(let parameters):
             parameters.id

@@ -4,6 +4,7 @@ struct MenuItemListView: View {
     private let title: String
     private let menuItems: [MenuItem]
     private let dismiss: () -> Void
+    @State private var enableUserInteraction = true
 
     init(items menuItems: [MenuItem], title: String, dismiss: @escaping () -> Void) {
         self.title = title
@@ -14,9 +15,14 @@ struct MenuItemListView: View {
     var body: some View {
         Form {
             ForEach(menuItems) { menuItem in
-                MenuItemView(menuItem: menuItem, dismiss: dismiss)
+                MenuItemView(
+                    menuItem: menuItem,
+                    enableUserInteraction: $enableUserInteraction,
+                    dismiss: dismiss
+                )
             }
         }
+        .disabled(!enableUserInteraction)
         .navigationTitle(title)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {

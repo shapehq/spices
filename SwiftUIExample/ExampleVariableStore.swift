@@ -13,6 +13,9 @@ final class ExampleVariableStore: VariableStore {
     @Variable var clearCache = {
         URLCache.shared.removeAllCachedResponses()
     }
+    @Variable var longOperation = {
+        try await Task.sleep(nanoseconds: 1_000_000_000)
+    }
 }
 
 final class FeatureFlagsVariableStore: VariableStore {

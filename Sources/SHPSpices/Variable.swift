@@ -3,7 +3,8 @@ import Foundation
 
 @MainActor
 @propertyWrapper public struct Variable<Value> {
-    public typealias ButtonHandler = () -> Void
+    public typealias ButtonHandler = () throws -> Void
+    public typealias AsyncButtonHandler = () async throws -> Void
 
     @available(*, unavailable, message: "@Variable can only be applied to classes")
     public var wrappedValue: Value {
@@ -64,6 +65,18 @@ import Foundation
         self.storage = AnyStorage(ThrowingStorage(default: wrappedValue))
         self.userDefaultsStorage = nil
         self.menuItem = .button(.init(name: name, requiresRestart: requiresRestart, handler: wrappedValue))
+    }
+
+    public init(
+        wrappedValue: Value,
+        name rawName: String? = nil,
+        requiresRestart: Bool = false
+    ) where Value == AsyncButtonHandler {
+        self.initialValue = wrappedValue
+        self.name = Name(rawName)
+        self.storage = AnyStorage(ThrowingStorage(default: wrappedValue))
+        self.userDefaultsStorage = nil
+        self.menuItem = .asyncButton(.init(name: name, requiresRestart: requiresRestart, handler: wrappedValue))
     }
 
     static public subscript<T: VariableStore>(
