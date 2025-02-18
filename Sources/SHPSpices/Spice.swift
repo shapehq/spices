@@ -24,15 +24,16 @@ import Foundation
 
     public init(
         wrappedValue: Value,
-        name rawName: String? = nil,
+        key: String? = nil,
+        name: String? = nil,
         requiresRestart: Bool = false
     ) where Value == Bool {
         self.initialValue = wrappedValue
-        self.name = Name(rawName)
-        let userDefaultsStorage = UserDefaultsStorage(default: wrappedValue)
+        self.name = Name(name)
+        let userDefaultsStorage = UserDefaultsStorage(default: wrappedValue, key: key)
         self.userDefaultsStorage = userDefaultsStorage
         self.storage = AnyStorage(userDefaultsStorage)
-        self.menuItem = .toggle(.init(name: name, requiresRestart: requiresRestart, read: {
+        self.menuItem = .toggle(.init(name: self.name, requiresRestart: requiresRestart, read: {
             return userDefaultsStorage.value
         }, write: { newValue in
             userDefaultsStorage.value = newValue
@@ -41,42 +42,43 @@ import Foundation
 
     public init(
         wrappedValue: Value,
-        name rawName: String? = nil,
+        key: String? = nil,
+        name: String? = nil,
         requiresRestart: Bool = false
     ) where Value: RawRepresentable & CaseIterable {
         self.initialValue = wrappedValue
-        self.name = Name(rawName)
-        let userDefaultsStorage = UserDefaultsStorage(default: wrappedValue)
+        self.name = Name(name)
+        let userDefaultsStorage = UserDefaultsStorage(default: wrappedValue, key: key)
         self.userDefaultsStorage = userDefaultsStorage
         self.storage = AnyStorage(userDefaultsStorage)
         let options = Value.pickerOptions { userDefaultsStorage.value = $0 }
-        self.menuItem = .picker(.init(name: name, requiresRestart: requiresRestart, options: options) {
+        self.menuItem = .picker(.init(name: self.name, requiresRestart: requiresRestart, options: options) {
             String(describing: userDefaultsStorage.value.optionId)
         })
     }
 
     public init(
         wrappedValue: Value,
-        name rawName: String? = nil,
+        name: String? = nil,
         requiresRestart: Bool = false
     ) where Value == ButtonHandler {
         self.initialValue = wrappedValue
-        self.name = Name(rawName)
+        self.name = Name(name)
         self.storage = AnyStorage(ThrowingStorage(default: wrappedValue))
         self.userDefaultsStorage = nil
-        self.menuItem = .button(.init(name: name, requiresRestart: requiresRestart, handler: wrappedValue))
+        self.menuItem = .button(.init(name: self.name, requiresRestart: requiresRestart, handler: wrappedValue))
     }
 
     public init(
         wrappedValue: Value,
-        name rawName: String? = nil,
+        name: String? = nil,
         requiresRestart: Bool = false
     ) where Value == AsyncButtonHandler {
         self.initialValue = wrappedValue
-        self.name = Name(rawName)
+        self.name = Name(name)
         self.storage = AnyStorage(ThrowingStorage(default: wrappedValue))
         self.userDefaultsStorage = nil
-        self.menuItem = .asyncButton(.init(name: name, requiresRestart: requiresRestart, handler: wrappedValue))
+        self.menuItem = .asyncButton(.init(name: self.name, requiresRestart: requiresRestart, handler: wrappedValue))
     }
 
     static public subscript<T: SpiceStore>(
@@ -96,9 +98,9 @@ import Foundation
 }
 
 extension Spice: Preparable {
-    func prepare(representingSpiceNamed spiceName: String, ownedBy spiceStore: some SpiceStore) {
-        name.rawValue = spiceName.camelCaseToNaturalText()
-        userDefaultsStorage?.prepare(representingSpiceNamed: spiceName, ownedBy: spiceStore)
+    func prepare(variableName variableName: String, ownedBy spiceStore: some SpiceStore) {
+        name.rawValue = variableName.camelCaseToNaturalText()
+        userDefaultsStorage?.prepare(variableName: variableName, ownedBy: spiceStore)
     }
 }
 

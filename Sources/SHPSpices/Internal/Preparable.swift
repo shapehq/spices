@@ -1,7 +1,4 @@
 @MainActor
 protocol Preparable {
-    func prepare(
-        representingSpiceNamed spiceName: String,
-        ownedBy spiceStore: some SpiceStore
-    )
+    func prepare(variableName variableName: String, ownedBy spiceStore: some SpiceStore)
 }

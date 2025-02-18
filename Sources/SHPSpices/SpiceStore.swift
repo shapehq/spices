@@ -19,10 +19,6 @@ public extension SpiceStore {
 }
 
 extension SpiceStore {
-    var keyPrefix: String {
-        "__" + String(reflecting: self)
-    }
-
     var id: String {
         if let value = objc_getAssociatedObject(self, &idKey) as? String {
             return value
@@ -60,6 +56,24 @@ extension SpiceStore {
         }
     }
 
+    private var path: [String] {
+        if let parent {
+            return parent.path + [name]
+        } else {
+            return []
+        }
+    }
+
+    func key(fromVariableNamed variableName: String) -> String {
+        (path + [variableName]).joined(separator: ".")
+    }
+
+    func publishObjectWillChange() {
+        let publisher = objectWillChange as? ObservableObjectPublisher
+        publisher?.send()
+        parent?.publishObjectWillChange()
+    }
+
     func prepareIfNeeded() {
         guard !isPrepared else {
             return
@@ -68,20 +82,6 @@ extension SpiceStore {
         prepare()
     }
 
-    func key(fromSpiceNamed spiceName: String) -> String {
-        keyPrefix + "." + spiceName
-            .camelCaseToNaturalText()
-            .replacingOccurrences(of: " ", with: "")
-    }
-
-    func publishObjectWillChange() {
-        let publisher = objectWillChange as? ObservableObjectPublisher
-        publisher?.send()
-        parent?.publishObjectWillChange()
-    }
-}
-
-private extension SpiceStore {
     private func prepare() {
         let mirror = Mirror(reflecting: self)
         for (name, value) in mirror.children {
@@ -89,8 +89,8 @@ private extension SpiceStore {
                 continue
             }
             if let spice = value as? Preparable {
-                let spiceName = name.removing(prefix: "_")
-                spice.prepare(representingSpiceNamed: spiceName, ownedBy: self)
+                let variableName = name.removing(prefix: "_")
+                spice.prepare(variableName: variableName, ownedBy: self)
             } else if let spiceStore = value as? (any SpiceStore) {
                 if spiceStore.parent != nil {
                     fatalError("A child spice store can only be referenced from one parent.")
