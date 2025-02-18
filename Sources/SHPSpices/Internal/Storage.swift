@@ -63,10 +63,7 @@ final class Storage<Value> {
         valueSubject = CurrentValueSubject(value)
         publisher = valueSubject.eraseToAnyPublisher()
         read = { [weak self] in
-            guard let self else {
-                return value
-            }
-            guard let rawValue = self.userDefaults.object(forKey: self.key) as? Value.RawValue else {
+            guard let self, let rawValue = self.userDefaults.object(forKey: self.key) as? Value.RawValue else {
                 return value
             }
             return Value(rawValue: rawValue) ?? value
