@@ -204,9 +204,7 @@ The following documents the specifics of the framework.
 Toggles are created for boolean variables in a spice store.
 
 ```swift
-final class ExampleSpiceStore: SpiceStore {
-    @Spice var enableLogging = false
-}
+@Spice var enableLogging = false
 ```
 
 ### Pickers
@@ -285,9 +283,7 @@ Note that nested spice stores should not use the `@Spice` property wrapper.
 Setting `requiresRestart` to true will cause the app to be shut down after changing the value. Use this only when necessary, as users do not expect a restart.
 
 ```swift
-final class ExampleSpiceStore: SpiceStore {
-    @Spice(requiresRestart: true) var environment: ServiceEnvironment = .production
-}
+@Spice(requiresRestart: true) var environment: ServiceEnvironment = .production
 ```
 
 ### Store Values in Custom UserDefaults
@@ -305,9 +301,7 @@ final class ExampleSpiceStore: SpiceStore {
 By default, the editor displays a formatted version of the property name. You can override this by manually specifying a custom name.
 
 ```swift
-final class ExampleSpiceStore: SpiceStore {
-    @Spice(name: "Debug Logging") var enableLogging = false
-}
+@Spice(name: "Debug Logging") var enableLogging = false
 ```
 
 ### Custom UserDefaults Key
