@@ -53,7 +53,7 @@ enum EditorItem: @preconcurrency Identifiable {
         return mirror.children.compactMap { _, value in
             if let variable = value as? EditorItemProvider {
                 return variable.editorItem
-            } else if let variableStore = value as? (any VariableStore) {
+            } else if let variableStore = value as? any VariableStore {
                 return .variableStore(variableStore)
             } else {
                 return nil
