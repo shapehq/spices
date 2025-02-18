@@ -3,46 +3,46 @@ import SwiftUI
 
 public extension View {
     @ViewBuilder
-    func presentVariableEditorOnShake<T: VariableStore>(editing variableStore: T) -> some View {
-        modifier(PresentVariableEditorOnShakeViewModifier(variableStore: variableStore))
+    func presentSpiceEditorOnShake<T: SpiceStore>(editing spiceStore: T) -> some View {
+        modifier(PresentSpiceEditorOnShakeViewModifier(spiceStore: spiceStore))
     }
 }
 
-private struct PresentVariableEditorOnShakeViewModifier<T: VariableStore>: ViewModifier {
-    let variableStore: T
+private struct PresentSpiceEditorOnShakeViewModifier<T: SpiceStore>: ViewModifier {
+    let spiceStore: T
 
     func body(content: Content) -> some View {
         content
             .onReceive(NotificationCenter.default.publisher(
-                for: UIWindow.presentVariableEditorNotification
+                for: UIWindow.presentSpiceEditorNotification
             )) { publisher in
                 guard let window = publisher.object as? UIWindow, window.isKeyWindow else {
                     return
                 }
-                guard PresentedVariableEditorBox.viewController == nil else {
+                guard PresentedSpiceEditorBox.viewController == nil else {
                     return
                 }
-                let viewController = UIHostingController(rootView: VariableEditor(editing: variableStore))
+                let viewController = UIHostingController(rootView: SpiceEditor(editing: spiceStore))
                 viewController.sheetPresentationController?.detents = [.medium(), .large()]
                 window.rootViewController?.shp_topViewController.present(viewController, animated: true)
-                PresentedVariableEditorBox.viewController = viewController
+                PresentedSpiceEditorBox.viewController = viewController
             }
     }
 }
 
 @MainActor
-private struct PresentedVariableEditorBox {
+private struct PresentedSpiceEditorBox {
     static weak var viewController: UIViewController?
 
     private init() {}
 }
 
 extension UIWindow {
-    fileprivate static let presentVariableEditorNotification = Notification.Name("presentVariableEditorNotification")
+    fileprivate static let presentSpiceEditorNotification = Notification.Name("presentSpiceEditorNotification")
 
     override open func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
-            NotificationCenter.default.post(name: Self.presentVariableEditorNotification, object: self)
+            NotificationCenter.default.post(name: Self.presentSpiceEditorNotification, object: self)
         }
     }
 }

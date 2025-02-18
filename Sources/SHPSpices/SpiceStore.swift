@@ -8,17 +8,17 @@ import ObjectiveC
 @MainActor private var parentKey: UInt8 = 0
 
 @MainActor
-public protocol VariableStore: AnyObject, ObservableObject {
+public protocol SpiceStore: AnyObject, ObservableObject {
     var userDefaults: UserDefaults { get }
 }
 
-public extension VariableStore {
+public extension SpiceStore {
     var userDefaults: UserDefaults {
         .standard
     }
 }
 
-extension VariableStore {
+extension SpiceStore {
     var keyPrefix: String {
         "__" + String(reflecting: self)
     }
@@ -51,9 +51,9 @@ extension VariableStore {
         }
     }
 
-    private var parent: (any VariableStore)? {
+    private var parent: (any SpiceStore)? {
         get {
-            objc_getAssociatedObject(self, &parentKey) as? any VariableStore
+            objc_getAssociatedObject(self, &parentKey) as? any SpiceStore
         }
         set {
             objc_setAssociatedObject(self, &parentKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
@@ -68,8 +68,8 @@ extension VariableStore {
         prepare()
     }
 
-    func key(fromVariableNamed variableName: String) -> String {
-        keyPrefix + "." + variableName
+    func key(fromSpiceNamed spiceName: String) -> String {
+        keyPrefix + "." + spiceName
             .camelCaseToNaturalText()
             .replacingOccurrences(of: " ", with: "")
     }
@@ -81,23 +81,23 @@ extension VariableStore {
     }
 }
 
-private extension VariableStore {
+private extension SpiceStore {
     private func prepare() {
         let mirror = Mirror(reflecting: self)
         for (name, value) in mirror.children {
             guard let name else {
                 continue
             }
-            if let variable = value as? Preparable {
-                let variableName = name.removing(prefix: "_")
-                variable.prepare(representingVariableNamed: variableName, ownedBy: self)
-            } else if let variableStore = value as? (any VariableStore) {
-                if variableStore.parent != nil {
-                    fatalError("A child variable store can only be referenced from one parent.")
+            if let spice = value as? Preparable {
+                let spiceName = name.removing(prefix: "_")
+                spice.prepare(representingSpiceNamed: spiceName, ownedBy: self)
+            } else if let spiceStore = value as? (any SpiceStore) {
+                if spiceStore.parent != nil {
+                    fatalError("A child spice store can only be referenced from one parent.")
                 }
-                variableStore.parent = self
-                variableStore.name = name.camelCaseToNaturalText()
-                variableStore.prepareIfNeeded()
+                spiceStore.parent = self
+                spiceStore.name = name.camelCaseToNaturalText()
+                spiceStore.prepareIfNeeded()
             }
         }
     }

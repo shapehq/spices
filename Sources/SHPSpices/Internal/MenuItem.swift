@@ -49,16 +49,16 @@ enum MenuItem: @preconcurrency Identifiable {
         let handler: () async throws -> Void
     }
 
-    struct VariableStoreParameters {
+    struct SpiceStoreParameters {
         let id = UUID().uuidString
-        let variableStore: any VariableStore
+        let spiceStore: any SpiceStore
     }
 
     case toggle(ToggleParameters)
     case picker(PickerParameters)
     case button(ButtonParameters)
     case asyncButton(AsyncButtonParameters)
-    case variableStore(VariableStoreParameters)
+    case spiceStore(SpiceStoreParameters)
 
     var id: String {
         switch self {
@@ -70,19 +70,19 @@ enum MenuItem: @preconcurrency Identifiable {
             parameters.id
         case .asyncButton(let parameters):
             parameters.id
-        case .variableStore(let parameters):
+        case .spiceStore(let parameters):
             parameters.id
         }
     }
 
-    static func all(from store: some VariableStore) -> [Self] {
+    static func all(from store: some SpiceStore) -> [Self] {
         store.prepareIfNeeded()
         let mirror = Mirror(reflecting: store)
         return mirror.children.compactMap { _, value in
-            if let variable = value as? MenuItemProvider {
-                return variable.menuItem
-            } else if let variableStore = value as? any VariableStore {
-                return .variableStore(.init(variableStore: variableStore))
+            if let spice = value as? MenuItemProvider {
+                return spice.menuItem
+            } else if let spiceStore = value as? any SpiceStore {
+                return .spiceStore(.init(spiceStore: spiceStore))
             } else {
                 return nil
             }
@@ -105,8 +105,8 @@ extension CaseIterable where Self: RawRepresentable {
     }
 
     private var optionTitle: String {
-        if let titleProvider = self as? VariableTitleProvider {
-            titleProvider.title
+        if let titleProvider = self as? SpiceTitleProvider {
+            titleProvider.spiceTitle
         } else {
             String(describing: self).camelCaseToNaturalText()
         }

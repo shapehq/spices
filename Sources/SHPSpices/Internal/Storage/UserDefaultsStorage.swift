@@ -9,7 +9,7 @@ final class UserDefaultsStorage<Value>: Storage {
             read?() ?? initialValue
         }
         set {
-            variableStore.publishObjectWillChange()
+            spiceStore.publishObjectWillChange()
             write?(newValue)
             valueSubject.send(newValue)
         }
@@ -20,24 +20,24 @@ final class UserDefaultsStorage<Value>: Storage {
     private var read: (() -> Value)?
     private var write: ((Value) -> Void)?
     private var key: String {
-        variableStore.key(fromVariableNamed: variableName)
+        spiceStore.key(fromSpiceNamed: spiceName)
     }
     private var userDefaults: UserDefaults {
-        variableStore.userDefaults
+        spiceStore.userDefaults
     }
-    private var _variableName: String?
-    private var variableName: String {
-        guard let _variableName else {
-            fatalError("\(type(of: self)) cannot be used without a variable name")
+    private var _spiceName: String?
+    private var spiceName: String {
+        guard let _spiceName else {
+            fatalError("\(type(of: self)) cannot be used without a spice name")
         }
-        return _variableName
+        return _spiceName
     }
-    private weak var _variableStore: (any VariableStore)?
-    private var variableStore: any VariableStore {
-        guard let _variableStore else {
-            fatalError("\(type(of: self)) cannot be used without a reference to a variable store")
+    private weak var _spiceStore: (any SpiceStore)?
+    private var spiceStore: any SpiceStore {
+        guard let _spiceStore else {
+            fatalError("\(type(of: self)) cannot be used without a reference to a spice store")
         }
-        return _variableStore
+        return _spiceStore
     }
 
     init(default value: Value) {
@@ -78,9 +78,9 @@ final class UserDefaultsStorage<Value>: Storage {
 }
 
 extension UserDefaultsStorage: Preparable {
-    func prepare(representingVariableNamed variableName: String, ownedBy variableStore: some VariableStore) {
-        _variableName = variableName
-        _variableStore = variableStore
+    func prepare(representingSpiceNamed spiceName: String, ownedBy spiceStore: some SpiceStore) {
+        _spiceName = spiceName
+        _spiceStore = spiceStore
         valueSubject.send(read?() ?? initialValue)
     }
 }

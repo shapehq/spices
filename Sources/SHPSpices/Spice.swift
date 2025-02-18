@@ -2,11 +2,11 @@ import Combine
 import Foundation
 
 @MainActor
-@propertyWrapper public struct Variable<Value> {
+@propertyWrapper public struct Spice<Value> {
     public typealias ButtonHandler = () throws -> Void
     public typealias AsyncButtonHandler = () async throws -> Void
 
-    @available(*, unavailable, message: "@Variable can only be applied to classes")
+    @available(*, unavailable, message: "@Spice can only be applied to classes")
     public var wrappedValue: Value {
         get { fatalError() }
         set { fatalError() }
@@ -79,7 +79,7 @@ import Foundation
         self.menuItem = .asyncButton(.init(name: name, requiresRestart: requiresRestart, handler: wrappedValue))
     }
 
-    static public subscript<T: VariableStore>(
+    static public subscript<T: SpiceStore>(
         _enclosingInstance instance: T,
         wrapped wrappedKeyPath: ReferenceWritableKeyPath<T, Value>,
         storage storageKeyPath: ReferenceWritableKeyPath<T, Self>
@@ -95,11 +95,11 @@ import Foundation
     }
 }
 
-extension Variable: Preparable {
-    func prepare(representingVariableNamed variableName: String, ownedBy variableStore: some VariableStore) {
-        name.rawValue = variableName.camelCaseToNaturalText()
-        userDefaultsStorage?.prepare(representingVariableNamed: variableName, ownedBy: variableStore)
+extension Spice: Preparable {
+    func prepare(representingSpiceNamed spiceName: String, ownedBy spiceStore: some SpiceStore) {
+        name.rawValue = spiceName.camelCaseToNaturalText()
+        userDefaultsStorage?.prepare(representingSpiceNamed: spiceName, ownedBy: spiceStore)
     }
 }
 
-extension Variable: MenuItemProvider {}
+extension Spice: MenuItemProvider {}

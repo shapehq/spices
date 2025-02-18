@@ -18,8 +18,8 @@ struct MenuItemView: View {
                 parameters: parameters,
                 enableUserInteraction: $enableUserInteraction
             )
-        case .variableStore(let parameters):
-            ChildVariableStoreMenuItemView(
+        case .spiceStore(let parameters):
+            ChildSpiceStoreMenuItemView(
                 parameters: parameters,
                 dismiss: dismiss
             )

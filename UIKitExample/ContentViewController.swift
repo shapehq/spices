@@ -54,7 +54,7 @@ final class ContentViewController: UIViewController {
         }
     }
 
-    private let variableStore = ExampleVariableStore.shared
+    private let spiceStore = ExampleSpiceStore.shared
     private var diffableDataSource: DataSource!
     private var cancellables: Set<AnyCancellable> = []
     private let tableView: UITableView = {
@@ -73,7 +73,7 @@ final class ContentViewController: UIViewController {
         tableView.delegate = self
         setupDataSource()
         updateSnapshot()
-        observeVariables()
+        observeSpices()
     }
 }
 
@@ -92,27 +92,27 @@ private extension ContentViewController {
             .text(
                 "This is an example app showcasing the SHPSpices framework."
                 + "\n\n"
-                + "The following illustrates how variables can be observed using SwiftUI."
+                + "The following illustrates how spices can be observed using SwiftUI."
             )
         ]
         let generalItems: [Item] = [
             .titleValue(
                 title: "Environment",
-                value: String(describing: variableStore.environment)
+                value: String(describing: spiceStore.environment)
             ),
             .titleValue(
                 title: "Enable Logging", 
-                value: variableStore.enableLogging ? "Yes" : "No"
+                value: spiceStore.enableLogging ? "Yes" : "No"
             )
         ]
         let featureFlagsItems: [Item] = [
             .titleValue(
                 title: "Notifications",
-                value: variableStore.featureFlags.notifications ? "Yes" : "No"
+                value: spiceStore.featureFlags.notifications ? "Yes" : "No"
             ),
             .titleValue(
                 title: "Fast Refresh Widgets",
-                value: variableStore.featureFlags.fastRefreshWidgets ? "Yes" : "No"
+                value: spiceStore.featureFlags.fastRefreshWidgets ? "Yes" : "No"
             )
         ]
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
@@ -123,12 +123,12 @@ private extension ContentViewController {
         diffableDataSource.apply(snapshot, animatingDifferences: false)
     }
 
-    private func observeVariables() {
+    private func observeSpices() {
         Publishers.CombineLatest4(
-            variableStore.$environment,
-            variableStore.$enableLogging,
-            variableStore.featureFlags.$notifications,
-            variableStore.featureFlags.$fastRefreshWidgets
+            spiceStore.$environment,
+            spiceStore.$enableLogging,
+            spiceStore.featureFlags.$notifications,
+            spiceStore.featureFlags.$fastRefreshWidgets
         )
         .sink { [weak self] _, _, _, _ in
             self?.updateSnapshot()
@@ -150,7 +150,7 @@ extension ContentViewController: UITableViewDelegate {
         label.textColor = .secondaryLabel
         label.font = .preferredFont(forTextStyle: .footnote)
         label.textAlignment = .center
-        label.text = "\n\nShake to edit variables."
+        label.text = "\n\nShake to edit spices."
         return label
     }
 }

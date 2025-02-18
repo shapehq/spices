@@ -11,9 +11,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         let windowScene = scene as! UIWindowScene
         #if DEBUG
-        window = VariablesEditorWindow(windowScene: windowScene, editing: ExampleVariableStore.shared)
+        window = SpicesWindow(windowScene: windowScene, editing: ExampleSpiceStore.shared)
         #else
-        window = VariablesEditorWindow(windowScene: windowScene)
+        window = SpicesWindow(windowScene: windowScene)
         #endif
         window?.rootViewController = makeRootViewController()
         window?.makeKeyAndVisible()

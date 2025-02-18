@@ -2,7 +2,7 @@ import SHPSpices
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var variableStore = ExampleVariableStore()
+    @StateObject private var spiceStore = ExampleSpiceStore()
 
     var body: some View {
         NavigationView {
@@ -11,29 +11,29 @@ struct ContentView: View {
                     Text(
                         "This is an example app showcasing the SHPSpices framework."
                         + "\n\n"
-                        + "The following illustrates how variables can be observed using SwiftUI."
+                        + "The following illustrates how spices can be observed using SwiftUI."
                     )
                     .foregroundStyle(.secondary)
                 }
                 Section {
                     LabeledContentBackport("Environment") {
-                        Text(String(describing: variableStore.environment))
+                        Text(String(describing: spiceStore.environment))
                     }
                     LabeledContentBackport("Enable Logging") {
-                        Text(variableStore.enableLogging ? "Yes" : "No")
+                        Text(spiceStore.enableLogging ? "Yes" : "No")
                     }
                 }
                 Section {
                     LabeledContentBackport("Notifications") {
-                        Text(variableStore.featureFlags.notifications ? "Yes" : "No")
+                        Text(spiceStore.featureFlags.notifications ? "Yes" : "No")
                     }
                     LabeledContentBackport("Fast Refresh Widgets") {
-                        Text(variableStore.featureFlags.fastRefreshWidgets ? "Yes" : "No")
+                        Text(spiceStore.featureFlags.fastRefreshWidgets ? "Yes" : "No")
                     }
                 } header: {
                     Text("Feature Flags")
                 } footer: {
-                    Text("Shake to edit variables.")
+                    Text("Shake to edit spices.")
                         .frame(maxWidth: .infinity, alignment: .center)
                         .padding(.top, 30)
                 }
@@ -41,7 +41,7 @@ struct ContentView: View {
             .navigationTitle("Example")
         }
         #if DEBUG
-        .presentVariableEditorOnShake(editing: variableStore)
+        .presentSpiceEditorOnShake(editing: spiceStore)
         #endif
     }
 }
