@@ -18,6 +18,12 @@ final class ExampleVariableStore: VariableStore {
     @Variable var longOperation = {
         try await Task.sleep(nanoseconds: 1_000_000_000)
     }
+    @Variable var failingOperation = {
+        try await Task.sleep(nanoseconds: 1_000_000_000)
+        throw NSError(domain: "dk.shape.Spices", code: -1, userInfo: [
+            NSLocalizedDescriptionKey: "🚨 This error was intentional to demonstrate how Spices handles failing operations."
+        ])
+    }
 
     private init() {}
 }
