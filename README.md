@@ -54,7 +54,7 @@ Based on the above code, SHPSpices will generate an in-app debug menu like the o
 
 The app must be configured to display the spice editor. The approach depends on whether your app is using a SwiftUI or UIKit lifecycle.
 
-### SwiftUI Lifecycle
+#### SwiftUI Lifecycle
 
 Use the `presentSpiceEditorOnShake(_:)` view modifier to show the editor when the device is shaken.
 
@@ -97,7 +97,7 @@ struct ContentView: View {
 }
 ```
 
-### UIKit Lifecycle
+#### UIKit Lifecycle
 
 Use the an instance of `SpicesWindow` to show the editor when the device is shaken.
 
@@ -138,7 +138,7 @@ The currently selected value can be referenced through a spice store:
 ExampleSpiceStore.environment
 ```
 
-### SwiftUI Lifecycle
+#### SwiftUI Lifecycle
 
 Spice stores conforming to the `SpiceStore` protocol also conform to [ObservableObject](https://developer.apple.com/documentation/combine/observableobject), and as such, can be observed from SwiftUI using [StateObject](https://developer.apple.com/documentation/swiftui/stateobject), [ObservedObject](https://developer.apple.com/documentation/swiftui/observedobject), or [EnvironmentObject](https://developer.apple.com/documentation/swiftui/environmentobject).
 
@@ -156,7 +156,7 @@ struct ContentView: View {
 }
 ```
 
-### UIKit Lifecycle
+#### UIKit Lifecycle
 
 Properties using the `@Spice` property wrapper exposes a publisher that can be used to observe changes to the value using [Combine](https://developer.apple.com/documentation/combine).
 
