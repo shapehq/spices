@@ -64,8 +64,8 @@ extension SpiceStore {
         }
     }
 
-    func key(fromVariableNamed variableName: String) -> String {
-        (path + [variableName]).joined(separator: ".")
+    func key(fromPropertyNamed propertyName: String) -> String {
+        (path + [propertyName]).joined(separator: ".")
     }
 
     func publishObjectWillChange() {
@@ -89,8 +89,8 @@ extension SpiceStore {
                 continue
             }
             if let spice = value as? Preparable {
-                let variableName = name.removing(prefix: "_")
-                spice.prepare(variableName: variableName, ownedBy: self)
+                let propertyName = name.removing(prefix: "_")
+                spice.prepare(propertyName: propertyName, ownedBy: self)
             } else if let spiceStore = value as? (any SpiceStore) {
                 if spiceStore.parent != nil {
                     fatalError("A child spice store can only be referenced from one parent.")

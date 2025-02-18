@@ -21,17 +21,17 @@ final class UserDefaultsStorage<Value>: Storage {
     private var write: ((Value) -> Void)?
     private let preferredKey: String?
     private var key: String {
-        preferredKey ?? spiceStore.key(fromVariableNamed: variableName)
+        preferredKey ?? spiceStore.key(fromPropertyNamed: propertyName)
     }
     private var userDefaults: UserDefaults {
         spiceStore.userDefaults
     }
-    private var _variableName: String?
-    private var variableName: String {
-        guard let _variableName else {
+    private var _propertyName: String?
+    private var propertyName: String {
+        guard let _propertyName else {
             fatalError("\(type(of: self)) cannot be used without a spice name")
         }
-        return _variableName
+        return _propertyName
     }
     private weak var _spiceStore: (any SpiceStore)?
     private var spiceStore: any SpiceStore {
@@ -81,8 +81,8 @@ final class UserDefaultsStorage<Value>: Storage {
 }
 
 extension UserDefaultsStorage: Preparable {
-    func prepare(variableName spiceName: String, ownedBy spiceStore: some SpiceStore) {
-        _variableName = spiceName
+    func prepare(propertyName: String, ownedBy spiceStore: some SpiceStore) {
+        _propertyName = propertyName
         _spiceStore = spiceStore
         valueSubject.send(read?() ?? initialValue)
     }

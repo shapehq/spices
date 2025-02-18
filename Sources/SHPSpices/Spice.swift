@@ -98,9 +98,9 @@ import Foundation
 }
 
 extension Spice: Preparable {
-    func prepare(variableName variableName: String, ownedBy spiceStore: some SpiceStore) {
-        name.rawValue = variableName.camelCaseToNaturalText()
-        userDefaultsStorage?.prepare(variableName: variableName, ownedBy: spiceStore)
+    func prepare(propertyName: String, ownedBy spiceStore: some SpiceStore) {
+        name.rawValue = propertyName.camelCaseToNaturalText()
+        userDefaultsStorage?.prepare(propertyName: propertyName, ownedBy: spiceStore)
     }
 }
 
