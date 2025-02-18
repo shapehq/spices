@@ -2,7 +2,7 @@ import SHPSpices
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var spiceStore = ExampleSpiceStore()
+    @EnvironmentObject private var spiceStore: ExampleSpiceStore
 
     var body: some View {
         NavigationView {
@@ -16,18 +16,18 @@ struct ContentView: View {
                     .foregroundStyle(.secondary)
                 }
                 Section {
-                    LabeledContentBackport("Environment") {
+                    LabeledContent("Environment") {
                         Text(String(describing: spiceStore.environment))
                     }
-                    LabeledContentBackport("Enable Logging") {
+                    LabeledContent("Environment") {
                         Text(spiceStore.enableLogging ? "Yes" : "No")
                     }
                 }
                 Section {
-                    LabeledContentBackport("Notifications") {
+                    LabeledContent("Notifications") {
                         Text(spiceStore.featureFlags.notifications ? "Yes" : "No")
                     }
-                    LabeledContentBackport("Fast Refresh Widgets") {
+                    LabeledContent("Fast Refresh Widgets") {
                         Text(spiceStore.featureFlags.fastRefreshWidgets ? "Yes" : "No")
                     }
                 } header: {
@@ -43,25 +43,6 @@ struct ContentView: View {
         #if DEBUG
         .presentSpiceEditorOnShake(editing: spiceStore)
         #endif
-    }
-}
-
-// Replaces LabeledContent, which is only available starting from iOS 16.
-private struct LabeledContentBackport<Content: View>: View {
-    private let title: String
-    private let content: Content
-
-    init(_ title: String, @ViewBuilder content: () -> Content) {
-        self.title = title
-        self.content = content()
-    }
-
-    var body: some View {
-        HStack {
-            Text(title)
-            Spacer()
-            content.foregroundStyle(.secondary)
-        }
     }
 }
 
