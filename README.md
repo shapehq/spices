@@ -49,13 +49,13 @@ SHPSpices uses [reflection](https://en.wikipedia.org/wiki/Reflective_programming
 The following shows an example conformance to the SpiceDispenser protocol. You may copy this into your project to get started.
 
 ```swift
-enum Environment: String, CaseIterable {
+enum ServiceEnvironment: String, CaseIterable {
     case production
     case staging
 }
 
 final class ExampleSpiceStore: SpiceStore {
-    @Spice(requiresRestart: true) var environment: Environment = .production
+    @Spice(requiresRestart: true) var environment: ServiceEnvironment = .production
     @Spice var enableLogging = false
     @Spice var clearCache = {
         URLCache.shared.removeAllCachedResponses()
