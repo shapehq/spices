@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 import Testing
-@testable import SHPSpices
+@testable import Spices
 
 @MainActor @Suite
 final class SpiceTests {

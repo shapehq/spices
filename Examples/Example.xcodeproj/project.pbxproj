@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		72FF7C1B2D65E10100483C43 /* SHPSpices in Frameworks */ = {isa = PBXBuildFile; productRef = 7214E2B82D5F9F71005C183B /* SHPSpices */; };
-		72FF7C372D65E10600483C43 /* SHPSpices in Frameworks */ = {isa = PBXBuildFile; productRef = 72FF7C362D65E10600483C43 /* SHPSpices */; };
+		72FF7CD92D6602DE00483C43 /* Spices in Frameworks */ = {isa = PBXBuildFile; productRef = 72FF7CD82D6602DE00483C43 /* Spices */; };
+		72FF7CDB2D6602E300483C43 /* Spices in Frameworks */ = {isa = PBXBuildFile; productRef = 72FF7CDA2D6602E300483C43 /* Spices */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,7 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72FF7C1B2D65E10100483C43 /* SHPSpices in Frameworks */,
+				72FF7CD92D6602DE00483C43 /* Spices in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,7 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72FF7C372D65E10600483C43 /* SHPSpices in Frameworks */,
+				72FF7CDB2D6602E300483C43 /* Spices in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,8 +109,7 @@
 			);
 			name = SwiftUIExample;
 			packageProductDependencies = (
-				72080D2C2D5F9B7200CD588A /* SHPSpices */,
-				7214E2B82D5F9F71005C183B /* SHPSpices */,
+				72FF7CD82D6602DE00483C43 /* Spices */,
 			);
 			productName = Spices;
 			productReference = 725C9D2E2D5E26F100C79FDC /* SwiftUIExample.app */;
@@ -134,7 +133,7 @@
 			);
 			name = UIKitExample;
 			packageProductDependencies = (
-				72FF7C362D65E10600483C43 /* SHPSpices */,
+				72FF7CDA2D6602E300483C43 /* Spices */,
 			);
 			productName = UIKitExample;
 			productReference = 728FD6682D649EC8006B0CB2 /* UIKitExample.app */;
@@ -168,7 +167,7 @@
 			mainGroup = 725C9D252D5E26F100C79FDC;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				72FF7C192D65E0F300483C43 /* XCLocalSwiftPackageReference "../../shpspices" */,
+				72FF7CD72D6602D600483C43 /* XCLocalSwiftPackageReference "../../spices" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 725C9D2F2D5E26F100C79FDC /* Products */;
@@ -529,25 +528,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		72FF7C192D65E0F300483C43 /* XCLocalSwiftPackageReference "../../shpspices" */ = {
+		72FF7CD72D6602D600483C43 /* XCLocalSwiftPackageReference "../../spices" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../shpspices;
+			relativePath = ../../spices;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		72080D2C2D5F9B7200CD588A /* SHPSpices */ = {
+		72FF7CD82D6602DE00483C43 /* Spices */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = SHPSpices;
+			package = 72FF7CD72D6602D600483C43 /* XCLocalSwiftPackageReference "../../spices" */;
+			productName = Spices;
 		};
-		7214E2B82D5F9F71005C183B /* SHPSpices */ = {
+		72FF7CDA2D6602E300483C43 /* Spices */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = SHPSpices;
-		};
-		72FF7C362D65E10600483C43 /* SHPSpices */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 72FF7C192D65E0F300483C43 /* XCLocalSwiftPackageReference "../../shpspices" */;
-			productName = SHPSpices;
+			package = 72FF7CD72D6602D600483C43 /* XCLocalSwiftPackageReference "../../spices" */;
+			productName = Spices;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

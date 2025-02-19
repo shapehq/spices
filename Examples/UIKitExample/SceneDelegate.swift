@@ -1,4 +1,4 @@
-import SHPSpices
+import Spices
 import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {

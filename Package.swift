@@ -4,15 +4,15 @@
 import PackageDescription
 
 let package = Package(
-    name: "SHPSpices",
+    name: "Spices",
     platforms: [.iOS(.v15)],
     products: [
-        .library(name: "SHPSpices", targets: ["SHPSpices"])
+        .library(name: "Spices", targets: ["Spices"])
     ],
     targets: [
-        .target(name: "SHPSpices"),
-        .testTarget(name: "SHPSpicesTests", dependencies: [
-            "SHPSpices"
+        .target(name: "Spices"),
+        .testTarget(name: "SpicesTests", dependencies: [
+            "Spices"
         ])
     ]
 )

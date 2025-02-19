@@ -1,5 +1,5 @@
 import Combine
-import SHPSpices
+import Spices
 import UIKit
 
 final class ContentViewController: UIViewController {
@@ -90,7 +90,7 @@ private extension ContentViewController {
     private func updateSnapshot() {
         let introItems: [Item] = [
             .text(
-                "This is an example app showcasing the SHPSpices framework."
+                "This is an example app showcasing the Spices framework."
                 + "\n\n"
                 + "The following illustrates how spices can be observed using SwiftUI."
             )

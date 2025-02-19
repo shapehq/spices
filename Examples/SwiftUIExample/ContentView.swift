@@ -1,4 +1,4 @@
-import SHPSpices
+import Spices
 import SwiftUI
 
 struct ContentView: View {
@@ -9,7 +9,7 @@ struct ContentView: View {
             Form {
                 Section {
                     Text(
-                        "This is an example app showcasing the SHPSpices framework."
+                        "This is an example app showcasing the Spices framework."
                         + "\n\n"
                         + "The following illustrates how spices can be observed using SwiftUI."
                     )

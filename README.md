@@ -1,13 +1,13 @@
-# 🌶 SHPSpices
+# 🌶 Spices
 
-SHPSpices makes it straightforward to create in-app debug menus by generating native UI from Swift type.
+Spices makes it straightforward to create in-app debug menus by generating native UI from Swift type.
 
 [![Build](https://github.com/shapehq/shpspices/actions/workflows/build.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/build.yml)
 [![Build Example Project](https://github.com/shapehq/shpspices/actions/workflows/build_example_project.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/build_example_project.yml)
 [![SwiftLint](https://github.com/shapehq/shpspices/actions/workflows/swiftlint.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/swiftlint.yml)
 
 - [🚀 Getting Started](#-getting-started)
-    - [Step 1: Add the SHPSpices Swift Package](#step-1-add-the-shpspices-swift-package)
+    - [Step 1: Add the Spices Swift Package](#step-1-add-the-spices-swift-package)
     - [Step 2: Create an In-App Debug Menu](#step-2-create-an-in-app-debug-menu)
     - [Step 3: Present the In-App Debug Menu](#step-3-present-the-in-app-debug-menu)
     - [Step 4: Observing Values](#step-4-observing-values)
@@ -25,26 +25,26 @@ SHPSpices makes it straightforward to create in-app debug menus by generating na
 
 ## 🚀 Getting Started
 
-This section details the steps needed to add an in-app debug menu using SHPSpices.
+This section details the steps needed to add an in-app debug menu using Spices.
 
-### Step 1: Add the SHPSpices Swift Package
+### Step 1: Add the Spices Swift Package
 
-Add SHPSpices to your Xcode project or Swift package.
+Add Spices to your Xcode project or Swift package.
 
 ```swift
 let package = Package(
     dependencies: [
-        .package(url: "git@github.com:shapehq/shpspices.git", from: "4.0.0")
+        .package(url: "git@github.com:shapehq/spices.git", from: "4.0.0")
     ]
 )
 ```
 
 ### Step 2: Create an In-App Debug Menu
 
-SHPSpices uses [reflection](https://en.wikipedia.org/wiki/Reflective_programming) to generate UI from the properties of a type conforming to the `SpiceStore` protocol
+Spices uses [reflection](https://en.wikipedia.org/wiki/Reflective_programming) to generate UI from the properties of a type conforming to the `SpiceStore` protocol
 
 > [!IMPORTANT]
-> Reflection is a technique that should be used with care. We use it in SHPSpices, a tool meant purely for debugging, in order to make it frictionless to add a debug menu.
+> Reflection is a technique that should be used with care. We use it in Spices, a tool meant purely for debugging, in order to make it frictionless to add a debug menu.
 
 The following shows an example conformance to the SpiceDispenser protocol. You may copy this into your project to get started.
 
@@ -63,7 +63,7 @@ final class ExampleSpiceStore: SpiceStore {
 }
 ```
 
-Based on the above code, SHPSpices will generate an in-app debug menu like the one shown below.
+Based on the above code, Spices will generate an in-app debug menu like the one shown below.
 
 <img src="/introduction/1.gif" width="300"/>
 

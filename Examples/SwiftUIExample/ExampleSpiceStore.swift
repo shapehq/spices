@@ -1,5 +1,5 @@
 import Foundation
-import SHPSpices
+import Spices
 
 enum ServiceEnvironment: String, CaseIterable {
     case production

@@ -1,4 +1,4 @@
-import SHPSpices
+import Spices
 
 final class MockSpiceStore: SpiceStore {
     static var buttonClosureCalled = false
