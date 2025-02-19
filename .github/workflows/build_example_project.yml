@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: true
 env:
   XCODE_VERSION: 16.1.x
-  XCODE_PROJECT_PATH: Example/Example.xcodeproj
+  XCODE_PROJECT_PATH: Example.xcodeproj
   SWIFTUI_XCODE_SCHEME: SwiftUIExample
   UIKIT_XCODE_SCHEME: UIKitExample
   BUILD_DESTINATION: platform=iOS Simulator,name=iPhone 16 Pro,OS=18.1
