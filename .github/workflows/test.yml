@@ -10,3 +10,5 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+      - name: Test
+        run: swift test 2>&1 | xcbeautify --renderer github-actions
