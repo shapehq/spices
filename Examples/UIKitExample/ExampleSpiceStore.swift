@@ -12,6 +12,7 @@ final class ExampleSpiceStore: SpiceStore {
     @Spice(requiresRestart: true) var environment: ServiceEnvironment = .production
     @Spice var enableLogging = false
     @Spice var clearCache = {
+        try await Task.sleep(for: .seconds(1))
         URLCache.shared.removeAllCachedResponses()
     }
 
