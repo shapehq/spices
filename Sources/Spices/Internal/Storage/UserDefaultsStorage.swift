@@ -1,7 +1,6 @@
 import Combine
 import Foundation
 
-@MainActor
 final class UserDefaultsStorage<Value>: Storage {
     let publisher: AnyPublisher<Value, Never>
     var value: Value {

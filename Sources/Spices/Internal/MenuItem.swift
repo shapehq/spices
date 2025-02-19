@@ -91,7 +91,6 @@ enum MenuItem: @preconcurrency Identifiable {
 }
 
 extension CaseIterable where Self: RawRepresentable {
-    @MainActor
     static func pickerOptions(write: @escaping (Self) -> Void) -> [MenuItem.PickerParameters.Option] {
         allCases.map { value in
             MenuItem.PickerParameters.Option(id: value.optionId, title: value.optionTitle) {

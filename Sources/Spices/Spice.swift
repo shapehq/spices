@@ -1,7 +1,6 @@
 import Combine
 import Foundation
 
-@MainActor
 @propertyWrapper public struct Spice<Value> {
     public typealias ButtonHandler = () throws -> Void
     public typealias AsyncButtonHandler = () async throws -> Void

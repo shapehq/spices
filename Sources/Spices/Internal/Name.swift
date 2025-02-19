@@ -1,4 +1,3 @@
-@MainActor
 final class Name {
     var rawValue: String {
         get {

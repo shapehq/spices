@@ -2,12 +2,11 @@ import Combine
 import Foundation
 import ObjectiveC
 
-@MainActor private var idKey: UInt8 = 0
-@MainActor private var nameKey: UInt8 = 0
-@MainActor private var isPreparedKey: UInt8 = 0
-@MainActor private var parentKey: UInt8 = 0
+nonisolated(unsafe) private var idKey: UInt8 = 0
+nonisolated(unsafe) private var nameKey: UInt8 = 0
+nonisolated(unsafe) private var isPreparedKey: UInt8 = 0
+nonisolated(unsafe) private var parentKey: UInt8 = 0
 
-@MainActor
 public protocol SpiceStore: AnyObject, ObservableObject {
     var userDefaults: UserDefaults { get }
 }

@@ -1,6 +1,5 @@
 import Combine
 
-@MainActor
 final class AnyStorage<Value> {
     let publisher: AnyPublisher<Value, Never>
     var value: Value {
