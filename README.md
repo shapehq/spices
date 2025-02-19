@@ -6,6 +6,7 @@ Spices makes it straightforward to create in-app debug menus by generating nativ
 [![Build Example Project](https://github.com/shapehq/shpspices/actions/workflows/build_example_project.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/build_example_project.yml)
 [![SwiftLint](https://github.com/shapehq/shpspices/actions/workflows/swiftlint.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/swiftlint.yml)
 
+- [👋 Introduction](#-introduction)
 - [🚀 Getting Started](#-getting-started)
     - [Step 1: Add the Spices Swift Package](#step-1-add-the-spices-swift-package)
     - [Step 2: Create an In-App Debug Menu](#step-2-create-an-in-app-debug-menu)
@@ -22,6 +23,14 @@ Spices makes it straightforward to create in-app debug menus by generating nativ
   - [Custom Name](#custom-name)
   - [Custom UserDefaults Key](#custom-userdefaults-key)
   - [Using with @AppStorage](#using-with-appstorage)
+
+## 👋 Introduction
+
+Spices generates native in-app debug menus from Swift code using the `@Spice` property wrapper and `SpiceStore` protocol and stores settings in [UserDefaults](https://developer.apple.com/documentation/foundation/userdefaults).
+
+<img src="/introduction/code.gif" width="300"/>
+
+We built Spices at [Shape](https://shape.dk) (becoming [Framna](https://framna.com)) to provide a frictionless API for quickly creating these menus. Common use cases include environment switching, resetting state, and enabling features during development.
 
 ## 🚀 Getting Started
 
@@ -73,7 +82,7 @@ final class FeatureFlagsSpiceStore: SpiceStore {
 
 Based on the above code, Spices will generate an in-app debug menu like the one shown below.
 
-<img src="/introduction/1.gif" width="300"/>
+<img src="/introduction/example.gif" width="300"/>
 
 ### Step 3: Present the In-App Debug Menu
 
