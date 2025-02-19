@@ -21,15 +21,17 @@ extension UIApplication {
         }
     }
 
+    // swiftlint:disable:next identifier_name
     var shp_activeWindow: UIWindow? {
         guard let preferredScene = shp_preferredScene else {
             return nil
         }
-        return preferredScene.windows.first(where: { $0.isKeyWindow }) ?? preferredScene.windows.first
+        return preferredScene.windows.first { $0.isKeyWindow } ?? preferredScene.windows.first
     }
 }
 
 private extension UIApplication {
+    // swiftlint:disable:next identifier_name
     private var shp_preferredScene: UIWindowScene? {
         let windowScenes = connectedScenes.compactMap { $0 as? UIWindowScene }
         if let scene = windowScenes.first(where: { $0.activationState == .foregroundActive }) {

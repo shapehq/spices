@@ -55,7 +55,7 @@ final class ContentViewController: UIViewController {
     }
 
     private let spiceStore = ExampleSpiceStore.shared
-    private var diffableDataSource: DataSource!
+    private var diffableDataSource: DataSource?
     private var cancellables: Set<AnyCancellable> = []
     private let tableView: UITableView = {
         let this = UITableView(frame: .zero, style: .insetGrouped)
@@ -101,7 +101,7 @@ private extension ContentViewController {
                 value: String(describing: spiceStore.environment)
             ),
             .titleValue(
-                title: "Enable Logging", 
+                title: "Enable Logging",
                 value: spiceStore.enableLogging ? "Yes" : "No"
             )
         ]

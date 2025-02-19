@@ -5,6 +5,7 @@ final class ThrowingStorage<Value>: Storage {
         get {
             initialValue
         }
+        // swiftlint:disable:next unused_setter_value
         set {
             fatalError("\(type(of: self)) does not support persisting values")
         }

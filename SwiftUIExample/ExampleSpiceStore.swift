@@ -12,7 +12,7 @@ final class ExampleSpiceStore: SpiceStore {
     @Spice var clearCache = {
         URLCache.shared.removeAllCachedResponses()
     }
-    
+
     let featureFlags = FeatureFlagsSpiceStore()
 }
 

@@ -6,7 +6,7 @@ open class SpicesWindow: UIWindow {
     private static weak var presentedSpicesEditorViewController: UIViewController?
     private let spiceStore: (any SpiceStore)?
 
-    public override init(windowScene: UIWindowScene) {
+    override public init(windowScene: UIWindowScene) {
         self.spiceStore = nil
         super.init(windowScene: windowScene)
     }
@@ -16,10 +16,10 @@ open class SpicesWindow: UIWindow {
         super.init(windowScene: windowScene)
     }
 
-    required public init?(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override open func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if let spiceStore, motion == .motionShake {
             presentSpicesEditor(editing: spiceStore)

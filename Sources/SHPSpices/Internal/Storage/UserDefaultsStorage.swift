@@ -9,7 +9,7 @@ final class UserDefaultsStorage<Value>: Storage {
             read?() ?? initialValue
         }
         set {
-            spiceStore.publishObjectWillChange()
+            spiceStoreOrThrow.publishObjectWillChange()
             write?(newValue)
             valueSubject.send(newValue)
         }
@@ -21,24 +21,24 @@ final class UserDefaultsStorage<Value>: Storage {
     private var write: ((Value) -> Void)?
     private let preferredKey: String?
     private var key: String {
-        preferredKey ?? spiceStore.key(fromPropertyNamed: propertyName)
+        preferredKey ?? spiceStoreOrThrow.key(fromPropertyNamed: propertyNameOrThrow)
     }
     private var userDefaults: UserDefaults {
-        spiceStore.userDefaults
+        spiceStoreOrThrow.userDefaults
     }
-    private var _propertyName: String?
-    private var propertyName: String {
-        guard let _propertyName else {
+    private var propertyName: String?
+    private var propertyNameOrThrow: String {
+        guard let propertyName else {
             fatalError("\(type(of: self)) cannot be used without a spice name")
         }
-        return _propertyName
+        return propertyName
     }
-    private weak var _spiceStore: (any SpiceStore)?
-    private var spiceStore: any SpiceStore {
-        guard let _spiceStore else {
+    private weak var spiceStore: (any SpiceStore)?
+    private var spiceStoreOrThrow: any SpiceStore {
+        guard let spiceStore else {
             fatalError("\(type(of: self)) cannot be used without a reference to a spice store")
         }
-        return _spiceStore
+        return spiceStore
     }
 
     init(default value: Value, key: String?) {
@@ -82,8 +82,8 @@ final class UserDefaultsStorage<Value>: Storage {
 
 extension UserDefaultsStorage: Preparable {
     func prepare(propertyName: String, ownedBy spiceStore: some SpiceStore) {
-        _propertyName = propertyName
-        _spiceStore = spiceStore
+        self.propertyName = propertyName
+        self.spiceStore = spiceStore
         valueSubject.send(read?() ?? initialValue)
     }
 }

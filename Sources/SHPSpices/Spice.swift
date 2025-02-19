@@ -8,8 +8,9 @@ import Foundation
 
     @available(*, unavailable, message: "@Spice can only be applied to classes")
     public var wrappedValue: Value {
-        get { fatalError() }
-        set { fatalError() }
+        get { fatalError("Getting the wrapped value from a @Spice property wrapper is not supported") }
+        // swiftlint:disable:next unused_setter_value
+        set { fatalError("Setting the wrapped value on a @Spice property wrapper is not supported") }
     }
     public var projectedValue: AnyPublisher<Value, Never> {
         storage.publisher

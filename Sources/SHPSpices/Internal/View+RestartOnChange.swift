@@ -18,7 +18,7 @@ private struct RestartOnChangeViewModifier<V: Equatable>: ViewModifier {
     @State private var isAlertPresented = false
 
     func body(content: Content) -> some View {
-        content.onChange(of: value) { newValue in
+        content.onChange(of: value) { _ in
             UIApplication.shared.shp_restart()
         }
     }
