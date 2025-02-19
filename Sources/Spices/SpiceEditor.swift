@@ -10,7 +10,7 @@ public struct SpiceEditor: View {
 
     public var body: some View {
         NavigationView {
-            MenuItemListView(items: MenuItem.all(from: spiceStore), title: "Spices") {
+            MenuItemListView(items: MenuItem.all(from: spiceStore), title: "Debug Menu") {
                 dismiss()
             }
         }
