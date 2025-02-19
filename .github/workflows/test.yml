@@ -1,0 +1,12 @@
+name: Run Tests
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize]
+jobs:
+  run-tests:
+    name: Run Tests
+    runs-on: shape
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
