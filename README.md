@@ -1,6 +1,6 @@
 # 🌶 SHPSpices
 
-SHPSpices makes it straightforward to create in-app debug menus.
+SHPSpices makes it straightforward to create in-app debug menus by generating native UI from Swift type.
 
 [![Build](https://github.com/shapehq/shpspices/actions/workflows/build.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/build.yml)
 [![Build Example Project](https://github.com/shapehq/shpspices/actions/workflows/build_example_project.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/build_example_project.yml)
