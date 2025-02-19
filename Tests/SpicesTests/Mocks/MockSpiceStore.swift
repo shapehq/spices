@@ -1,8 +1,8 @@
 import Spices
 
 final class MockSpiceStore: SpiceStore {
-    static var buttonClosureCalled = false
-    static var asynButtonClosureCalled = false
+    nonisolated(unsafe) static var buttonClosureCalled = false
+    nonisolated(unsafe) static var asynButtonClosureCalled = false
 
     @Spice var boolValue = false
     @Spice var enumValue: MockEnvironment = .production

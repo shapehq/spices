@@ -15,7 +15,6 @@ final class UserDefaultsStorage<Value>: Storage {
 
     private let valueSubject: CurrentValueSubject<Value, Never>
     private let preferredKey: String?
-    private var userDefaultsObserver: AnyObject?
     private var read: (() -> Value)?
     private var write: ((Value) -> Void)?
     private var key: String {
@@ -47,6 +46,7 @@ final class UserDefaultsStorage<Value>: Storage {
             valueSubject.send(newValue)
         }
     }
+    private var cancellables: Set<AnyCancellable> = []
 
     init(default value: Value, key: String?) {
         preferredKey = key
@@ -86,19 +86,17 @@ final class UserDefaultsStorage<Value>: Storage {
 }
 
 private extension UserDefaultsStorage {
-    nonisolated private func observeUserDefaults() {
-        userDefaultsObserver = NotificationCenter.default.addObserver(
-            forName: UserDefaults.didChangeNotification,
-            object: userDefaults,
-            queue: .main
-        ) { [weak self] _ in
-            DispatchQueue.main.async { [weak self] in
+    private func observeUserDefaults() {
+        NotificationCenter.default
+            .publisher(for: UserDefaults.didChangeNotification)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
                 guard let self, let read = self.read else {
                     return
                 }
                 self.backingValue = read()
             }
-        }
+            .store(in: &cancellables)
     }
 }
 
