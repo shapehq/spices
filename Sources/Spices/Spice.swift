@@ -12,11 +12,11 @@ import Foundation
         set { fatalError("Setting the wrapped value on a @Spice property wrapper is not supported") }
     }
     public var projectedValue: AnyPublisher<Value, Never> {
-        storage.publisher
+        storage.$value.eraseToAnyPublisher()
     }
 
     let name: Name
-    let menuItem: MenuItem
+    let menuItem: any MenuItem
 
     private let initialValue: Value
     private let storage: AnyStorage<Value>
@@ -33,11 +33,11 @@ import Foundation
         let userDefaultsStorage = UserDefaultsStorage(default: wrappedValue, key: key)
         self.userDefaultsStorage = userDefaultsStorage
         self.storage = AnyStorage(userDefaultsStorage)
-        self.menuItem = .toggle(.init(name: self.name, requiresRestart: requiresRestart, read: {
-            return userDefaultsStorage.value
-        }, write: { newValue in
-            userDefaultsStorage.value = newValue
-        }))
+        self.menuItem = ToggleMenuItem(
+            name: self.name,
+            requiresRestart: requiresRestart,
+            storage: self.storage
+        )
     }
 
     public init(
@@ -51,10 +51,11 @@ import Foundation
         let userDefaultsStorage = UserDefaultsStorage(default: wrappedValue, key: key)
         self.userDefaultsStorage = userDefaultsStorage
         self.storage = AnyStorage(userDefaultsStorage)
-        let options = Value.pickerOptions { userDefaultsStorage.value = $0 }
-        self.menuItem = .picker(.init(name: self.name, requiresRestart: requiresRestart, options: options) {
-            String(describing: userDefaultsStorage.value.optionId)
-        })
+        self.menuItem = PickerMenuItem(
+            name: self.name,
+            storage: self.storage,
+            requiresRestart: requiresRestart
+        )
     }
 
     public init(
@@ -66,7 +67,11 @@ import Foundation
         self.name = Name(name)
         self.storage = AnyStorage(ThrowingStorage(default: wrappedValue))
         self.userDefaultsStorage = nil
-        self.menuItem = .button(.init(name: self.name, requiresRestart: requiresRestart, handler: wrappedValue))
+        self.menuItem = ButtonMenuItem(
+            name: self.name,
+            requiresRestart: requiresRestart,
+            storage: self.storage
+        )
     }
 
     public init(
@@ -78,7 +83,11 @@ import Foundation
         self.name = Name(name)
         self.storage = AnyStorage(ThrowingStorage(default: wrappedValue))
         self.userDefaultsStorage = nil
-        self.menuItem = .asyncButton(.init(name: self.name, requiresRestart: requiresRestart, handler: wrappedValue))
+        self.menuItem = AsyncButtonMenuItem(
+            name: self.name,
+            requiresRestart: requiresRestart,
+            storage: self.storage
+        )
     }
 
     static public subscript<T: SpiceStore>(

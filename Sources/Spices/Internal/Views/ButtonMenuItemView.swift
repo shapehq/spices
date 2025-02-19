@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ButtonMenuItemView: View {
-    let parameters: MenuItem.ButtonParameters
+    let menuItem: ButtonMenuItem
 
     @State private var isErrorPresented = false
     @State private var error: Error?
@@ -9,8 +9,8 @@ struct ButtonMenuItemView: View {
     var body: some View {
         Button {
             do {
-                try parameters.handler()
-                if parameters.requiresRestart {
+                try menuItem.storage.value()
+                if menuItem.requiresRestart {
                     UIApplication.shared.shp_restart()
                 }
             } catch {
@@ -18,7 +18,7 @@ struct ButtonMenuItemView: View {
                 self.isErrorPresented = true
             }
         } label: {
-            Text(parameters.name.rawValue)
+            Text(menuItem.name.rawValue)
         }
         .errorAlert(isPresented: $isErrorPresented, showing: error)
     }

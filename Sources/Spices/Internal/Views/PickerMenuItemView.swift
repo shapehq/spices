@@ -1,26 +1,35 @@
 import SwiftUI
 
 struct PickerMenuItemView: View {
-    private let parameters: MenuItem.PickerParameters
-    @State private var selection: MenuItem.PickerParameters.Option
+    @ObservedObject private var menuItem: PickerMenuItem
+    @State private var selection: PickerMenuItem.Option
+    @State private var restartApp = false
 
-    init(parameters: MenuItem.PickerParameters) {
-        self.parameters = parameters
-        self.selection = parameters.selection
+    init(menuItem: PickerMenuItem) {
+        self.menuItem = menuItem
+        self.selection = menuItem.selection
     }
 
     var body: some View {
         Picker(selection: $selection) {
-            ForEach(parameters.options) { option in
+            ForEach(menuItem.options) { option in
                 Text(option.title)
                     .tag(option)
             }
         } label: {
-            Text(parameters.name.rawValue)
+            Text(menuItem.name.rawValue)
         }
         .onChange(of: selection) { newValue in
-            newValue.write()
+            if newValue != menuItem.selection {
+                menuItem.selection = newValue
+                restartApp = menuItem.requiresRestart
+            }
         }
-        .restartOnChange(selection, enabled: parameters.requiresRestart)
+        .onChange(of: menuItem.selection) { newValue in
+            if newValue != selection {
+                selection = newValue
+            }
+        }
+        .restartApp($restartApp)
     }
 }

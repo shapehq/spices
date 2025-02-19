@@ -1,28 +1,23 @@
 import SwiftUI
 
 struct MenuItemView: View {
-    let menuItem: MenuItem
+    let menuItem: any MenuItem
     @Binding var enableUserInteraction: Bool
     let dismiss: () -> Void
 
     var body: some View {
-        switch menuItem {
-        case .toggle(let parameters):
-            ToggleMenuItemView(parameters: parameters)
-        case .picker(let parameters):
-            PickerMenuItemView(parameters: parameters)
-        case .button(let parameters):
-            ButtonMenuItemView(parameters: parameters)
-        case .asyncButton(let parameters):
-            AsyncButtonMenuItemView(
-                parameters: parameters,
-                enableUserInteraction: $enableUserInteraction
-            )
-        case .spiceStore(let parameters):
-            ChildSpiceStoreMenuItemView(
-                parameters: parameters,
-                dismiss: dismiss
-            )
+        if let menuItem = menuItem as? ToggleMenuItem {
+            ToggleMenuItemView(menuItem: menuItem)
+        } else if let menuItem = menuItem as? PickerMenuItem {
+            PickerMenuItemView(menuItem: menuItem)
+        } else if let menuItem = menuItem as? ButtonMenuItem {
+            ButtonMenuItemView(menuItem: menuItem)
+        } else if let menuItem = menuItem as? AsyncButtonMenuItem {
+            AsyncButtonMenuItemView(menuItem: menuItem, enableUserInteraction: $enableUserInteraction)
+        } else if let menuItem = menuItem as? ChildSpiceStoreMenuItem {
+            ChildSpiceStoreMenuItemView(menuItem: menuItem, dismiss: dismiss)
+        } else {
+            fatalError("Unknown menu item of type \(type(of: menuItem))")
         }
     }
 }

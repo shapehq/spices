@@ -73,6 +73,20 @@ extension SpiceStore {
         }
     }
 
+    var menuItems: [MenuItem] {
+        prepareIfNeeded()
+        let mirror = Mirror(reflecting: self)
+        return mirror.children.compactMap { _, value in
+            if let spice = value as? MenuItemProvider {
+                return spice.menuItem
+            } else if let spiceStore = value as? any SpiceStore {
+                return ChildSpiceStoreMenuItem(spiceStore: spiceStore)
+            } else {
+                return nil
+            }
+        }
+    }
+
     func key(fromPropertyNamed propertyName: String) -> String {
         (path + [propertyName]).joined(separator: ".")
     }

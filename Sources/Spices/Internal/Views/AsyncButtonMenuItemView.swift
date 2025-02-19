@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct AsyncButtonMenuItemView: View {
-    let parameters: MenuItem.AsyncButtonParameters
+    let menuItem: AsyncButtonMenuItem
     @Binding var enableUserInteraction: Bool
 
     @State private var isLoading = false
@@ -18,8 +18,8 @@ struct AsyncButtonMenuItemView: View {
                 do {
                     enableUserInteraction = false
                     isLoading = true
-                    try await parameters.handler()
-                    if parameters.requiresRestart {
+                    try await menuItem.storage.value()
+                    if menuItem.requiresRestart {
                         UIApplication.shared.shp_restart()
                     }
                 } catch {
@@ -29,7 +29,7 @@ struct AsyncButtonMenuItemView: View {
             }
         } label: {
             HStack {
-                Text(parameters.name.rawValue)
+                Text(menuItem.name.rawValue)
                 Spacer()
                 ProgressView()
                     .progressViewStyle(.circular)

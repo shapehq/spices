@@ -14,7 +14,7 @@ struct MenuItemListView: View {
 
     var body: some View {
         Form {
-            ForEach(menuItems) { menuItem in
+            ForEach(menuItems, id: \.id) { menuItem in
                 MenuItemView(
                     menuItem: menuItem,
                     enableUserInteraction: $enableUserInteraction,

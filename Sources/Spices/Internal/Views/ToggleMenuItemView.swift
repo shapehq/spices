@@ -1,21 +1,29 @@
 import SwiftUI
 
 struct ToggleMenuItemView: View {
-    private let parameters: MenuItem.ToggleParameters
-    @State private var selection: Bool
+    @ObservedObject var menuItem: ToggleMenuItem
 
-    init(parameters: MenuItem.ToggleParameters) {
-        self.parameters = parameters
-        self.selection = parameters.read()
-    }
+    @State private var isOn = false
+    @State private var restartApp = false
 
     var body: some View {
-        Toggle(isOn: $selection) {
-            Text(parameters.name.rawValue)
+        Toggle(isOn: $isOn) {
+            Text(menuItem.name.rawValue)
         }
-        .onChange(of: selection) { newValue in
-            parameters.write(newValue)
+        .onChange(of: isOn) { newValue in
+            if newValue != menuItem.value {
+                menuItem.value = newValue
+                restartApp = menuItem.requiresRestart
+            }
         }
-        .restartOnChange(selection, enabled: parameters.requiresRestart)
+        .onChange(of: menuItem.value) { newValue in
+            if newValue != isOn {
+                isOn = newValue
+            }
+        }
+        .restartApp($restartApp)
+        .onAppear {
+            isOn = menuItem.value
+        }
     }
 }

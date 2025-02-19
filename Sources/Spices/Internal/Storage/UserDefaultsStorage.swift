@@ -5,20 +5,19 @@ final class UserDefaultsStorage<Value>: Storage {
     let publisher: AnyPublisher<Value, Never>
     var value: Value {
         get {
-            read?() ?? initialValue
+            backingValue
         }
         set {
-            spiceStoreOrThrow.publishObjectWillChange()
             write?(newValue)
-            valueSubject.send(newValue)
+            backingValue = newValue
         }
     }
 
-    private let initialValue: Value
     private let valueSubject: CurrentValueSubject<Value, Never>
+    private let preferredKey: String?
+    private var userDefaultsObserver: AnyObject?
     private var read: (() -> Value)?
     private var write: ((Value) -> Void)?
-    private let preferredKey: String?
     private var key: String {
         preferredKey ?? spiceStoreOrThrow.key(fromPropertyNamed: propertyNameOrThrow)
     }
@@ -39,9 +38,17 @@ final class UserDefaultsStorage<Value>: Storage {
         }
         return spiceStore
     }
+    private var backingValue: Value {
+        get {
+            valueSubject.value
+        }
+        set {
+            spiceStoreOrThrow.publishObjectWillChange()
+            valueSubject.send(newValue)
+        }
+    }
 
     init(default value: Value, key: String?) {
-        initialValue = value
         preferredKey = key
         valueSubject = CurrentValueSubject(value)
         publisher = valueSubject.eraseToAnyPublisher()
@@ -60,7 +67,6 @@ final class UserDefaultsStorage<Value>: Storage {
     }
 
     init(default value: Value, key: String?) where Value: RawRepresentable {
-        initialValue = value
         preferredKey = key
         valueSubject = CurrentValueSubject(value)
         publisher = valueSubject.eraseToAnyPublisher()
@@ -79,10 +85,30 @@ final class UserDefaultsStorage<Value>: Storage {
     }
 }
 
+private extension UserDefaultsStorage {
+    nonisolated private func observeUserDefaults() {
+        userDefaultsObserver = NotificationCenter.default.addObserver(
+            forName: UserDefaults.didChangeNotification,
+            object: userDefaults,
+            queue: .main
+        ) { [weak self] _ in
+            DispatchQueue.main.async { [weak self] in
+                guard let self, let read = self.read else {
+                    return
+                }
+                self.backingValue = read()
+            }
+        }
+    }
+}
+
 extension UserDefaultsStorage: Preparable {
     func prepare(propertyName: String, ownedBy spiceStore: some SpiceStore) {
         self.propertyName = propertyName
         self.spiceStore = spiceStore
-        valueSubject.send(read?() ?? initialValue)
+        if let read {
+            valueSubject.send(read())
+        }
+        observeUserDefaults()
     }
 }
