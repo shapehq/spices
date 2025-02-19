@@ -9,7 +9,7 @@ final class PickerMenuItem: MenuItem, ObservableObject {
         fileprivate let write: () -> Void
 
         static var unsupported: Self {
-            Option(id: "__spices_unsupported", title: "<unsupported>", write: {})
+            Self(id: "__spices_unsupported", title: "<unsupported>") {}
         }
 
         static func == (lhs: PickerMenuItem.Option, rhs: PickerMenuItem.Option) -> Bool {
@@ -49,7 +49,7 @@ final class PickerMenuItem: MenuItem, ObservableObject {
 }
 
 private extension PickerMenuItem {
-    static private func options<Value: CaseIterable & RawRepresentable>(
+    private static func options<Value: CaseIterable & RawRepresentable>(
         from storage: AnyStorage<Value>
     ) -> (options: [Option], selection: Option) {
         var options = Value.allCases.map { Option($0, writingTo: storage) }

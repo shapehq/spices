@@ -1,7 +1,7 @@
 import Combine
 import Foundation
-import Testing
 @testable import Spices
+import Testing
 
 @MainActor @Suite
 final class SpiceTests {
@@ -32,7 +32,7 @@ final class SpiceTests {
         sut.userDefaults.removeAll()
         #expect(sut.userDefaults.object(forKey: "enumValue") == nil)
         sut.enumValue = .staging
-        #expect(sut.userDefaults.string(forKey: "enumValue")  == MockEnvironment.staging.rawValue)
+        #expect(sut.userDefaults.string(forKey: "enumValue") == MockEnvironment.staging.rawValue)
     }
 
     @Test func it_stores_button_closure() throws {
@@ -52,26 +52,26 @@ final class SpiceTests {
     }
 
     @Test func it_sink_receives_initial_value() async throws {
-        var initialValue: Bool?
+        var initialValue: MockEnvironment?
         let sut = MockSpiceStore()
         sut.userDefaults.removeAll()
-        sut.$boolValue.sink { newValue in
+        sut.$enumValue.sink { newValue in
             initialValue = newValue
         }
         .store(in: &cancellables)
-        #expect(initialValue == false)
+        #expect(initialValue == .production)
     }
 
     @Test func it_publishes_values() async throws {
-        var publishedValue: Bool?
+        var publishedValue: MockEnvironment?
         let sut = MockSpiceStore()
         sut.userDefaults.removeAll()
-        sut.$boolValue.sink { newValue in
+        sut.$enumValue.sink { newValue in
             publishedValue = newValue
         }
         .store(in: &cancellables)
-        #expect(sut.boolValue == false)
-        sut.boolValue = true
-        #expect(publishedValue == true)
+        #expect(sut.enumValue == .production)
+        sut.enumValue = .staging
+        #expect(publishedValue == .staging)
     }
 }
