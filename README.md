@@ -288,7 +288,7 @@ Setting `requiresRestart` to true will cause the app to be shut down after chang
 
 ### Store Values in Custom UserDefaults
 
-By default, values are stored in UserDefaults.standard](https://developer.apple.com/documentation/foundation/userdefaults/1416603-standard). To use a different [UserDefaults](https://developer.apple.com/documentation/foundation/userdefaults) instance, such as for sharing data with an app group, implement the `userDefaults` property of `SpiceStore`.
+By default, values are stored in [UserDefaults.standard](https://developer.apple.com/documentation/foundation/userdefaults/1416603-standard). To use a different [UserDefaults](https://developer.apple.com/documentation/foundation/userdefaults) instance, such as for sharing data with an app group, implement the `userDefaults` property of `SpiceStore`.
 
 ```swift
 final class ExampleSpiceStore: SpiceStore {
