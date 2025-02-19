@@ -28,7 +28,7 @@ Spices makes it straightforward to create in-app debug menus by generating nativ
 
 Spices generates native in-app debug menus from Swift code using the `@Spice` property wrapper and `SpiceStore` protocol and stores settings in [UserDefaults](https://developer.apple.com/documentation/foundation/userdefaults).
 
-<img src="/introduction/code.gif" width="300"/>
+<img src="/introduction/code.gif" />
 
 We built Spices at [Shape](https://shape.dk) (becoming [Framna](https://framna.com)) to provide a frictionless API for quickly creating these menus. Common use cases include environment switching, resetting state, and enabling features during development.
 
