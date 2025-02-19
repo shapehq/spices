@@ -11,4 +11,8 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
       - name: Test
-        run: swift test 2>&1 | xcbeautify --renderer github-actions
+        run: |
+          set -o pipefail &&\
+          xcodebuild -scheme SHPSpices test\
+            -destination "platform=iOS Simulator,name=iPhone 16 Pro,OS=18.1"\
+          | xcbeautify --renderer github-actions
