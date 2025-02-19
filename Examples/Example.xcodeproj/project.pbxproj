@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7239193F2D64B65100EE2FF0 /* SHPSpices in Frameworks */ = {isa = PBXBuildFile; productRef = 7239193E2D64B65100EE2FF0 /* SHPSpices */; };
-		72391A912D64D56F00EE2FF0 /* SHPSpices in Frameworks */ = {isa = PBXBuildFile; productRef = 7214E2B82D5F9F71005C183B /* SHPSpices */; };
-		72FF7B942D65B85D00483C43 /* SHPSpices in Frameworks */ = {isa = PBXBuildFile; productRef = 72080D2C2D5F9B7200CD588A /* SHPSpices */; };
+		72FF7C1B2D65E10100483C43 /* SHPSpices in Frameworks */ = {isa = PBXBuildFile; productRef = 7214E2B82D5F9F71005C183B /* SHPSpices */; };
+		72FF7C372D65E10600483C43 /* SHPSpices in Frameworks */ = {isa = PBXBuildFile; productRef = 72FF7C362D65E10600483C43 /* SHPSpices */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,8 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72FF7B942D65B85D00483C43 /* SHPSpices in Frameworks */,
-				72391A912D64D56F00EE2FF0 /* SHPSpices in Frameworks */,
+				72FF7C1B2D65E10100483C43 /* SHPSpices in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,7 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7239193F2D64B65100EE2FF0 /* SHPSpices in Frameworks */,
+				72FF7C372D65E10600483C43 /* SHPSpices in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,7 +134,7 @@
 			);
 			name = UIKitExample;
 			packageProductDependencies = (
-				7239193E2D64B65100EE2FF0 /* SHPSpices */,
+				72FF7C362D65E10600483C43 /* SHPSpices */,
 			);
 			productName = UIKitExample;
 			productReference = 728FD6682D649EC8006B0CB2 /* UIKitExample.app */;
@@ -170,7 +168,7 @@
 			mainGroup = 725C9D252D5E26F100C79FDC;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				7239193D2D64B64800EE2FF0 /* XCLocalSwiftPackageReference "../shpspices" */,
+				72FF7C192D65E0F300483C43 /* XCLocalSwiftPackageReference "../../shpspices" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 725C9D2F2D5E26F100C79FDC /* Products */;
@@ -218,7 +216,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint >/dev/null; then\n  swiftlint --config ../.swiftlint.yml\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		72FF7BB02D65B97C00483C43 /* Run SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -237,7 +235,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint >/dev/null; then\n  swiftlint --config ../.swiftlint.yml\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -531,9 +529,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		7239193D2D64B64800EE2FF0 /* XCLocalSwiftPackageReference "../shpspices" */ = {
+		72FF7C192D65E0F300483C43 /* XCLocalSwiftPackageReference "../../shpspices" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../shpspices;
+			relativePath = ../../shpspices;
 		};
 /* End XCLocalSwiftPackageReference section */
 
@@ -546,9 +544,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = SHPSpices;
 		};
-		7239193E2D64B65100EE2FF0 /* SHPSpices */ = {
+		72FF7C362D65E10600483C43 /* SHPSpices */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7239193D2D64B64800EE2FF0 /* XCLocalSwiftPackageReference "../shpspices" */;
+			package = 72FF7C192D65E0F300483C43 /* XCLocalSwiftPackageReference "../../shpspices" */;
 			productName = SHPSpices;
 		};
 /* End XCSwiftPackageProductDependency section */
