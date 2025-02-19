@@ -10,6 +10,9 @@ let package = Package(
         .library(name: "SHPSpices", targets: ["SHPSpices"])
     ],
     targets: [
-        .target(name: "SHPSpices")
+        .target(name: "SHPSpices"),
+        .testTarget(name: "SHPSpicesTests", dependencies: [
+            "SHPSpices"
+        ])
     ]
 )
