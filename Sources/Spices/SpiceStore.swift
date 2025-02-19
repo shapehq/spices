@@ -4,6 +4,7 @@ import ObjectiveC
 
 nonisolated(unsafe) private var idKey: UInt8 = 0
 nonisolated(unsafe) private var nameKey: UInt8 = 0
+nonisolated(unsafe) private var propertyNameKey: UInt8 = 0
 nonisolated(unsafe) private var isPreparedKey: UInt8 = 0
 nonisolated(unsafe) private var parentKey: UInt8 = 0
 
@@ -37,6 +38,15 @@ extension SpiceStore {
         }
     }
 
+    var propertyName: String {
+        get {
+            objc_getAssociatedObject(self, &propertyNameKey) as? String ?? "<name unavailable>"
+        }
+        set {
+            objc_setAssociatedObject(self, &propertyNameKey, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+        }
+    }
+
     private var isPrepared: Bool {
         get {
             (objc_getAssociatedObject(self, &isPreparedKey) as? Bool) ?? false
@@ -57,7 +67,7 @@ extension SpiceStore {
 
     private var path: [String] {
         if let parent {
-            return parent.path + [name]
+            return parent.path + [propertyName]
         } else {
             return []
         }
@@ -95,6 +105,7 @@ extension SpiceStore {
                     fatalError("A child spice store can only be referenced from one parent.")
                 }
                 spiceStore.parent = self
+                spiceStore.propertyName = name
                 spiceStore.name = name.camelCaseToNaturalText()
                 spiceStore.prepareIfNeeded()
             }
