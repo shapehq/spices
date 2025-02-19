@@ -120,7 +120,7 @@ private extension ContentViewController {
         snapshot.appendItems(introItems, toSection: .intro)
         snapshot.appendItems(generalItems, toSection: .general)
         snapshot.appendItems(featureFlagsItems, toSection: .featureFlags)
-        diffableDataSource.apply(snapshot, animatingDifferences: false)
+        diffableDataSource?.apply(snapshot, animatingDifferences: false)
     }
 
     private func observeSpices() {
@@ -139,7 +139,7 @@ private extension ContentViewController {
 
 extension ContentViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        guard let section = diffableDataSource.sectionIdentifier(for: section) else {
+        guard let section = diffableDataSource?.sectionIdentifier(for: section) else {
             return nil
         }
         guard case .featureFlags = section else {
