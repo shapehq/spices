@@ -71,6 +71,9 @@ Based on the above code, Spices will generate an in-app debug menu like the one 
 
 The app must be configured to display the spice editor. The approach depends on whether your app is using a SwiftUI or UIKit lifecycle.
 
+> [!WARNING]
+> The in-app debug menu may contain sensitive information.  Ensure it's only accessible in debug and beta builds by excluding the menu's presentation code from release builds using conditional compilation (e.g., `#if DEBUG`).  The examples in this section demonstrate this technique.
+
 #### SwiftUI Lifecycle
 
 Use the `presentSpiceEditorOnShake(_:)` view modifier to show the editor when the device is shaken.
