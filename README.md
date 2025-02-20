@@ -159,11 +159,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 }
 ```
 
-Alternatively, manually initialize an instance of `SpiceEditor` and present it using a [UIHostingController](https://developer.apple.com/documentation/swiftui/uihostingcontroller).
+Alternatively, initialize an instance of `SpiceEditorViewController` and present it.
 
 ```swift
-let viewController = UIHostingController(rootView: SpiceEditor(editing: ExampleSpiceStore.shared))
-viewController.sheetPresentationController?.detents = [.medium(), .large()]
+let viewController = SpiceEditorViewController(editing: ExampleSpiceStore.shared))
 present(spicesViewController, animated: true)
 ```
 

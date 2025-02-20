@@ -35,8 +35,7 @@ private extension SpicesWindow {
         }
         let window = UIApplication.shared.shp_activeWindow
         let topViewController = window?.rootViewController?.shp_topViewController
-        let viewController = UIHostingController(rootView: SpiceEditor(editing: spiceStore))
-        viewController.sheetPresentationController?.detents = [.medium(), .large()]
+        let viewController = SpiceEditorViewController(editing: spiceStore)
         topViewController?.present(viewController, animated: true)
         Self.presentedSpicesEditorViewController = viewController
     }
