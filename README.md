@@ -32,7 +32,7 @@ Spices generates native in-app debug menus from Swift code using the `@Spice` pr
 
 We built Spices at [Shape](https://shape.dk) (becoming [Framna](https://framna.com)) to provide a frictionless API for quickly creating these menus. Common use cases include environment switching, resetting state, and enabling features during development.
 
-<img src="/introduction/code.gif" />
+<img src="/code.gif" />
 
 ## 🚀 Getting Started
 
@@ -84,7 +84,7 @@ final class FeatureFlagsSpiceStore: SpiceStore {
 
 Based on the above code, Spices will generate an in-app debug menu like the one shown below.
 
-<img src="/introduction/example.gif" width="300"/>
+<img src="/example.gif" width="300"/>
 
 ### Step 3: Present the In-App Debug Menu
 
