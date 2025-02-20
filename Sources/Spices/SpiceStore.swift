@@ -137,7 +137,7 @@ extension SpiceStore {
             if let spice = value as? Preparable {
                 let propertyName = name.removing(prefix: "_")
                 spice.prepare(propertyName: propertyName, ownedBy: self)
-            } else if let spiceStore = value as? (any SpiceStore) {
+            } else if let spiceStore = value as? any SpiceStore {
                 if spiceStore.parent != nil {
                     fatalError("A child spice store can only be referenced from one parent.")
                 }
