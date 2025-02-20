@@ -216,7 +216,7 @@ final class ContentViewController: UIViewController {
 
 ## 🧪 Example Projects
 
-The example projects in [Examples](/examples) shows how Spices can be used to add an in-app debug menu to iOS apps with SwiftUI and UIKit lifecycles.
+The example projects in the [Examples](/Examples) folder shows how Spices can be used to add an in-app debug menu to iOS apps with SwiftUI and UIKit lifecycles.
 
 ## 📖 Reference
 
