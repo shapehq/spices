@@ -13,7 +13,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             fatalError("Expected scene of type \(UIWindowScene.self) but got \(type(of: scene))")
         }
         #if DEBUG
-        window = SpicesWindow(windowScene: windowScene, editing: ExampleSpiceStore.shared)
+        window = SpicesWindow(windowScene: windowScene, editing: AppSpiceStore.shared)
         #else
         window = SpicesWindow(windowScene: windowScene)
         #endif

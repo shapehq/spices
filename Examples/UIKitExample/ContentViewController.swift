@@ -54,7 +54,7 @@ final class ContentViewController: UIViewController {
         }
     }
 
-    private let spiceStore = ExampleSpiceStore.shared
+    private let spiceStore = AppSpiceStore.shared
     private var diffableDataSource: DataSource?
     private var cancellables: Set<AnyCancellable> = []
     private let tableView: UITableView = {

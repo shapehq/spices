@@ -6,9 +6,7 @@ enum ServiceEnvironment: String, CaseIterable {
     case staging
 }
 
-final class ExampleSpiceStore: SpiceStore {
-    static let shared = ExampleSpiceStore()
-
+final class AppSpiceStore: SpiceStore {
     @Spice(requiresRestart: true) var environment: ServiceEnvironment = .production
     @Spice var enableLogging = false
     @Spice var clearCache = {
@@ -17,8 +15,6 @@ final class ExampleSpiceStore: SpiceStore {
     }
 
     let featureFlags = FeatureFlagsSpiceStore()
-
-    private init() {}
 }
 
 final class FeatureFlagsSpiceStore: SpiceStore {

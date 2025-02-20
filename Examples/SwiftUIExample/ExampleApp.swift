@@ -6,6 +6,6 @@ struct ExampleApp: App {
         WindowGroup {
             ContentView()
         }
-        .environmentObject(ExampleSpiceStore())
+        .environmentObject(AppSpiceStore())
     }
 }

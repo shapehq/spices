@@ -2,7 +2,7 @@ import Spices
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject private var spiceStore: ExampleSpiceStore
+    @EnvironmentObject private var spiceStore: AppSpiceStore
 
     var body: some View {
         NavigationStack {
@@ -48,5 +48,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .environmentObject(ExampleSpiceStore())
+        .environmentObject(AppSpiceStore())
 }

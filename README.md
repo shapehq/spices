@@ -63,7 +63,7 @@ enum ServiceEnvironment: String, CaseIterable {
     case staging
 }
 
-final class ExampleSpiceStore: SpiceStore {
+final class AppSpiceStore: SpiceStore {
     @Spice(requiresRestart: true) var environment: ServiceEnvironment = .production
     @Spice var enableLogging = false
     @Spice var clearCache = {
@@ -97,7 +97,7 @@ Use the `presentSpiceEditorOnShake(_:)` view modifier to show the editor when th
 
 ```swift
 struct ContentView: View {
-    @StateObject private var spiceStore = ExampleSpiceStore()
+    @StateObject private var spiceStore = AppSpiceStore()
 
     var body: some View {
         VStack {
@@ -118,7 +118,7 @@ Alternatively, manually initialize and display an instance of `SpiceEditor`.
 
 ```swift
 struct ContentView: View {
-    @StateObject private var spiceStore = ExampleSpiceStore()
+    @StateObject private var spiceStore = AppSpiceStore()
     @State private var isSpiceEditorPresented = false
 
     var body: some View {
@@ -149,7 +149,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         let windowScene = scene as! UIWindowScene
         #if DEBUG
-        window = SpicesWindow(windowScene: windowScene, editing: ExampleSpiceStore.shared)
+        window = SpicesWindow(windowScene: windowScene, editing: AppSpiceStore.shared)
         #else
         window = SpicesWindow(windowScene: windowScene)
         #endif
@@ -162,7 +162,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 Alternatively, initialize an instance of `SpiceEditorViewController` and present it.
 
 ```swift
-let viewController = SpiceEditorViewController(editing: ExampleSpiceStore.shared))
+let viewController = SpiceEditorViewController(editing: AppSpiceStore.shared))
 present(spicesViewController, animated: true)
 ```
 
@@ -171,7 +171,7 @@ present(spicesViewController, animated: true)
 The currently selected value can be referenced through a spice store:
 
 ```swift
-ExampleSpiceStore.environment
+AppSpiceStore.environment
 ```
 
 #### SwiftUI Lifecycle
@@ -179,12 +179,12 @@ ExampleSpiceStore.environment
 Spice stores conforming to the `SpiceStore` protocol also conform to [ObservableObject](https://developer.apple.com/documentation/combine/observableobject), and as such, can be observed from SwiftUI using [StateObject](https://developer.apple.com/documentation/swiftui/stateobject), [ObservedObject](https://developer.apple.com/documentation/swiftui/observedobject), or [EnvironmentObject](https://developer.apple.com/documentation/swiftui/environmentobject).
 
 ```swift
-final class ExampleSpiceStore: SpiceStore {
+final class AppSpiceStore: SpiceStore {
     @Spice var enableLogging = false
 }
 
 struct ContentView: View {
-    @StateObject private var spiceStore = ExampleSpiceStore()
+    @StateObject private var spiceStore = AppSpiceStore()
     
     var body: some View {
         Text("Is logging enabled: " + (spiceStore.enableLogging ? "👍" : "👎"))
@@ -198,7 +198,7 @@ Properties using the `@Spice` property wrapper exposes a publisher that can be u
 
 ```swift
 final class ContentViewController: UIViewController {
-    private let spiceStore = ExampleSpiceStore.shared
+    private let spiceStore = AppSpiceStore.shared
     private var cancellables: Set<AnyCancellable> = []
     
     override func viewDidLoad() {
@@ -236,7 +236,7 @@ enum ServiceEnvironment: String, CaseIterable {
     case staging
 }
 
-final class ExampleSpiceStore: SpiceStore {
+final class AppSpiceStore: SpiceStore {
     @Spice var environment: ServiceEnvironment = .production
 }
 ```
@@ -285,7 +285,7 @@ An error message is automatically shown if the closure throws an error.
 Spice stores can be nested to create a hierarchical user interface.
 
 ```swift
-final class ExampleSpiceStore: SpiceStore {
+final class AppSpiceStore: SpiceStore {
     let featureFlags = FeatureFlagsSpiceStore()
 }
 
@@ -310,7 +310,7 @@ Setting `requiresRestart` to true will cause the app to be shut down after chang
 By default, values are stored in [UserDefaults.standard](https://developer.apple.com/documentation/foundation/userdefaults/1416603-standard). To use a different [UserDefaults](https://developer.apple.com/documentation/foundation/userdefaults) instance, such as for sharing data with an app group, implement the `userDefaults` property of `SpiceStore`.
 
 ```swift
-final class ExampleSpiceStore: SpiceStore {
+final class AppSpiceStore: SpiceStore {
     let userDefaults = UserDefaults(suiteName: "group.dk.shape.example")
 }
 ```
