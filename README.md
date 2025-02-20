@@ -14,7 +14,7 @@ Spices makes it straightforward to create in-app debug menus by generating nativ
     - [Step 2: Create an In-App Debug Menu](#step-2-create-an-in-app-debug-menu)
     - [Step 3: Present the In-App Debug Menu](#step-3-present-the-in-app-debug-menu)
     - [Step 4: Observing Values](#step-4-observing-values)
-- [🧪 Example Project](#-getting-started)
+- [🧪 Example Projects](#-example-projects)
 - [📖 Reference](#-reference)
   - [Toggles](#toggles)
   - [Pickers](#pickers)
@@ -214,9 +214,9 @@ final class ContentViewController: UIViewController {
 }
 ```
 
-## 🧪 Example Project
+## 🧪 Example Projects
 
-The example project in the this repository shows how the package can be used to add an in-app debug menu to iOS apps with the SwiftUI and UIKit lifecycles.
+The example projects in [Examples](/examples) shows how Spices can be used to add an in-app debug menu to iOS apps with SwiftUI and UIKit lifecycles.
 
 ## 📖 Reference
 
