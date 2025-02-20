@@ -16,9 +16,9 @@
 ///
 ///     var spicesTitle: String {
 ///         switch self {
-///         case.production:
+///         case .production:
 ///             "🚀 Production"
-///         case.staging:
+///         case .staging:
 ///             "🧪 Staging"
 ///         }
 ///     }
