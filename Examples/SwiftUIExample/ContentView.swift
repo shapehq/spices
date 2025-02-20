@@ -5,7 +5,7 @@ struct ContentView: View {
     @EnvironmentObject private var spiceStore: ExampleSpiceStore
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section {
                     Text(
