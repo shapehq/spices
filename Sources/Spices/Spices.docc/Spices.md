@@ -30,4 +30,4 @@ See [the README on GitHub](https://github.com/shapehq/spices) for reference docu
 
 ### Customization
 
-- ``SpiceTitleProvider``
+- ``SpicesTitleProvider``

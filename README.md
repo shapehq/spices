@@ -243,14 +243,14 @@ final class AppSpiceStore: SpiceStore {
 }
 ```
 
-Conforming the type to `SpiceTitleProvider` lets you override the displayed name for each case.
+Conforming the type to `SpicesTitleProvider` lets you override the displayed name for each case.
 
 ```swift
-enum ServiceEnvironment: String, CaseIterable, SpiceTitleProvider {
+enum ServiceEnvironment: String, CaseIterable, SpicesTitleProvider {
     case production
     case staging
 
-    var spiceTitle: String {
+    var spicesTitle: String {
         switch self {
         case .production:
             "🚀 Production"

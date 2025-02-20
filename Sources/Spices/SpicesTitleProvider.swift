@@ -1,6 +1,6 @@
 /// A protocol for providing custom titles for enum values used with a ``Spice`` property wrapper.
 ///
-/// By default, Spices generates titles from the enum's cases. Conforming to `SpiceTitleProvider` allows you to override these default titles
+/// By default, Spices generates titles from the enum's cases. Conforming to `SpicesTitleProvider` allows you to override these default titles
 /// to provide more descriptive, user-friendly, or localized names in the debug menu.
 ///
 /// ## Example usage
@@ -10,11 +10,11 @@
 ///     @Spice var environment: ServiceEnvironment =.production
 /// }
 /// 
-/// enum ServiceEnvironment: String, CaseIterable, SpiceTitleProvider {
+/// enum ServiceEnvironment: String, CaseIterable, SpicesTitleProvider {
 ///     case production
 ///     case staging
 ///
-///     var spiceTitle: String {
+///     var spicesTitle: String {
 ///         switch self {
 ///         case.production:
 ///             "🚀 Production"
@@ -24,7 +24,7 @@
 ///     }
 /// }
 /// ```
-public protocol SpiceTitleProvider {
+public protocol SpicesTitleProvider {
     /// The title to be displayed in the in-app debug menu.
-    var spiceTitle: String { get }
+    var spicesTitle: String { get }
 }

@@ -79,8 +79,8 @@ private extension PickerMenuItem {
 
 private extension PickerMenuItem.Option {
     init<Value: RawRepresentable & CaseIterable>(_ value: Value, writingTo storage: AnyStorage<Value>) {
-        let title = if let titleProvider = value as? SpiceTitleProvider {
-            titleProvider.spiceTitle
+        let title = if let spicesTitleProvider = value as? SpicesTitleProvider {
+            spicesTitleProvider.spicesTitle
         } else {
             String(describing: value).camelCaseToNaturalText()
         }
