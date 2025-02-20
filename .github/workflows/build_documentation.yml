@@ -1,0 +1,16 @@
+name: Build Documentation
+on:
+  workflow_dispatch: {}
+  pull_request:
+    branches:
+      - main
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    name: Build Documentation
+    runs-on: shape
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
