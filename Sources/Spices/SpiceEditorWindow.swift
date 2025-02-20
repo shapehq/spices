@@ -4,27 +4,27 @@ import UIKit
 
 /// A `UIWindow` subclass that facilitates the presentation of an in-app debug menu for editing settings managed by a ``SpiceStore``.
 ///
-/// `SpicesWindow` provides a shake-to-show gesture for presenting the debug menu. When the device is shaken, it presents a ``SpiceEditorViewController``
+/// `SpiceEditorWindow` provides a shake-to-show gesture for presenting the debug menu. When the device is shaken, it presents a ``SpiceEditorViewController``
 /// modally.
 ///
 /// **Example Usage:**
 ///
-/// The following demonstrates how `SpicesWindow` can be used in a scene delegate.
+/// The following demonstrates how `SpiceEditorWindow` can be used in a scene delegate.
 ///
 /// - Important: The in-app debug menu may contain sensitive information. Ensure it's only accessible in debug and beta builds by excluding the menu's presentation code from release builds using conditional compilation (e.g., `#if DEBUG`). The examples in this section demonstrate this technique.
 ///
 /// ```swift
 /// #if DEBUG
-/// window = SpicesWindow(windowScene: windowScene, editing: AppSpiceStore.shared)
+/// window = SpiceEditorWindow(windowScene: windowScene, editing: AppSpiceStore.shared)
 /// #else
-/// window = SpicesWindow(windowScene: windowScene)
+/// window = SpiceEditorWindow(windowScene: windowScene)
 /// #endif
 /// ```
-open class SpicesWindow: UIWindow {
+open class SpiceEditorWindow: UIWindow {
     private static weak var presentedSpicesEditorViewController: UIViewController?
     private let spiceStore: (any SpiceStore)?
 
-    /// Initializes a `SpicesWindow` with a `UIWindowScene`.
+    /// Initializes a `SpiceEditorWindow` with a `UIWindowScene`.
      ///
      /// This initializer does not associate a `SpiceStore` with the window, so the shake gesture will not present the debug menu.
      ///
@@ -34,7 +34,7 @@ open class SpicesWindow: UIWindow {
         super.init(windowScene: windowScene)
     }
 
-    /// Initializes a `SpicesWindow` with a `UIWindowScene` and a ``SpiceStore``.
+    /// Initializes a `SpiceEditorWindow` with a `UIWindowScene` and a ``SpiceStore``.
     ///
     /// This initializer associates a `SpiceStore` with the window, enabling the shake gesture to present the debug menu for the provided store.
     ///
@@ -60,16 +60,16 @@ open class SpicesWindow: UIWindow {
     }
 }
 
-private extension SpicesWindow {
+private extension SpiceEditorWindow {
     private func presentSpicesEditor(editing spiceStore: any SpiceStore) {
-        guard Self.presentedSpicesEditorViewController == nil else {
+        guard SpiceEditorWindow.presentedSpicesEditorViewController == nil else {
             return
         }
         let window = UIApplication.shared.shp_activeWindow
         let topViewController = window?.rootViewController?.shp_topViewController
         let viewController = SpiceEditorViewController(editing: spiceStore)
         topViewController?.present(viewController, animated: true)
-        Self.presentedSpicesEditorViewController = viewController
+        SpiceEditorWindow.presentedSpicesEditorViewController = viewController
     }
 }
 #endif

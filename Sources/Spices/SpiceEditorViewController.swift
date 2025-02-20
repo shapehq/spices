@@ -11,7 +11,7 @@ import UIKit
 /// present(viewController, animated: true)
 /// ```
 ///
-/// The `SpiceEditorViewController` can also be presented when the device is shaken using ``SpicesWindow``.
+/// The `SpiceEditorViewController` can also be presented when the device is shaken using ``SpiceEditorWindow``.
 public final class SpiceEditorViewController: UIHostingController<SpiceEditor> {
     /// Initializes a `SpiceEditorViewController` with a ``SpiceStore``.
     ///

@@ -13,9 +13,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             fatalError("Expected scene of type \(UIWindowScene.self) but got \(type(of: scene))")
         }
         #if DEBUG
-        window = SpicesWindow(windowScene: windowScene, editing: AppSpiceStore.shared)
+        window = SpiceEditorWindow(windowScene: windowScene, editing: AppSpiceStore.shared)
         #else
-        window = SpicesWindow(windowScene: windowScene)
+        window = SpiceEditorWindow(windowScene: windowScene)
         #endif
         window?.rootViewController = makeRootViewController()
         window?.makeKeyAndVisible()

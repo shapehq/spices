@@ -138,7 +138,7 @@ struct ContentView: View {
 
 #### UIKit Lifecycle
 
-Use the an instance of `SpicesWindow` to show the editor when the device is shaken.
+Use the an instance of `SpiceEditorWindow` to show the editor when the device is shaken.
 
 ```swift
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -151,9 +151,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         let windowScene = scene as! UIWindowScene
         #if DEBUG
-        window = SpicesWindow(windowScene: windowScene, editing: AppSpiceStore.shared)
+        window = SpiceEditorWindow(windowScene: windowScene, editing: AppSpiceStore.shared)
         #else
-        window = SpicesWindow(windowScene: windowScene)
+        window = SpiceEditorWindow(windowScene: windowScene)
         #endif
         window?.rootViewController = ViewController()
         window?.makeKeyAndVisible()

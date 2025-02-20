@@ -25,7 +25,7 @@ See [the README on GitHub](https://github.com/shapehq/spices) for reference docu
 
 - ``SpiceEditor``
 - ``SpiceEditorViewController``
-- ``SpicesWindow``
+- ``SpiceEditorWindow``
 - ``SwiftUICore/View/presentSpiceEditorOnShake(editing:)``
 
 ### Customization
