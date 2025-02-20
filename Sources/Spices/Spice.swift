@@ -41,9 +41,11 @@ import Foundation
 ///
 ///     override func viewDidLoad() {
 ///         super.viewDidLoad()
-///         spiceStore.$enableLogging.sink { isEnabled in
-///             print("Is logging enabled: " + (isEnabled ? "👍" : "👎"))
-///         }.store(in: &cancellables)
+///         spiceStore.$enableLogging
+///             .sink { isEnabled in
+///                 print("Is logging enabled: " + (isEnabled ? "👍" : "👎"))
+///             }
+///             .store(in: &cancellables)
 ///     }
 /// }
 /// ```
