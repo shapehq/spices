@@ -2,6 +2,33 @@
 import SwiftUI
 
 public extension View {
+    /// Presents a ``SpiceEditor`` for the given ``SpiceStore`` when the device is shaken.
+    ///
+    /// ## Example Usage
+    ///
+    /// The following shows how the view modifier can be used to present the in-app debug menu when the device is shaken.
+    ///
+    /// The view modifier should typically be used at the root of your app's view hierarchy.
+    ///
+    /// - Important: The in-app debug menu may contain sensitive information. Ensure it's only accessible in debug and beta builds by excluding the menu's presentation code from release builds using conditional compilation (e.g., `#if DEBUG`). The examples in this section demonstrate this technique.
+    ///
+    /// ```swift
+    /// struct ContentView: View {
+    ///     @EnvironmentObject private var spiceStore: AppSpiceStore
+    ///
+    ///     var body: some View {
+    ///         NavigationStack {
+    ///             // ...
+    ///         }
+    ///         #if DEBUG
+    ///         .presentSpiceEditorOnShake(editing: spiceStore)
+    ///         #endif
+    ///     }
+    /// }
+    /// ```
+    ///
+    /// - Parameter spiceStore: The ``SpiceStore`` containing the settings to be edited.
+    /// - Returns: A modified view that presents the ``SpiceEditor`` on shake.
     @ViewBuilder
     func presentSpiceEditorOnShake<T: SpiceStore>(editing spiceStore: T) -> some View {
         modifier(PresentSpiceEditorOnShakeViewModifier(spiceStore: spiceStore))
