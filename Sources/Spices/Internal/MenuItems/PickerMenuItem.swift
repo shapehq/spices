@@ -64,7 +64,7 @@ private extension PickerMenuItem {
     }
 
     private func observeValue<Value: CaseIterable & RawRepresentable>(in storage: AnyStorage<Value>) {
-        storage.$value.sink { [weak self] newValue in
+        storage.publisher.sink { [weak self] newValue in
             guard newValue.optionId != self?.selection.id else {
                 return
             }

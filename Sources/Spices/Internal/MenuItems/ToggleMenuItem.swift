@@ -21,7 +21,7 @@ final class ToggleMenuItem: MenuItem, ObservableObject {
         self.requiresRestart = requiresRestart
         self.storage = storage
         self.value = storage.value
-        storage.$value.sink { [weak self] newValue in
+        storage.publisher.sink { [weak self] newValue in
             if newValue != self?.value {
                 self?.value = newValue
             }

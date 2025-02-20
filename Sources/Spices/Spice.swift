@@ -12,7 +12,7 @@ import Foundation
         set { fatalError("Setting the wrapped value on a @Spice property wrapper is not supported") }
     }
     public var projectedValue: AnyPublisher<Value, Never> {
-        storage.$value.eraseToAnyPublisher()
+        storage.publisher
     }
 
     let name: Name

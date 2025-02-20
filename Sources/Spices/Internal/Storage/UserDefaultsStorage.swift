@@ -2,18 +2,20 @@ import Combine
 import Foundation
 
 final class UserDefaultsStorage<Value>: Storage {
-    let publisher: AnyPublisher<Value, Never>
     var value: Value {
         get {
-            backingValue
+            internalValue
         }
         set {
             write?(newValue)
-            backingValue = newValue
+            internalValue = newValue
         }
     }
+    var publisher: AnyPublisher<Value, Never> {
+        passthroughSubject.eraseToAnyPublisher()
+    }
 
-    private let valueSubject: CurrentValueSubject<Value, Never>
+    private let passthroughSubject = PassthroughSubject<Value, Never>()
     private let preferredKey: String?
     private var read: (() -> Value)?
     private var write: ((Value) -> Void)?
@@ -37,21 +39,22 @@ final class UserDefaultsStorage<Value>: Storage {
         }
         return spiceStore
     }
-    private var backingValue: Value {
+    private var _internalValue: Value
+    private var internalValue: Value {
         get {
-            valueSubject.value
+            _internalValue
         }
         set {
             spiceStoreOrThrow.publishObjectWillChange()
-            valueSubject.send(newValue)
+            _internalValue = newValue
+            passthroughSubject.send(newValue)
         }
     }
     private var cancellables: Set<AnyCancellable> = []
 
     init(default value: Value, key: String?) {
+        _internalValue = value
         preferredKey = key
-        valueSubject = CurrentValueSubject(value)
-        publisher = valueSubject.eraseToAnyPublisher()
         read = { [weak self] in
             guard let self else {
                 return value
@@ -67,9 +70,8 @@ final class UserDefaultsStorage<Value>: Storage {
     }
 
     init(default value: Value, key: String?) where Value: RawRepresentable {
+        _internalValue = value
         preferredKey = key
-        valueSubject = CurrentValueSubject(value)
-        publisher = valueSubject.eraseToAnyPublisher()
         read = { [weak self] in
             guard let self, let rawValue = self.userDefaults.object(forKey: self.key) as? Value.RawValue else {
                 return value
@@ -94,7 +96,7 @@ private extension UserDefaultsStorage {
                 guard let self, let read = self.read else {
                     return
                 }
-                self.backingValue = read()
+                self.internalValue = read()
             }
             .store(in: &cancellables)
     }
@@ -105,7 +107,7 @@ extension UserDefaultsStorage: Preparable {
         self.propertyName = propertyName
         self.spiceStore = spiceStore
         if let read {
-            valueSubject.send(read())
+            _internalValue = read()
         }
         observeUserDefaults()
     }
