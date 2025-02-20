@@ -344,10 +344,8 @@ struct ExampleView: View {
     @AppStorage("enableLogging") private var enableLogging = false
 
     var body: some View {
-        Form {
-            Toggle(isOn: $enableLogging) {
-                Text("Enable Logging")
-            }
+        Toggle(isOn: $enableLogging) {
+            Text("Enable Logging")
         }
     }
 }
