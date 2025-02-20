@@ -1,6 +1,6 @@
 # ``Spices``
 
-Spices makes it straightforward to create in-app debug menus by generating native UI from Swift type.
+Spices makes it straightforward to create in-app debug menus by generating native UI from Swift.
 
 ## Overview
 
