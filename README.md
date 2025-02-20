@@ -164,7 +164,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 Alternatively, initialize an instance of `SpiceEditorViewController` and present it.
 
 ```swift
-let viewController = SpiceEditorViewController(editing: AppSpiceStore.shared))
+let viewController = SpiceEditorViewController(editing: AppSpiceStore.shared)
 present(spicesViewController, animated: true)
 ```
 
