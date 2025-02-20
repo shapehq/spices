@@ -65,7 +65,7 @@ enum ServiceEnvironment: String, CaseIterable {
     case staging
 }
 
-final class AppSpiceStore: SpiceStore {
+class AppSpiceStore: SpiceStore {
     @Spice(requiresRestart: true) var environment: ServiceEnvironment = .production
     @Spice var enableLogging = false
     @Spice var clearCache = {
@@ -76,7 +76,7 @@ final class AppSpiceStore: SpiceStore {
     let featureFlags = FeatureFlagsSpiceStore()
 }
 
-final class FeatureFlagsSpiceStore: SpiceStore {
+class FeatureFlagsSpiceStore: SpiceStore {
     @Spice var notifications = false
     @Spice var fastRefreshWidgets = false
 }
@@ -99,7 +99,7 @@ Use the `presentSpiceEditorOnShake(_:)` view modifier to show the editor when th
 
 ```swift
 struct ContentView: View {
-    @StateObject private var spiceStore = AppSpiceStore()
+    @StateObject var spiceStore = AppSpiceStore()
 
     var body: some View {
         VStack {
@@ -120,8 +120,8 @@ Alternatively, manually initialize and display an instance of `SpiceEditor`.
 
 ```swift
 struct ContentView: View {
-    @StateObject private var spiceStore = AppSpiceStore()
-    @State private var isSpiceEditorPresented = false
+    @StateObject var spiceStore = AppSpiceStore()
+    @State var isSpiceEditorPresented = false
 
     var body: some View {
         Button {
@@ -141,7 +141,7 @@ struct ContentView: View {
 Use the an instance of `SpiceEditorWindow` to show the editor when the device is shaken.
 
 ```swift
-final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     func scene(
@@ -181,12 +181,12 @@ AppSpiceStore.environment
 Spice stores conforming to the `SpiceStore` protocol also conform to [ObservableObject](https://developer.apple.com/documentation/combine/observableobject), and as such, can be observed from SwiftUI using [StateObject](https://developer.apple.com/documentation/swiftui/stateobject), [ObservedObject](https://developer.apple.com/documentation/swiftui/observedobject), or [EnvironmentObject](https://developer.apple.com/documentation/swiftui/environmentobject).
 
 ```swift
-final class AppSpiceStore: SpiceStore {
+class AppSpiceStore: SpiceStore {
     @Spice var enableLogging = false
 }
 
 struct ContentView: View {
-    @StateObject private var spiceStore = AppSpiceStore()
+    @StateObject var spiceStore = AppSpiceStore()
     
     var body: some View {
         Text("Is logging enabled: " + (spiceStore.enableLogging ? "👍" : "👎"))
@@ -199,7 +199,7 @@ struct ContentView: View {
 Properties using the `@Spice` property wrapper exposes a publisher that can be used to observe changes to the value using [Combine](https://developer.apple.com/documentation/combine).
 
 ```swift
-final class ContentViewController: UIViewController {
+class ContentViewController: UIViewController {
     private let spiceStore = AppSpiceStore.shared
     private var cancellables: Set<AnyCancellable> = []
     
@@ -240,7 +240,7 @@ enum ServiceEnvironment: String, CaseIterable {
     case staging
 }
 
-final class AppSpiceStore: SpiceStore {
+class AppSpiceStore: SpiceStore {
     @Spice var environment: ServiceEnvironment = .production
 }
 ```
@@ -341,7 +341,7 @@ Values are stored in [UserDefaults](https://developer.apple.com/documentation/fo
 
 ```swift
 struct ExampleView: View {
-    @AppStorage("enableLogging") private var enableLogging = false
+    @AppStorage("enableLogging") var enableLogging = false
 
     var body: some View {
         Toggle(isOn: $enableLogging) {
