@@ -7,6 +7,7 @@ enum ServiceEnvironment: String, CaseIterable {
 }
 
 final class AppSpiceStore: SpiceStore {
+    @MainActor
     static let shared = AppSpiceStore()
 
     @Spice(requiresRestart: true) var environment: ServiceEnvironment = .production
