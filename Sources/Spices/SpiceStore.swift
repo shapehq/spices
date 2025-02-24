@@ -52,15 +52,6 @@ extension SpiceStore {
         }
     }
 
-    var name: String {
-        get {
-            objc_getAssociatedObject(self, &nameKey) as? String ?? "<name unavailable>"
-        }
-        set {
-            objc_setAssociatedObject(self, &nameKey, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
-        }
-    }
-
     var propertyName: String {
         get {
             objc_getAssociatedObject(self, &propertyNameKey) as? String ?? "<name unavailable>"
@@ -70,21 +61,21 @@ extension SpiceStore {
         }
     }
 
+    var parent: (any SpiceStore)? {
+        get {
+            objc_getAssociatedObject(self, &parentKey) as? any SpiceStore
+        }
+        set {
+            objc_setAssociatedObject(self, &parentKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
+        }
+    }
+
     private var isPrepared: Bool {
         get {
             (objc_getAssociatedObject(self, &isPreparedKey) as? Bool) ?? false
         }
         set {
             objc_setAssociatedObject(self, &isPreparedKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
-        }
-    }
-
-    private var parent: (any SpiceStore)? {
-        get {
-            objc_getAssociatedObject(self, &parentKey) as? any SpiceStore
-        }
-        set {
-            objc_setAssociatedObject(self, &parentKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
 
@@ -100,13 +91,10 @@ extension SpiceStore {
         prepareIfNeeded()
         let mirror = Mirror(reflecting: self)
         return mirror.children.compactMap { _, value in
-            if let spice = value as? MenuItemProvider {
-                return spice.menuItem
-            } else if let spiceStore = value as? any SpiceStore {
-                return ChildSpiceStoreMenuItem(spiceStore: spiceStore)
-            } else {
+            guard let spice = value as? MenuItemProvider else {
                 return nil
             }
+            return spice.menuItem
         }
     }
 
@@ -131,21 +119,11 @@ extension SpiceStore {
     private func prepare() {
         let mirror = Mirror(reflecting: self)
         for (name, value) in mirror.children {
-            guard let name else {
+            guard let name, let spice = value as? Preparable else {
                 continue
             }
-            if let spice = value as? Preparable {
-                let propertyName = name.removing(prefix: "_")
-                spice.prepare(propertyName: propertyName, ownedBy: self)
-            } else if let spiceStore = value as? any SpiceStore {
-                if spiceStore.parent != nil {
-                    fatalError("A child spice store can only be referenced from one parent.")
-                }
-                spiceStore.parent = self
-                spiceStore.propertyName = name
-                spiceStore.name = name.camelCaseToNaturalText()
-                spiceStore.prepareIfNeeded()
-            }
+            let propertyName = name.removing(prefix: "_")
+            spice.prepare(propertyName: propertyName, ownedBy: self)
         }
     }
 }

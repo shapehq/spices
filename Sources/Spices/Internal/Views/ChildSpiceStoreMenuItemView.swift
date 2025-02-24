@@ -8,12 +8,12 @@ struct ChildSpiceStoreMenuItemView: View {
         NavigationLink {
             MenuItemListView(
                 items: menuItem.spiceStore.menuItems,
-                title: menuItem.spiceStore.name,
+                title: menuItem.name.rawValue,
                 dismiss: dismiss
             )
             .navigationBarTitleDisplayMode(.inline)
         } label: {
-            Text(menuItem.spiceStore.name)
+            Text(menuItem.name.rawValue)
         }
     }
 }

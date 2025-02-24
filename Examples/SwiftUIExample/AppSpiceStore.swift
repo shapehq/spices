@@ -13,8 +13,7 @@ final class AppSpiceStore: SpiceStore {
         try await Task.sleep(for: .seconds(1))
         URLCache.shared.removeAllCachedResponses()
     }
-
-    let featureFlags = FeatureFlagsSpiceStore()
+    @Spice var featureFlags = FeatureFlagsSpiceStore()
 }
 
 final class FeatureFlagsSpiceStore: SpiceStore {

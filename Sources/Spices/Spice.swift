@@ -143,7 +143,10 @@ import Foundation
     ) where Value == ButtonHandler {
         self.initialValue = wrappedValue
         self.name = Name(name)
-        self.storage = AnyStorage(ThrowingStorage(default: wrappedValue))
+        self.storage = AnyStorage(ThrowingStorage(
+            default: wrappedValue,
+            setterMessage: "Cannot set closure of Spices button."
+        ))
         self.userDefaultsStorage = nil
         self.menuItem = ButtonMenuItem(
             name: self.name,
@@ -152,7 +155,7 @@ import Foundation
         )
     }
 
-    /// Initializes a `Spice` property wrapper for a assynchronous button action.
+    /// Initializes a `Spice` property wrapper for a asynchronous button action.
     /// - Parameters:
     ///   - wrappedValue: The closure representing the button's action.
     ///   - name: The display name of the setting. Defaults to a formatted version of the property name.
@@ -164,13 +167,31 @@ import Foundation
     ) where Value == AsyncButtonHandler {
         self.initialValue = wrappedValue
         self.name = Name(name)
-        self.storage = AnyStorage(ThrowingStorage(default: wrappedValue))
+        self.storage = AnyStorage(ThrowingStorage(
+            default: wrappedValue,
+            setterMessage: "Cannot set closure of Spices button."
+        ))
         self.userDefaultsStorage = nil
         self.menuItem = AsyncButtonMenuItem(
             name: self.name,
             requiresRestart: requiresRestart,
             storage: self.storage
         )
+    }
+
+    /// Initializes a `Spice` property wrapper for a child spice store.
+    /// - Parameters:
+    ///   - wrappedValue: The spice store to creaete hierarchial navigation to.
+    ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
+    public init(wrappedValue: Value, name: String? = nil) where Value: SpiceStore {
+        self.initialValue = wrappedValue
+        self.name = Name(name)
+        self.storage = AnyStorage(ThrowingStorage(
+            default: wrappedValue,
+            setterMessage: "Cannot assign new reference to nested spice store."
+        ))
+        self.userDefaultsStorage = nil
+        self.menuItem = ChildSpiceStoreMenuItem(name: self.name, spiceStore: wrappedValue)
     }
 
     /// A static subscript that provides access to the `Spice` property wrapper's value within a `SpiceStore`.
@@ -196,6 +217,14 @@ extension Spice: Preparable {
     func prepare(propertyName: String, ownedBy spiceStore: some SpiceStore) {
         name.rawValue = propertyName.camelCaseToNaturalText()
         userDefaultsStorage?.prepare(propertyName: propertyName, ownedBy: spiceStore)
+        if let childSpiceStore = initialValue as? any SpiceStore {
+            if childSpiceStore.parent != nil {
+                fatalError("A child spice store can only be referenced from one parent.")
+            }
+            childSpiceStore.parent = spiceStore
+            childSpiceStore.propertyName = propertyName
+            childSpiceStore.prepareIfNeeded()
+        }
     }
 }
 

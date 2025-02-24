@@ -76,8 +76,7 @@ class AppSpiceStore: SpiceStore {
         try await Task.sleep(for: .seconds(1))
         URLCache.shared.removeAllCachedResponses()
     }
-
-    let featureFlags = FeatureFlagsSpiceStore()
+    @Spice var featureFlags = FeatureFlagsSpiceStore()
 }
 
 class FeatureFlagsSpiceStore: SpiceStore {
@@ -294,7 +293,7 @@ Spice stores can be nested to create a hierarchical user interface.
 
 ```swift
 final class AppSpiceStore: SpiceStore {
-    let featureFlags = FeatureFlagsSpiceStore()
+    @Spice var featureFlags = FeatureFlagsSpiceStore()
 }
 
 final class FeatureFlagsSpiceStore: SpiceStore {
@@ -302,8 +301,6 @@ final class FeatureFlagsSpiceStore: SpiceStore {
     @Spice var fastRefreshWidgets = false
 }
 ```
-
-Note that nested spice stores should not use the `@Spice` property wrapper.
 
 ### Require Restart
 
