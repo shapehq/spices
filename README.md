@@ -25,9 +25,9 @@
   - [Buttons](#buttons)
   - [Hierarchical Navigation](#hierarchical-navigation)
   - [Require Restart](#require-restart)
+  - [Displaying Custom Name](#displaying-custom-name)
   - [Store Values in Custom UserDefaults](#store-values-in-custom-userdefaults)
-  - [Custom Name](#custom-name)
-  - [Custom UserDefaults Key](#custom-userdefaults-key)
+  - [Storing Values Under Custom Key](#storing-values-under-custom-key)
   - [Using with @AppStorage](#using-with-appstorage)
 
 ## 👋 Introduction
@@ -310,6 +310,14 @@ Setting `requiresRestart` to true will cause the app to be shut down after chang
 @Spice(requiresRestart: true) var environment: ServiceEnvironment = .production
 ```
 
+### Displaying Custom Name
+
+By default, the editor displays a formatted version of the property name. You can override this by manually specifying a custom name.
+
+```swift
+@Spice(name: "Debug Logging") var enableLogging = false
+```
+
 ### Store Values in Custom UserDefaults
 
 By default, values are stored in [UserDefaults.standard](https://developer.apple.com/documentation/foundation/userdefaults/1416603-standard). To use a different [UserDefaults](https://developer.apple.com/documentation/foundation/userdefaults) instance, such as for sharing data with an app group, implement the `userDefaults` property of `SpiceStore`.
@@ -320,15 +328,7 @@ final class AppSpiceStore: SpiceStore {
 }
 ```
 
-### Custom Name
-
-By default, the editor displays a formatted version of the property name. You can override this by manually specifying a custom name.
-
-```swift
-@Spice(name: "Debug Logging") var enableLogging = false
-```
-
-### Custom UserDefaults Key
+### Storing Values Under Custom Key
 
 Values are stored in [UserDefaults](https://developer.apple.com/documentation/foundation/userdefaults) using a key derived from the property name, optionally prefixed with the names of nested spice stores. You can override this by specifying a custom key.
 
