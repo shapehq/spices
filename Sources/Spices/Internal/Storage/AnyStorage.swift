@@ -26,7 +26,7 @@ final class AnyStorage<Value>: ObservableObject {
 
     convenience init<S: Storage>(_ storage: S) where S.Value == Value, S.Value: Equatable {
         self.init(storage: storage)
-        // Remove duplicates to reduce publishes from updating backing vlaue,
+        // Remove duplicates to reduce publishes from updating backing value,
         // ultimately reducing number of view updates.
         storage.publisher.removeDuplicates().sink { [weak self] newValue in
             self?.backingValue = newValue
