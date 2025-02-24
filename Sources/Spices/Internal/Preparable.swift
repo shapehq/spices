@@ -1,3 +1,3 @@
 protocol Preparable {
-    func prepare(propertyName: String, ownedBy spiceStore: some SpiceStore)
+    func prepare(propertyName: String, ownedBy spiceStore: any SpiceStore)
 }

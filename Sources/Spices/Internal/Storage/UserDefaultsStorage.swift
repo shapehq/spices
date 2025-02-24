@@ -103,7 +103,7 @@ private extension UserDefaultsStorage {
 }
 
 extension UserDefaultsStorage: Preparable {
-    func prepare(propertyName: String, ownedBy spiceStore: some SpiceStore) {
+    func prepare(propertyName: String, ownedBy spiceStore: any SpiceStore) {
         self.propertyName = propertyName
         self.spiceStore = spiceStore
         if let read {

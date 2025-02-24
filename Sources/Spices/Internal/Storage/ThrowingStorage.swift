@@ -22,4 +22,6 @@ final class ThrowingStorage<Value>: Storage {
         self.setterMessage = setterMessage
         self.publisher = passthroughSubject.eraseToAnyPublisher()
     }
+
+    func prepare(propertyName: String, ownedBy spiceStore: any SpiceStore) {}
 }

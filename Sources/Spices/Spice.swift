@@ -79,9 +79,7 @@ import Foundation
     let name: Name
     let menuItem: any MenuItem
 
-    private let initialValue: Value
     private let storage: AnyStorage<Value>
-    private let userDefaultsStorage: UserDefaultsStorage<Value>?
 
     /// Initializes a `Spice` property wrapper for a boolean setting.
     /// - Parameters:
@@ -95,11 +93,8 @@ import Foundation
         name: String? = nil,
         requiresRestart: Bool = false
     ) where Value == Bool {
-        self.initialValue = wrappedValue
         self.name = Name(name)
-        let userDefaultsStorage = UserDefaultsStorage(default: wrappedValue, key: key)
-        self.userDefaultsStorage = userDefaultsStorage
-        self.storage = AnyStorage(userDefaultsStorage)
+        self.storage = AnyStorage(UserDefaultsStorage(default: wrappedValue, key: key))
         self.menuItem = ToggleMenuItem(
             name: self.name,
             requiresRestart: requiresRestart,
@@ -119,11 +114,8 @@ import Foundation
         name: String? = nil,
         requiresRestart: Bool = false
     ) where Value: RawRepresentable & CaseIterable {
-        self.initialValue = wrappedValue
         self.name = Name(name)
-        let userDefaultsStorage = UserDefaultsStorage(default: wrappedValue, key: key)
-        self.userDefaultsStorage = userDefaultsStorage
-        self.storage = AnyStorage(userDefaultsStorage)
+        self.storage = AnyStorage(UserDefaultsStorage(default: wrappedValue, key: key))
         self.menuItem = PickerMenuItem(
             name: self.name,
             storage: self.storage,
@@ -141,13 +133,11 @@ import Foundation
         name: String? = nil,
         requiresRestart: Bool = false
     ) where Value == ButtonHandler {
-        self.initialValue = wrappedValue
         self.name = Name(name)
         self.storage = AnyStorage(ThrowingStorage(
             default: wrappedValue,
             setterMessage: "Cannot set closure of Spices button."
         ))
-        self.userDefaultsStorage = nil
         self.menuItem = ButtonMenuItem(
             name: self.name,
             requiresRestart: requiresRestart,
@@ -165,13 +155,11 @@ import Foundation
         name: String? = nil,
         requiresRestart: Bool = false
     ) where Value == AsyncButtonHandler {
-        self.initialValue = wrappedValue
         self.name = Name(name)
         self.storage = AnyStorage(ThrowingStorage(
             default: wrappedValue,
             setterMessage: "Cannot set closure of Spices button."
         ))
-        self.userDefaultsStorage = nil
         self.menuItem = AsyncButtonMenuItem(
             name: self.name,
             requiresRestart: requiresRestart,
@@ -184,13 +172,11 @@ import Foundation
     ///   - wrappedValue: The spice store to creaete hierarchial navigation to.
     ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
     public init(wrappedValue: Value, name: String? = nil) where Value: SpiceStore {
-        self.initialValue = wrappedValue
         self.name = Name(name)
         self.storage = AnyStorage(ThrowingStorage(
             default: wrappedValue,
             setterMessage: "Cannot assign new reference to nested spice store."
         ))
-        self.userDefaultsStorage = nil
         self.menuItem = ChildSpiceStoreMenuItem(name: self.name, spiceStore: wrappedValue)
     }
 
@@ -214,17 +200,24 @@ import Foundation
 }
 
 extension Spice: Preparable {
-    func prepare(propertyName: String, ownedBy spiceStore: some SpiceStore) {
+    func prepare(propertyName: String, ownedBy spiceStore: any SpiceStore) {
         name.rawValue = propertyName.camelCaseToNaturalText()
-        userDefaultsStorage?.prepare(propertyName: propertyName, ownedBy: spiceStore)
-        if let childSpiceStore = initialValue as? any SpiceStore {
-            if childSpiceStore.parent != nil {
-                fatalError("A child spice store can only be referenced from one parent.")
-            }
-            childSpiceStore.parent = spiceStore
-            childSpiceStore.propertyName = propertyName
-            childSpiceStore.prepareIfNeeded()
+        storage.prepare(propertyName: propertyName, ownedBy: spiceStore)
+        prepareChildSpiceStoreIfNeeded(propertyName: propertyName, parent: spiceStore)
+    }
+}
+
+private extension Spice {
+    private func prepareChildSpiceStoreIfNeeded(propertyName: String, parent: any SpiceStore) {
+        guard let childSpiceStore = storage.value as? any SpiceStore else {
+            return
         }
+        guard childSpiceStore.parent == nil else {
+            fatalError("A child spice store can only be referenced from one parent.")
+        }
+        childSpiceStore.parent = parent
+        childSpiceStore.propertyName = propertyName
+        childSpiceStore.prepareIfNeeded()
     }
 }
 

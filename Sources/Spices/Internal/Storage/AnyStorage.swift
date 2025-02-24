@@ -12,7 +12,9 @@ final class AnyStorage<Value>: ObservableObject {
         }
     }
 
+    private let read: () -> Value
     private let write: (Value) -> Void
+    private let prepare: (String, any SpiceStore) -> Void
     private var cancellables: Set<AnyCancellable> = []
     @Published private var backingValue: Value
 
@@ -37,6 +39,15 @@ final class AnyStorage<Value>: ObservableObject {
     private init<S: Storage>(storage: S) where S.Value == Value {
         publisher = storage.publisher
         backingValue = storage.value
+        read = { storage.value }
         write = { storage.value = $0 }
+        prepare = { storage.prepare(propertyName: $0, ownedBy: $1) }
+    }
+}
+
+extension AnyStorage: Preparable {
+    func prepare(propertyName: String, ownedBy spiceStore: any SpiceStore) {
+        prepare(propertyName, spiceStore)
+        backingValue = read()
     }
 }
