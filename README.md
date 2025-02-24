@@ -293,11 +293,11 @@ An error message is automatically shown if the closure throws an error.
 Spice stores can be nested to create a hierarchical user interface.
 
 ```swift
-final class AppSpiceStore: SpiceStore {
+class AppSpiceStore: SpiceStore {
     @Spice var featureFlags = FeatureFlagsSpiceStore()
 }
 
-final class FeatureFlagsSpiceStore: SpiceStore {
+class FeatureFlagsSpiceStore: SpiceStore {
     @Spice var notifications = false
     @Spice var fastRefreshWidgets = false
 }
@@ -356,7 +356,7 @@ let viewController = SpiceEditorViewController(editing: AppSpiceStore.shared, ti
 By default, values are stored in [UserDefaults.standard](https://developer.apple.com/documentation/foundation/userdefaults/1416603-standard). To use a different [UserDefaults](https://developer.apple.com/documentation/foundation/userdefaults) instance, such as for sharing data with an app group, implement the `userDefaults` property of `SpiceStore`.
 
 ```swift
-final class AppSpiceStore: SpiceStore {
+class AppSpiceStore: SpiceStore {
     let userDefaults = UserDefaults(suiteName: "group.dk.shape.example")
 }
 ```
