@@ -25,9 +25,10 @@
   - [Buttons](#buttons)
   - [Hierarchical Navigation](#hierarchical-navigation)
   - [Require Restart](#require-restart)
-  - [Displaying Custom Name](#displaying-custom-name)
+  - [Display Custom Name](#display-custom-name)
+  - [Specify Editor Title](#specify-editor-title)
   - [Store Values in Custom UserDefaults](#store-values-in-custom-userdefaults)
-  - [Storing Values Under Custom Key](#storing-values-under-custom-key)
+  - [Store Values Under Custom Key](#store-values-under-custom-key)
   - [Using with @AppStorage](#using-with-appstorage)
 
 ## 👋 Introduction
@@ -310,12 +311,44 @@ Setting `requiresRestart` to true will cause the app to be shut down after chang
 @Spice(requiresRestart: true) var environment: ServiceEnvironment = .production
 ```
 
-### Displaying Custom Name
+### Display Custom Name
 
 By default, the editor displays a formatted version of the property name. You can override this by manually specifying a custom name.
 
 ```swift
 @Spice(name: "Debug Logging") var enableLogging = false
+```
+
+### Specify Editor Title
+
+By default the editor will be displayed with the title "Debug Menu". This can be customized as follows.
+
+**SwiftUI Lifecycle**
+
+The `presentSpiceEditorOnShake(editing:title:)` view modifier takes a title as follows.
+
+```swift
+.presentSpiceEditorOnShake(editing: spiceStore, title: "Config")
+```
+
+The title can also be specified when manually creating and presenting an instance of `SpiceEditor`.
+
+```swift
+SpiceEditor(editing: spiceStore, title: "Config")
+```
+
+**UIKit Lifecycle**
+
+The ``SpiceEditorWindow`` can be initialized with a title as follows.
+
+```swift
+SpiceEditorWindow(windowScene: windowScene, editing: AppSpiceStore.shared, title: "Config)
+```
+
+The title can also be specified when manually creating and presenting an instance of `SpiceEditorViewController`.
+
+```swift
+let viewController = SpiceEditorViewController(editing: AppSpiceStore.shared, title: "Config")
 ```
 
 ### Store Values in Custom UserDefaults
@@ -328,7 +361,7 @@ final class AppSpiceStore: SpiceStore {
 }
 ```
 
-### Storing Values Under Custom Key
+### Store Values Under Custom Key
 
 Values are stored in [UserDefaults](https://developer.apple.com/documentation/foundation/userdefaults) using a key derived from the property name, optionally prefixed with the names of nested spice stores. You can override this by specifying a custom key.
 
