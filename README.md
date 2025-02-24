@@ -342,7 +342,7 @@ SpiceEditor(editing: spiceStore, title: "Config")
 The ``SpiceEditorWindow`` can be initialized with a title as follows.
 
 ```swift
-SpiceEditorWindow(windowScene: windowScene, editing: AppSpiceStore.shared, title: "Config)
+SpiceEditorWindow(windowScene: windowScene, editing: AppSpiceStore.shared, title: "Config")
 ```
 
 The title can also be specified when manually creating and presenting an instance of `SpiceEditorViewController`.
