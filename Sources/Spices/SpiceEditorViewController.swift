@@ -18,11 +18,26 @@ public final class SpiceEditorViewController: UIHostingController<SpiceEditor> {
     /// - Parameter spiceStore: The ``SpiceStore`` containing the settings to be edited.
     public init(editing spiceStore: any SpiceStore) {
         super.init(rootView: SpiceEditor(editing: spiceStore))
-        sheetPresentationController?.detents = [.medium(), .large()]
+        configureSheetPresentation()
     }
-    
+
+    /// Initializes a `SpiceEditorViewController` with a ``SpiceStore``.
+    ///
+    /// - Parameter spiceStore: The ``SpiceStore`` containing the settings to be edited.
+    /// - Parameter title: The title displayed in the navigation bar.
+    public init(editing spiceStore: any SpiceStore, title: String) {
+        super.init(rootView: SpiceEditor(editing: spiceStore, title: title))
+        configureSheetPresentation()
+    }
+
     @MainActor @preconcurrency required dynamic init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+private extension SpiceEditorViewController {
+    private func configureSheetPresentation() {
+        sheetPresentationController?.detents = [.medium(), .large()]
     }
 }
 #endif

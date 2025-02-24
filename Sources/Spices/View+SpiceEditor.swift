@@ -31,12 +31,53 @@ public extension View {
     /// - Returns: A modified view that presents the ``SpiceEditor`` on shake.
     @ViewBuilder
     func presentSpiceEditorOnShake<T: SpiceStore>(editing spiceStore: T) -> some View {
-        modifier(PresentSpiceEditorOnShakeViewModifier(spiceStore: spiceStore))
+        modifier(PresentSpiceEditorOnShakeViewModifier {
+            SpiceEditor(editing: spiceStore)
+        })
+    }
+
+    /// Presents a ``SpiceEditor`` for the given ``SpiceStore`` when the device is shaken.
+    ///
+    /// ## Example Usage
+    ///
+    /// The following shows how the view modifier can be used to present the in-app debug menu when the device is shaken.
+    ///
+    /// The view modifier should typically be used at the root of your app's view hierarchy.
+    ///
+    /// - Important: The in-app debug menu may contain sensitive information. Ensure it's only accessible in debug and beta builds by excluding the menu's presentation code from release builds using conditional compilation (e.g., `#if DEBUG`). The examples in this section demonstrate this technique.
+    ///
+    /// ```swift
+    /// struct ContentView: View {
+    ///     @EnvironmentObject private var spiceStore: AppSpiceStore
+    ///
+    ///     var body: some View {
+    ///         NavigationStack {
+    ///             // ...
+    ///         }
+    ///         #if DEBUG
+    ///         .presentSpiceEditorOnShake(editing: spiceStore)
+    ///         #endif
+    ///     }
+    /// }
+    /// ```
+    ///
+    /// - Parameter spiceStore: The ``SpiceStore`` containing the settings to be edited.
+    /// - Parameter title: The title displayed in the navigation bar.
+    /// - Returns: A modified view that presents the ``SpiceEditor`` on shake.
+    @ViewBuilder
+    func presentSpiceEditorOnShake<T: SpiceStore>(editing spiceStore: T, title: String) -> some View {
+        modifier(PresentSpiceEditorOnShakeViewModifier {
+            SpiceEditor(editing: spiceStore, title: title)
+        })
     }
 }
 
-private struct PresentSpiceEditorOnShakeViewModifier<T: SpiceStore>: ViewModifier {
-    let spiceStore: T
+private struct PresentSpiceEditorOnShakeViewModifier<Editor: View>: ViewModifier {
+    private let editor: Editor
+
+    init(@ViewBuilder content: () -> Editor) {
+        self.editor = content()
+    }
 
     func body(content: Content) -> some View {
         content
@@ -49,7 +90,7 @@ private struct PresentSpiceEditorOnShakeViewModifier<T: SpiceStore>: ViewModifie
                 guard PresentedSpiceEditorBox.viewController == nil else {
                     return
                 }
-                let viewController = UIHostingController(rootView: SpiceEditor(editing: spiceStore))
+                let viewController = UIHostingController(rootView: editor)
                 viewController.sheetPresentationController?.detents = [.medium(), .large()]
                 window.rootViewController?.shp_topViewController.present(viewController, animated: true)
                 PresentedSpiceEditorBox.viewController = viewController

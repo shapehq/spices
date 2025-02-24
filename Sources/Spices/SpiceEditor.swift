@@ -41,6 +41,7 @@ import SwiftUI
 /// }
 /// ```
 public struct SpiceEditor: View {
+    private let title: String
     private let spiceStore: any SpiceStore
     @Environment(\.dismiss) private var dismiss
 
@@ -49,12 +50,22 @@ public struct SpiceEditor: View {
     /// - Parameter spiceStore: The ``SpiceStore`` containing the settings to be edited.
     public init(editing spiceStore: any SpiceStore) {
         self.spiceStore = spiceStore
+        self.title = "Debug Menu"
+    }
+
+    /// Initializes a `SpiceEditor` with a ``SpiceStore``.
+    ///
+    /// - Parameter spiceStore: The ``SpiceStore`` containing the settings to be edited.
+    /// - Parameter title: The title displayed in the navigation bar.
+    public init(editing spiceStore: any SpiceStore, title: String) {
+        self.spiceStore = spiceStore
+        self.title = title
     }
 
     /// The content of the view.
     public var body: some View {
         NavigationView {
-            MenuItemListView(items: spiceStore.menuItems, title: "Debug Menu") {
+            MenuItemListView(items: spiceStore.menuItems, title: title) {
                 dismiss()
             }
         }

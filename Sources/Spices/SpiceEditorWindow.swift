@@ -23,6 +23,7 @@ import UIKit
 open class SpiceEditorWindow: UIWindow {
     private static weak var presentedSpicesEditorViewController: UIViewController?
     private let spiceStore: (any SpiceStore)?
+    private let title: String?
 
     /// Initializes a `SpiceEditorWindow` with a `UIWindowScene`.
      ///
@@ -31,6 +32,7 @@ open class SpiceEditorWindow: UIWindow {
      /// - Parameter windowScene: The scene to which the window belongs.
     override public init(windowScene: UIWindowScene) {
         self.spiceStore = nil
+        self.title = nil
         super.init(windowScene: windowScene)
     }
 
@@ -43,6 +45,21 @@ open class SpiceEditorWindow: UIWindow {
     ///   - spiceStore: The ``SpiceStore`` containing the settings to be edited.
     public init(windowScene: UIWindowScene, editing spiceStore: any SpiceStore) {
         self.spiceStore = spiceStore
+        self.title = nil
+        super.init(windowScene: windowScene)
+    }
+
+    /// Initializes a `SpiceEditorWindow` with a `UIWindowScene` and a ``SpiceStore``.
+    ///
+    /// This initializer associates a `SpiceStore` with the window, enabling the shake gesture to present the debug menu for the provided store.
+    ///
+    /// - Parameters:
+    ///   - windowScene: The scene to which the window belongs.
+    ///   - spiceStore: The ``SpiceStore`` containing the settings to be edited.
+    ///   - title: The title displayed in the navigation bar.
+    public init(windowScene: UIWindowScene, editing spiceStore: any SpiceStore, title: String) {
+        self.spiceStore = spiceStore
+        self.title = title
         super.init(windowScene: windowScene)
     }
 
@@ -67,7 +84,11 @@ private extension SpiceEditorWindow {
         }
         let window = UIApplication.shared.shp_activeWindow
         let topViewController = window?.rootViewController?.shp_topViewController
-        let viewController = SpiceEditorViewController(editing: spiceStore)
+        let viewController = if let title {
+            SpiceEditorViewController(editing: spiceStore, title: title)
+        } else {
+            SpiceEditorViewController(editing: spiceStore)
+        }
         topViewController?.present(viewController, animated: true)
         SpiceEditorWindow.presentedSpicesEditorViewController = viewController
     }
