@@ -3,7 +3,7 @@
 <div align="center">
 <h4>Spices makes it straightforward to create in-app debug menus by generating native UI from Swift.</h4>
 
-<img src="spices.png" alt="Logo for Spices. A wooden shelf holds four glass jars filled with different spices. Above the shelf is a circular sign with the word "Spices" and a red crossed-out bug, suggesting bug-free software." />
+<img src="spices.png" alt="Logo for Spices. A wooden shelf holds four glass jars filled with different spices. Above the shelf is a circular sign with the word 'Spices' and a red crossed-out bug." />
 
 [![Build](https://github.com/shapehq/shpspices/actions/workflows/build.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/build.yml)
 [![Build Example Project](https://github.com/shapehq/shpspices/actions/workflows/build_example_project.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/build_example_project.yml)
