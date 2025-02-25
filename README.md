@@ -24,6 +24,7 @@
   - [Toggles](#toggles)
   - [Pickers](#pickers)
   - [Buttons](#buttons)
+  - [Text Fields](#text-fields)
   - [Hierarchical Navigation](#hierarchical-navigation)
   - [Require Restart](#require-restart)
   - [Display Custom Name](#display-custom-name)
