@@ -10,3 +10,9 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+      - name: Test
+        run: |
+          set -o pipefail &&\
+          xcodebuild -scheme Spices test\
+            -destination "platform=iOS Simulator,name=iPhone 16 Pro,OS=18.1"\
+          | xcbeautify --renderer github-actions

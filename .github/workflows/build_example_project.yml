@@ -8,12 +8,13 @@ concurrency:
   cancel-in-progress: true
 env:
   XCODE_VERSION: 16.1.x
-  XCODE_PROJECT_PATH: Example/Example.xcodeproj
-  XCODE_SCHEME: Example
+  XCODE_PROJECT_PATH: Examples/Example.xcodeproj
+  SWIFTUI_XCODE_SCHEME: SwiftUIExample
+  UIKIT_XCODE_SCHEME: UIKitExample
   BUILD_DESTINATION: platform=iOS Simulator,name=iPhone 16 Pro,OS=18.1
 jobs:
-  build:
-    name: Build Example Project
+  build_swiftui:
+    name: Build SwiftUI Example Project
     runs-on: shape
     steps:
       - name: Checkout
@@ -27,7 +28,26 @@ jobs:
           set -o pipefail &&\
           xcodebuild build\
             -project ${{ env.XCODE_PROJECT_PATH }}\
-            -scheme ${{ env.XCODE_SCHEME }}\
+            -scheme ${{ env.SWIFTUI_XCODE_SCHEME }}\
+            -sdk iphonesimulator\
+            -destination "${{ env.BUILD_DESTINATION }}"\
+          | xcbeautify --renderer github-actions
+  build_uikit:
+    name: Build UIKit Example Project
+    runs-on: shape
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Select Xcode Version
+        uses: shapehq/actions/xcode-select@main
+        with:
+          version: ${{ env.XCODE_VERSION }}
+      - name: Build
+        run: |
+          set -o pipefail &&\
+          xcodebuild build\
+            -project ${{ env.XCODE_PROJECT_PATH }}\
+            -scheme ${{ env.UIKIT_XCODE_SCHEME }}\
             -sdk iphonesimulator\
             -destination "${{ env.BUILD_DESTINATION }}"\
           | xcbeautify --renderer github-actions

@@ -1,20 +1,18 @@
-// swift-tools-version:5.1
+// swift-tools-version: 6.0
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
-    name: "SHPSpices",
-    platforms: [
-        .iOS(.v9)
-    ],
+    name: "Spices",
+    platforms: [.iOS(.v15)],
     products: [
-        .library(name: "SHPSpices", targets: ["SHPSpices"])
+        .library(name: "Spices", targets: ["Spices"])
     ],
     targets: [
-        .target(
-            name: "SHPSpices",
-            path: "SHPSpices",
-            sources: ["Source"])
+        .target(name: "Spices"),
+        .testTarget(name: "SpicesTests", dependencies: [
+            "Spices"
+        ])
     ]
 )
