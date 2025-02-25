@@ -17,7 +17,7 @@ import UIKit
 /// #if DEBUG
 /// window = SpiceEditorWindow(windowScene: windowScene, editing: AppSpiceStore.shared)
 /// #else
-/// window = SpiceEditorWindow(windowScene: windowScene)
+/// window = UIWindow(windowScene: windowScene)
 /// #endif
 /// ```
 open class SpiceEditorWindow: UIWindow {
