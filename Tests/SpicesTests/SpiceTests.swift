@@ -35,6 +35,14 @@ final class SpiceTests {
         #expect(sut.userDefaults.string(forKey: "enumValue") == MockEnvironment.staging.rawValue)
     }
 
+    @Test func it_stores_string_value_in_user_defaults() {
+        let sut = MockSpiceStore()
+        sut.userDefaults.removeAll()
+        #expect(sut.userDefaults.object(forKey: "textValue") == nil)
+        sut.textValue = "Test value"
+        #expect(sut.userDefaults.string(forKey: "textValue") == "Test value")
+    }
+
     @Test func it_stores_button_closure() throws {
         let sut = MockSpiceStore()
         sut.userDefaults.removeAll()

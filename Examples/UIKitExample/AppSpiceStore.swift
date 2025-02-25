@@ -11,6 +11,7 @@ final class AppSpiceStore: SpiceStore {
     static let shared = AppSpiceStore()
 
     @Spice(requiresRestart: true) var environment: ServiceEnvironment = .production
+    @Spice(name: "API URL") var apiURL = "http://example.com"
     @Spice var enableLogging = false
     @Spice var clearCache = {
         try await Task.sleep(for: .seconds(1))

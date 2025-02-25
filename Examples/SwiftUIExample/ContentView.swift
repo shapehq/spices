@@ -19,6 +19,9 @@ struct ContentView: View {
                     LabeledContent("Environment") {
                         Text(String(describing: spiceStore.environment))
                     }
+                    LabeledContent("API URL") {
+                        Text(spiceStore.apiURL)
+                    }
                     LabeledContent("Enable Logging") {
                         Text(spiceStore.enableLogging ? "Yes" : "No")
                     }
