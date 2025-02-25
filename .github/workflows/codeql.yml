@@ -24,7 +24,7 @@ jobs:
       matrix:
         include:
         - language: actions
-          build-mode: autobuild
+          build-mode: none
         - language: swift
           build-mode: manual
     steps:
@@ -35,7 +35,8 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
-    - if: matrix.build-mode == 'manual'
+    - name: Build Swift Code
+      if: matrix.build-mode == 'manual' && matrix.language == 'swift'
       shell: bash
       run: |
         set -o pipefail &&\
