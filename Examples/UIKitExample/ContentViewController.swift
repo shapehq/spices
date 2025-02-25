@@ -92,13 +92,17 @@ private extension ContentViewController {
             .text(
                 "This is an example app showcasing the Spices framework."
                 + "\n\n"
-                + "The following illustrates how spices can be observed using SwiftUI."
+                + "The following illustrates how spices can be observed using Combine from UIKit."
             )
         ]
         let generalItems: [Item] = [
             .titleValue(
                 title: "Environment",
                 value: String(describing: spiceStore.environment)
+            ),
+            .titleValue(
+                title: "API URL",
+                value: spiceStore.apiURL
             ),
             .titleValue(
                 title: "Enable Logging",
@@ -127,10 +131,11 @@ private extension ContentViewController {
         Publishers.CombineLatest4(
             spiceStore.$environment,
             spiceStore.$enableLogging,
-            spiceStore.featureFlags.$notifications,
-            spiceStore.featureFlags.$fastRefreshWidgets
+            spiceStore.$apiURL,
+            spiceStore.featureFlags.$notifications
         )
-        .sink { [weak self] _, _, _, _ in
+        .combineLatest(spiceStore.featureFlags.$fastRefreshWidgets)
+        .sink { [weak self] _, _ in
             self?.updateSnapshot()
         }
         .store(in: &cancellables)

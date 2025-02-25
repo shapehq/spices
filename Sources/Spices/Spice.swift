@@ -102,6 +102,27 @@ import Foundation
         )
     }
 
+    /// Initializes a `Spice` property wrapper for a string setting.
+    /// - Parameters:
+    ///   - wrappedValue: The initial value of the string setting.
+    ///   - key: The key used to store the setting in UserDefaults. Defaults to a key generated from the property name.
+    ///   - name: The display name of the setting. Defaults to a formatted version of the property name.
+    ///   - requiresRestart: Set to `true` to restart the application when changing the value. Defaults to `false`.
+    public init(
+        wrappedValue: Value,
+        key: String? = nil,
+        name: String? = nil,
+        requiresRestart: Bool = false
+    ) where Value == String {
+        self.name = Name(name)
+        self.storage = AnyStorage(UserDefaultsStorage(default: wrappedValue, key: key))
+        self.menuItem = TextFieldMenuItem(
+            name: self.name,
+            requiresRestart: requiresRestart,
+            storage: self.storage
+        )
+    }
+
     /// Initializes a `Spice` property wrapper for an enum setting.
     /// - Parameters:
     ///   - wrappedValue: The initial value of the enum setting.

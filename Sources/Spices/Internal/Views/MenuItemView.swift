@@ -10,6 +10,8 @@ struct MenuItemView: View {
             ToggleMenuItemView(menuItem: menuItem)
         } else if let menuItem = menuItem as? PickerMenuItem {
             PickerMenuItemView(menuItem: menuItem)
+        } else if let menuItem = menuItem as? TextFieldMenuItem {
+            TextFieldMenuItemView(menuItem: menuItem)
         } else if let menuItem = menuItem as? ButtonMenuItem {
             ButtonMenuItemView(menuItem: menuItem)
         } else if let menuItem = menuItem as? AsyncButtonMenuItem {

@@ -8,6 +8,7 @@ enum ServiceEnvironment: String, CaseIterable {
 
 final class AppSpiceStore: SpiceStore {
     @Spice(requiresRestart: true) var environment: ServiceEnvironment = .production
+    @Spice(name: "API URL") var apiURL = "http://example.com"
     @Spice var enableLogging = false
     @Spice var clearCache = {
         try await Task.sleep(for: .seconds(1))

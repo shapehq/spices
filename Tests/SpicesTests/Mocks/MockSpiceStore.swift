@@ -5,6 +5,7 @@ final class MockSpiceStore: SpiceStore {
     nonisolated(unsafe) static var asynButtonClosureCalled = false
 
     @Spice var boolValue = false
+    @Spice var textValue = "Hello"
     @Spice var enumValue: MockEnvironment = .production
     @Spice var buttonValue = {
         MockSpiceStore.buttonClosureCalled = true
