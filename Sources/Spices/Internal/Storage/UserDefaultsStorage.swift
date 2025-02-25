@@ -12,10 +12,10 @@ final class UserDefaultsStorage<Value>: Storage {
         }
     }
     var publisher: AnyPublisher<Value, Never> {
-        passthroughSubject.eraseToAnyPublisher()
+        subject.eraseToAnyPublisher()
     }
 
-    private let passthroughSubject = PassthroughSubject<Value, Never>()
+    private let subject: CurrentValueSubject<Value, Never>
     private let preferredKey: String?
     private var read: (() -> Value)?
     private var write: ((Value) -> Void)?
@@ -47,7 +47,7 @@ final class UserDefaultsStorage<Value>: Storage {
         set {
             spiceStoreOrThrow.publishObjectWillChange()
             _internalValue = newValue
-            passthroughSubject.send(newValue)
+            subject.send(newValue)
         }
     }
     private var cancellables: Set<AnyCancellable> = []
@@ -55,6 +55,7 @@ final class UserDefaultsStorage<Value>: Storage {
     init(default value: Value, key: String?) {
         _internalValue = value
         preferredKey = key
+        subject = CurrentValueSubject(value)
         read = { [weak self] in
             guard let self else {
                 return value
@@ -72,6 +73,7 @@ final class UserDefaultsStorage<Value>: Storage {
     init(default value: Value, key: String?) where Value: RawRepresentable {
         _internalValue = value
         preferredKey = key
+        subject = CurrentValueSubject(value)
         read = { [weak self] in
             guard let self, let rawValue = self.userDefaults.object(forKey: self.key) as? Value.RawValue else {
                 return value

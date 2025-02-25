@@ -51,7 +51,7 @@ final class SpiceTests {
         #expect(MockSpiceStore.asynButtonClosureCalled == true)
     }
 
-    @Test func it_does_not_publish_initial_value_upon_subscribing_to_publisher() async throws {
+    @Test func it_sink_receives_initial_value() async throws {
         var initialValue: MockEnvironment?
         let sut = MockSpiceStore()
         sut.userDefaults.removeAll()
@@ -59,7 +59,7 @@ final class SpiceTests {
             initialValue = newValue
         }
         .store(in: &cancellables)
-        #expect(initialValue == nil)
+        #expect(initialValue == .production)
     }
 
     @Test func it_publishes_values() async throws {
