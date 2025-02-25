@@ -6,7 +6,7 @@ on:
 jobs:
   run-tests:
     name: Run Tests
-    runs-on: shape
+    runs-on: macos-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
