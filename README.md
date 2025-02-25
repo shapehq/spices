@@ -289,6 +289,14 @@ Providing an asynchronous closure causes a loading indicator to be displayed for
 
 An error message is automatically shown if the closure throws an error.
 
+### Text Fields
+
+Text fields created for string variables in a spice store.
+
+```swift
+@Spice var enableLogging = "http://example.com"
+```
+
 ### Hierarchical Navigation
 
 Spice stores can be nested to create a hierarchical user interface.
