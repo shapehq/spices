@@ -10,7 +10,7 @@ env:
 jobs:
   run-tests:
     name: Run Tests
-    runs-on: macos-latest
+    runs-on: macos-15
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
