@@ -1,11 +1,3 @@
-//
-//  TextFieldMenuItem.swift
-//  Spices
-//
-//  Created by Harlan Haskins on 2/25/25.
-//
-
-
 import Combine
 import Foundation
 

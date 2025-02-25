@@ -1,11 +1,3 @@
-//
-//  ToggleMenuItemView 2.swift
-//  Spices
-//
-//  Created by Harlan Haskins on 2/25/25.
-//
-
-
 import SwiftUI
 
 struct TextFieldMenuItemView: View {
