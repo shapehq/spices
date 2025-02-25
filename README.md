@@ -7,9 +7,9 @@
 
 [![Build](https://github.com/shapehq/shpspices/actions/workflows/build.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/build.yml)
 [![Build Example Project](https://github.com/shapehq/shpspices/actions/workflows/build_example_project.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/build_example_project.yml)
-[![SwiftLint](https://github.com/shapehq/shpspices/actions/workflows/swiftlint.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/swiftlint.yml)
-[![Build Documentation](https://github.com/shapehq/spices/actions/workflows/build_documentation.yml/badge.svg)](https://github.com/shapehq/spices/actions/workflows/build_documentation.yml)
+[![SwiftLint](https://github.com/shapehq/shpspices/actions/workflows/swiftlint.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/swiftlint.yml)\
 [![Run Tests](https://github.com/shapehq/spices/actions/workflows/test.yml/badge.svg)](https://github.com/shapehq/spices/actions/workflows/test.yml)
+[![Build Documentation](https://github.com/shapehq/spices/actions/workflows/build_documentation.yml/badge.svg)](https://github.com/shapehq/spices/actions/workflows/build_documentation.yml)
 [![CodeQL](https://github.com/shapehq/spices/actions/workflows/codeql.yml/badge.svg)](https://github.com/shapehq/spices/actions/workflows/codeql.yml)
 </div>
 
