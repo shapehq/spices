@@ -7,11 +7,11 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 env:
-  XCODE_VERSION: 16.1.x
   XCODE_PROJECT_PATH: Examples/Example.xcodeproj
   SWIFTUI_XCODE_SCHEME: SwiftUIExample
   UIKIT_XCODE_SCHEME: UIKitExample
-  BUILD_DESTINATION: platform=iOS Simulator,name=iPhone 16 Pro,OS=18.1
+  BUILD_DESTINATION: platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2
+  DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
 jobs:
   build_swiftui:
     name: Build SwiftUI Example Project
@@ -19,10 +19,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Select Xcode Version
-        uses: shapehq/actions/xcode-select@main
-        with:
-          version: ${{ env.XCODE_VERSION }}
       - name: Build
         run: |
           set -o pipefail &&\
@@ -38,10 +34,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Select Xcode Version
-        uses: shapehq/actions/xcode-select@main
-        with:
-          version: ${{ env.XCODE_VERSION }}
       - name: Build
         run: |
           set -o pipefail &&\
