@@ -6,6 +6,7 @@ on:
     branches: [ "main" ]
   schedule:
     - cron: '19 15 * * 1'
+permissions: read-all
 env:
   XCODE_SCHEME: Spices
   BUILD_DESTINATION: platform=iOS Simulator,name=iPhone 16,OS=18.2
