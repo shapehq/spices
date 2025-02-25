@@ -15,7 +15,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         #if DEBUG
         window = SpiceEditorWindow(windowScene: windowScene, editing: AppSpiceStore.shared)
         #else
-        window = SpiceEditorWindow(windowScene: windowScene)
+        window = UIWindow(windowScene: windowScene)
         #endif
         window?.rootViewController = makeRootViewController()
         window?.makeKeyAndVisible()
