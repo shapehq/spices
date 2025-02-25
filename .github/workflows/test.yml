@@ -13,6 +13,6 @@ jobs:
       - name: Test
         run: |
           set -o pipefail &&\
-          xcodebuild -scheme SHPSpices test\
+          xcodebuild -scheme Spices test\
             -destination "platform=iOS Simulator,name=iPhone 16 Pro,OS=18.1"\
           | xcbeautify --renderer github-actions
