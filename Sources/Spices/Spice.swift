@@ -190,7 +190,7 @@ import Foundation
 
     /// Initializes a `Spice` property wrapper for a child spice store.
     /// - Parameters:
-    ///   - wrappedValue: The spice store to creaete hierarchial navigation to.
+    ///   - wrappedValue: The spice store to create hierarchial navigation to.
     ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
     public init(wrappedValue: Value, name: String? = nil) where Value: SpiceStore {
         self.name = Name(name)
