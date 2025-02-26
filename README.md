@@ -295,7 +295,7 @@ An error message is automatically shown if the closure throws an error.
 
 ### Text Fields
 
-Text fields created for string variables in a spice store.
+Text fields are created for string variables in a spice store.
 
 ```swift
 @Spice var url = "http://example.com"
