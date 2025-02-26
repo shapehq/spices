@@ -1,4 +1,4 @@
-# 🫙🌶 Spices
+# 🫙🌶 Spices (Test)
 
 <div align="center">
 <h4>Spices makes it straightforward to create in-app debug menus by generating native UI from Swift.</h4>
