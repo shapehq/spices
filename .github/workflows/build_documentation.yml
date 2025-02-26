@@ -8,6 +8,8 @@ permissions: read-all
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
+env:
+  XCODE_SCHEME: Spices
 jobs:
   build:
     name: Build Documentation
@@ -27,7 +29,7 @@ jobs:
         run: |
           set -o pipefail &&\
           xcodebuild docbuild\
-            -scheme Spices\
+            -scheme ${{ env.XCODE_SCHEME }}\
             -destination 'generic/platform=iOS'\
             -derivedDataPath .derived-data\
           | xcbeautify --renderer github-actions
