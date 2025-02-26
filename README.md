@@ -233,7 +233,7 @@ The example projects in the [Examples](/Examples) folder shows how Spices can be
 <h3>The documentation is <a href="https://swiftpackageindex.com/shapehq/spices/documentation">available on Swift Package Index</a>.</h3>
 <br/>
 
-The following sections document select select APIs and use cases.
+The following sections document select APIs and use cases.
 
 ### Toggles
 
