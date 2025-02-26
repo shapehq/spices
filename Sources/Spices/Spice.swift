@@ -1,5 +1,6 @@
 import Combine
 import Foundation
+import SwiftUI
 
 /// A property wrapper for exposing settings in a generated in-app debug menus.
 ///
@@ -199,6 +200,19 @@ import Foundation
             setterMessage: "Cannot assign new reference to nested spice store."
         ))
         self.menuItem = ChildSpiceStoreMenuItem(name: self.name, spiceStore: wrappedValue)
+    }
+
+    /// Initializes a `Spice` property wrapper for a custom view.
+    /// - Parameters:
+    ///   - wrappedValue: The custom view to embed.
+    ///   - name: The display name of the setting. Defaults to a formatted version of the property name.
+    public init(wrappedValue: Value, name: String? = nil) where Value: View {
+        self.name = Name(name)
+        self.storage = AnyStorage(ThrowingStorage(
+            default: wrappedValue,
+            setterMessage: "Cannot assign new reference to a navigational spice."
+        ))
+        self.menuItem = NavigationMenuItem(name: self.name, content: AnyView(wrappedValue))
     }
 
     /// A static subscript that provides access to the `Spice` property wrapper's value within a `SpiceStore`.
