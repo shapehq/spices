@@ -44,7 +44,7 @@ jobs:
       shell: bash
       run: |
         set -o pipefail &&\
-        xcodebuild build-for-testing\
+        xcodebuild build\
           -scheme ${{ env.XCODE_SCHEME }}\
           -sdk iphonesimulator\
           -destination "${{ env.BUILD_DESTINATION }}"\
