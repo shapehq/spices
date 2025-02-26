@@ -158,7 +158,7 @@ import SwiftUI
         self.name = Name(name)
         self.storage = AnyStorage(ThrowingStorage(
             default: wrappedValue,
-            setterMessage: "Cannot set closure of Spices button."
+            setterMessage: "Cannot set closure of a button spice."
         ))
         self.menuItem = ButtonMenuItem(
             name: self.name,
@@ -180,7 +180,7 @@ import SwiftUI
         self.name = Name(name)
         self.storage = AnyStorage(ThrowingStorage(
             default: wrappedValue,
-            setterMessage: "Cannot set closure of Spices button."
+            setterMessage: "Cannot set closure of button spice."
         ))
         self.menuItem = AsyncButtonMenuItem(
             name: self.name,
