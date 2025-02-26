@@ -8,12 +8,22 @@ permissions: read-all
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
-env:
-  DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
 jobs:
   build:
     name: Build Documentation
     runs-on: macos-15
+    continue-on-error: true
+    strategy:
+      matrix:
+        include:
+          - xcode: 16.2
+            destination: iPhone 16 Pro
+            os: 18.2
+          - xcode: 15.4
+            destination: iPhone 15 Pro
+            os: 17.5
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer  
     steps:
       - name: Checkout
         uses: actions/checkout@v4
