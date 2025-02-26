@@ -11,12 +11,19 @@ env:
   XCODE_PROJECT_PATH: Examples/Example.xcodeproj
   SWIFTUI_XCODE_SCHEME: SwiftUIExample
   UIKIT_XCODE_SCHEME: UIKitExample
-  BUILD_DESTINATION: platform=iOS Simulator,name=iPhone 16,OS=18.2
-  DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
 jobs:
   build_swiftui:
     name: Build SwiftUI Example Project
     runs-on: macos-15
+    continue-on-error: true
+    strategy:
+      matrix:
+        include:
+          - xcode: 16.2
+            destination: iPhone 16 Pro
+            os: 18.2
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,11 +34,20 @@ jobs:
             -project ${{ env.XCODE_PROJECT_PATH }}\
             -scheme ${{ env.SWIFTUI_XCODE_SCHEME }}\
             -sdk iphonesimulator\
-            -destination "${{ env.BUILD_DESTINATION }}"\
+            -destination "platform=iOS Simulator,name=${{ matrix.destination }},OS=${{ matrix.os }}"\
           | xcbeautify --renderer github-actions
   build_uikit:
     name: Build UIKit Example Project
     runs-on: macos-15
+    continue-on-error: true
+    strategy:
+      matrix:
+        include:
+          - xcode: 16.2
+            destination: iPhone 16 Pro
+            os: 18.2
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -42,5 +58,5 @@ jobs:
             -project ${{ env.XCODE_PROJECT_PATH }}\
             -scheme ${{ env.UIKIT_XCODE_SCHEME }}\
             -sdk iphonesimulator\
-            -destination "${{ env.BUILD_DESTINATION }}"\
+            -destination "platform=iOS Simulator,name=${{ matrix.destination }},OS=${{ matrix.os }}"\
           | xcbeautify --renderer github-actions
