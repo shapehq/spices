@@ -4,6 +4,8 @@ on:
   pull_request:
     types: [opened, synchronize]
 permissions: read-all
+env:
+  XCODE_SCHEME: Spices
 jobs:
   run-tests:
     name: Run Tests
@@ -23,6 +25,6 @@ jobs:
       - name: Test
         run: |
           set -o pipefail &&\
-          xcodebuild -scheme Spices test\
+          xcodebuild -scheme ${{ env.XCODE_SCHEME }} test\
             -destination "platform=iOS Simulator,name=${{ matrix.destination }},OS=${{ matrix.os }}"\
           | xcbeautify --renderer github-actions
