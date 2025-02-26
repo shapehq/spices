@@ -5,6 +5,8 @@
 
 <img src="spices.png" alt="Logo for Spices. A wooden shelf holds four glass jars filled with different spices. Above the shelf is a circular sign with the word 'Spices' and a red crossed-out bug." />
 
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fshapehq%2Fspices%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/shapehq/spices)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fshapehq%2Fspices%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/shapehq/spices)\
 [![Build](https://github.com/shapehq/shpspices/actions/workflows/build.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/build.yml)
 [![Build Example Project](https://github.com/shapehq/shpspices/actions/workflows/build_example_project.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/build_example_project.yml)
 [![SwiftLint](https://github.com/shapehq/shpspices/actions/workflows/swiftlint.yml/badge.svg)](https://github.com/shapehq/shpspices/actions/workflows/swiftlint.yml)\
