@@ -22,7 +22,6 @@ jobs:
             destination: iPhone 15 Pro
             os: 17.5
     env:
-      XCODE_SCHEME: Spices
       DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer  
     steps:
       - name: Checkout
@@ -31,7 +30,7 @@ jobs:
         run: |
           set -o pipefail &&\
           xcodebuild build\
-            -scheme ${{ env.XCODE_SCHEME }}\
+            -scheme Spices\
             -sdk iphonesimulator\
             -destination "platform=iOS Simulator,name=${{ matrix.destination }},OS=${{ matrix.os }}"\
           | xcbeautify --renderer github-actions
