@@ -83,6 +83,12 @@ import SwiftUI
     private let storage: AnyStorage<Value>
 
     /// Initializes a `Spice` property wrapper for a boolean setting.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    /// @Spice var enableLogging = false
+    /// ```
     /// - Parameters:
     ///   - wrappedValue: The initial value of the boolean setting.
     ///   - key: The key used to store the setting in UserDefaults. Defaults to a key generated from the property name.
@@ -104,6 +110,12 @@ import SwiftUI
     }
 
     /// Initializes a `Spice` property wrapper for a string setting.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    /// @Spice(name: "API URL") var apiURL = "http://example.com"
+    /// ```
     /// - Parameters:
     ///   - wrappedValue: The initial value of the string setting.
     ///   - key: The key used to store the setting in UserDefaults. Defaults to a key generated from the property name.
@@ -125,6 +137,17 @@ import SwiftUI
     }
 
     /// Initializes a `Spice` property wrapper for an enum setting.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    /// enum ServiceEnvironment: String, CaseIterable {
+    ///     case production
+    ///     case staging
+    /// }
+    ///
+    /// @Spice(requiresRestart: true) var environment: ServiceEnvironment = .production
+    /// ```
     /// - Parameters:
     ///   - wrappedValue: The initial value of the enum setting.
     ///   - key: The key used to store the setting in UserDefaults. Defaults to a key generated from the property name.
@@ -146,6 +169,14 @@ import SwiftUI
     }
 
     /// Initializes a `Spice` property wrapper for a synchronous button action.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    ///  @Spice var clearCache = {
+    ///      URLCache.shared.removeAllCachedResponses()
+    ///  }
+    /// ```
     /// - Parameters:
     ///   - wrappedValue: The closure representing the button's action.
     ///   - name: The display name of the setting. Defaults to a formatted version of the property name.
@@ -168,6 +199,15 @@ import SwiftUI
     }
 
     /// Initializes a `Spice` property wrapper for a asynchronous button action.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    ///  @Spice var clearCache = {
+    ///      try await Task.sleep(for: .seconds(1))
+    ///      URLCache.shared.removeAllCachedResponses()
+    ///  }
+    /// ```
     /// - Parameters:
     ///   - wrappedValue: The closure representing the button's action.
     ///   - name: The display name of the setting. Defaults to a formatted version of the property name.
@@ -190,6 +230,13 @@ import SwiftUI
     }
 
     /// Initializes a `Spice` property wrapper for a child spice store.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    /// @Spice var featureFlags = FeatureFlagsSpiceStore()
+    /// ```
+    ///
     /// - Parameters:
     ///   - wrappedValue: The spice store to creaete hierarchial navigation to.
     ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
@@ -203,6 +250,12 @@ import SwiftUI
     }
 
     /// Initializes a `Spice` property wrapper for a custom view.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    /// @Spice var version = LabeledContent("Version", value: "1.0 (1)")
+    /// ```
     /// - Parameters:
     ///   - wrappedValue: The custom view to embed.
     public init(wrappedValue: some View) where Value == AnyView {
@@ -219,6 +272,12 @@ import SwiftUI
     }
 
     /// Initializes a `Spice` property wrapper for a custom view.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    /// @Spice var version = LabeledContent("Version", value: "1.0 (1)")
+    /// ```
     /// - Parameters:
     ///   - wrappedValue: The custom view to embed.
     ///   - presentation: Presentation style of the custom view.
@@ -235,7 +294,19 @@ import SwiftUI
         )
     }
 
-    /// Initializes a `Spice` property wrapper for a custom view.
+    /// Initializes a `Spice` property wrapper for a custom view presented modally.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    /// @Spice(presentation: .modal) var helloWorld = VStack {
+    ///     Image(systemName: "globe")
+    ///         .imageScale(.large)
+    ///         .foregroundStyle(.tint)
+    ///     Text("Hello, world!")
+    /// }
+    /// .padding()
+    /// ```
     /// - Parameters:
     ///   - wrappedValue: The custom view to embed.
     ///   - presentation: Presentation style of the custom view.
@@ -257,7 +328,19 @@ import SwiftUI
         )
     }
 
-    /// Initializes a `Spice` property wrapper for a custom view.
+    /// Initializes a `Spice` property wrapper for a custom view pushed onto the navigation stack.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    /// @Spice(presentation: .push) var helloWorld = VStack {
+    ///     Image(systemName: "globe")
+    ///         .imageScale(.large)
+    ///         .foregroundStyle(.tint)
+    ///     Text("Hello, world!")
+    /// }
+    /// .padding()
+    /// ```
     /// - Parameters:
     ///   - wrappedValue: The custom view to embed.
     ///   - presentation: Presentation style of the custom view.

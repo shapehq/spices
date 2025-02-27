@@ -27,7 +27,8 @@
   - [Pickers](#pickers)
   - [Buttons](#buttons)
   - [Text Fields](#text-fields)
-  - [Hierarchical Navigation](#hierarchical-navigation)
+  - [Inject Your Own Views](#inject-your-own-views)
+  - [Nest Spice Stores](#nest-spice-stores)
   - [Require Restart](#require-restart)
   - [Display Custom Name](#display-custom-name)
   - [Specify Editor Title](#specify-editor-title)
@@ -301,7 +302,39 @@ Text fields are created for string variables in a spice store.
 @Spice var url = "http://example.com"
 ```
 
-### Hierarchical Navigation
+## Inject Your Own Views
+
+You can embed your own views into Spices, for example, to display static information.
+
+The `@Spice` property wrapper allows you to define custom views within Spices settings. These views can be inlined by default or presented using different styles.
+
+By default, views are inlined within the settings list:
+
+```swift
+@Spice var version = LabeledContent("Version", value: "1.0 (1)")
+```
+
+You can change the presentation style using the presentation argument.
+
+The `.push` presentation pushes the view onto the navigation stack.
+
+```swift
+@Spice(presentation: .push) var helloWorld = VStack {
+    Image(systemName: "globe")
+        .imageScale(.large)
+        .foregroundStyle(.tint)
+    Text("Hello, world!")
+}
+.padding()
+```
+
+The `.modal` presentation presents the view modally on top of Spices.
+
+```swift
+@Spice(presentation: .modal) var helloWorld = // ...
+```
+
+### Nest Spice Stores
 
 Spice stores can be nested to create a hierarchical user interface.
 
