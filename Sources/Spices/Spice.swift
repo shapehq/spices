@@ -205,14 +205,78 @@ import SwiftUI
     /// Initializes a `Spice` property wrapper for a custom view.
     /// - Parameters:
     ///   - wrappedValue: The custom view to embed.
-    ///   - name: The display name of the setting. Defaults to a formatted version of the property name.
-    public init(wrappedValue: Value, name: String? = nil) where Value: View {
+    public init(wrappedValue: some View) where Value == AnyView {
+        self.name = Name(nil)
+        self.storage = AnyStorage(ThrowingStorage(
+            default: AnyView(wrappedValue),
+            setterMessage: "Cannot assign new reference to a custom view spice."
+        ))
+        self.menuItem = ViewMenuItem(
+            name: self.name,
+            presentationStyle: .inline,
+            content: AnyView(wrappedValue)
+        )
+    }
+
+    /// Initializes a `Spice` property wrapper for a custom view.
+    /// - Parameters:
+    ///   - wrappedValue: The custom view to embed.
+    ///   - presentation: Presentation style of the custom view.
+    public init(wrappedValue: some View, presentation: InlinePresentationStyle) where Value == AnyView {
+        self.name = Name(nil)
+        self.storage = AnyStorage(ThrowingStorage(
+            default: AnyView(wrappedValue),
+            setterMessage: "Cannot assign new reference to a custom view spice."
+        ))
+        self.menuItem = ViewMenuItem(
+            name: self.name,
+            presentationStyle: .inline,
+            content: AnyView(wrappedValue)
+        )
+    }
+
+    /// Initializes a `Spice` property wrapper for a custom view.
+    /// - Parameters:
+    ///   - wrappedValue: The custom view to embed.
+    ///   - presentation: Presentation style of the custom view.
+    ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
+    public init(
+        wrappedValue: some View,
+        presentation: ModalPresentationStyle,
+        name: String? = nil
+    ) where Value == AnyView {
         self.name = Name(name)
         self.storage = AnyStorage(ThrowingStorage(
-            default: wrappedValue,
-            setterMessage: "Cannot assign new reference to a navigational spice."
+            default: AnyView(wrappedValue),
+            setterMessage: "Cannot assign new reference to a custom view spice."
         ))
-        self.menuItem = NavigationMenuItem(name: self.name, content: AnyView(wrappedValue))
+        self.menuItem = ViewMenuItem(
+            name: self.name,
+            presentationStyle: .modal,
+            content: AnyView(wrappedValue)
+        )
+    }
+
+    /// Initializes a `Spice` property wrapper for a custom view.
+    /// - Parameters:
+    ///   - wrappedValue: The custom view to embed.
+    ///   - presentation: Presentation style of the custom view.
+    ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
+    public init(
+        wrappedValue: some View,
+        presentation: PushPresentationStyle,
+        name: String? = nil
+    ) where Value == AnyView {
+        self.name = Name(name)
+        self.storage = AnyStorage(ThrowingStorage(
+            default: AnyView(wrappedValue),
+            setterMessage: "Cannot assign new reference to a custom view spice."
+        ))
+        self.menuItem = ViewMenuItem(
+            name: self.name,
+            presentationStyle: .push,
+            content: AnyView(wrappedValue)
+        )
     }
 
     /// A static subscript that provides access to the `Spice` property wrapper's value within a `SpiceStore`.

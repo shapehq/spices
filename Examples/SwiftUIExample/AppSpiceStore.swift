@@ -1,5 +1,6 @@
 import Foundation
 import Spices
+import SwiftUI
 
 enum ServiceEnvironment: String, CaseIterable {
     case production
@@ -15,6 +16,14 @@ final class AppSpiceStore: SpiceStore {
         URLCache.shared.removeAllCachedResponses()
     }
     @Spice var featureFlags = FeatureFlagsSpiceStore()
+    @Spice(presentation: .push) var helloWorld = VStack {
+        Image(systemName: "globe")
+            .imageScale(.large)
+            .foregroundStyle(.tint)
+        Text("Hello, world!")
+    }
+    .padding()
+    @Spice var version = LabeledContent("Version", value: "1.0 (1)")
 }
 
 final class FeatureFlagsSpiceStore: SpiceStore {
