@@ -302,7 +302,7 @@ Text fields are created for string variables in a spice store.
 @Spice var url = "http://example.com"
 ```
 
-## Inject Your Own Views
+### Inject Your Own Views
 
 You can embed your own views into Spices, for example, to display static information.
 
