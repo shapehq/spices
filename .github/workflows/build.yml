@@ -18,7 +18,7 @@ jobs:
       matrix:
         include:
           - xcode: 16.2
-            destination: iPhone 16 Pro
+            destination: iPhone 16
             os: 18.3
     env:
       DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer  
@@ -33,4 +33,4 @@ jobs:
           xcodebuild build\
             -scheme ${{ env.XCODE_SCHEME }}\
             -sdk iphonesimulator\
-            -destination "name=${{ matrix.destination }},OS=${{ matrix.os }}"
+            -destination "platform=iOS Simulator,name=${{ matrix.destination }},OS=${{ matrix.os }}"
