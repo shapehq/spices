@@ -10,7 +10,6 @@ jobs:
   run-tests:
     name: Run Tests
     runs-on: macos-15
-    continue-on-error: true
     strategy:
       matrix:
         include:
