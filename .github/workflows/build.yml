@@ -28,10 +28,9 @@ jobs:
       - name: List available simulators
         run: xcrun simctl list devices
       - name: Build
-        if: false
         run: |
           set -o pipefail &&\
           xcodebuild build\
             -scheme ${{ env.XCODE_SCHEME }}\
             -sdk iphonesimulator\
-            -destination "platform=iOS Simulator,name=${{ matrix.destination }},OS=${{ matrix.os }}"
+            -destination "name=${{ matrix.destination }},OS=${{ matrix.os }}"
