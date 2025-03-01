@@ -15,7 +15,6 @@ jobs:
   build_swiftui:
     name: Build SwiftUI Example Project
     runs-on: macos-15
-    continue-on-error: true
     strategy:
       matrix:
         include:
