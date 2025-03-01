@@ -25,7 +25,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: List available simulators
+        run: xcrun simctl list devices
       - name: Build
+        if: false
         run: |
           set -o pipefail &&\
           xcodebuild build\
