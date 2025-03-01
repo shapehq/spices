@@ -15,7 +15,7 @@ env:
   SWIFTUI_EXAMPLE_XCODE_SCHEME: SwiftUIExample
   UIKIT_EXAMPLE_XCODE_SCHEME: UIKitExample
   EXAMPLE_XCODE_PROJECT_PATH: Examples/Example.xcodeproj
-  BUILD_DESTINATION: platform=iOS Simulator,name=iPhone 16,OS=18.2
+  BUILD_DESTINATION: platform=iOS Simulator,name=iPhone 16,OS=18.1
   DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
 jobs:
   analyze:
