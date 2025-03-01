@@ -22,7 +22,7 @@
     - [Step 3: Present the In-App Debug Menu](#step-3-present-the-in-app-debug-menu)
     - [Step 4: Observing Values](#step-4-observing-values)
 - [🧪 Example Projects](#-example-projects)
-- [📖 Reference](#-reference)
+- [📖 Documentation](#-documentation)
   - [Toggles](#toggles)
   - [Pickers](#pickers)
   - [Buttons](#buttons)
@@ -228,9 +228,13 @@ class ContentViewController: UIViewController {
 
 The example projects in the [Examples](/Examples) folder shows how Spices can be used to add an in-app debug menu to iOS apps with SwiftUI and UIKit lifecycles.
 
-## 📖 Reference
+## 📖 Documentation
 
-The following documents the specifics of the framework.
+<a href="https://swiftpackageindex.com/shapehq/spices/documentation"><img src="https://swiftpackageindex.com/images/logo.svg" width="40" align="left" /></a>
+<h3>The documentation is <a href="https://swiftpackageindex.com/shapehq/spices/documentation">available on Swift Package Index</a>.</h3>
+<br/>
+
+The following sections document select APIs and use cases.
 
 ### Toggles
 
