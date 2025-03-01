@@ -33,4 +33,5 @@ jobs:
           xcodebuild build\
             -scheme ${{ env.XCODE_SCHEME }}\
             -sdk iphonesimulator\
-            -destination "platform=iOS Simulator,name=${{ matrix.destination }},OS=${{ matrix.os }}"
+            -destination "platform=iOS Simulator,name=${{ matrix.destination }},OS=${{ matrix.os }}"\
+          | xcbeautify --renderer github-actions
