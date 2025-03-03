@@ -27,7 +27,7 @@
   - [Pickers](#pickers)
   - [Buttons](#buttons)
   - [Text Fields](#text-fields)
-  - [Group Settings using Nested Spice Stores](#group-settings-using-nested-spice-stores)
+  - [Group Settings Using Nested Spice Stores](#group-settings-using-nested-spice-stores)
   - [Require Restart](#require-restart)
   - [Display Custom Name](#display-custom-name)
   - [Specify Editor Title](#specify-editor-title)
@@ -305,7 +305,7 @@ Text fields are created for string variables in a spice store.
 @Spice var url = "http://example.com"
 ```
 
-### Group Settings with Nested Spice Stores
+### Group Settings Using Nested Spice Stores
 
 Spice stores can be nested to create a hierarchical user interface.
 
