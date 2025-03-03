@@ -12,7 +12,9 @@ final class AppSpiceStore: SpiceStore {
 
     @Spice(requiresRestart: true) var environment: ServiceEnvironment = .production
     @Spice(name: "API URL") var apiURL = "http://example.com"
+
     @Spice(presentation: .inline) var debugging = DebuggingSpiceStore()
+
     @Spice var featureFlags = FeatureFlagsSpiceStore()
 
     private init() {}
