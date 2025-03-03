@@ -192,13 +192,90 @@ import Foundation
     /// - Parameters:
     ///   - wrappedValue: The spice store to create hierarchial navigation to.
     ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
+    ///   - presentation: Presentation style of the spice store.
     public init(wrappedValue: Value, name: String? = nil) where Value: SpiceStore {
         self.name = Name(name)
         self.storage = AnyStorage(ThrowingStorage(
             default: wrappedValue,
             setterMessage: "Cannot assign new reference to nested spice store."
         ))
-        self.menuItem = ChildSpiceStoreMenuItem(name: self.name, spiceStore: wrappedValue)
+        self.menuItem = ChildSpiceStoreMenuItem(
+            name: self.name,
+            presentationStyle: .push,
+            spiceStore: wrappedValue
+        )
+    }
+
+    /// Initializes a `Spice` property wrapper for a child spice store.
+    /// - Parameters:
+    ///   - wrappedValue: The spice store to create hierarchial navigation to.
+    ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
+    ///   - presentation: Presentation style of the spice store.
+    public init(
+        wrappedValue: Value,
+        name: String? = nil,
+        presentation: PushPresentationStyle
+    ) where Value: SpiceStore {
+        self.name = Name(name)
+        self.storage = AnyStorage(ThrowingStorage(
+            default: wrappedValue,
+            setterMessage: "Cannot assign new reference to nested spice store."
+        ))
+        self.menuItem = ChildSpiceStoreMenuItem(
+            name: self.name,
+            presentationStyle: .push,
+            spiceStore: wrappedValue
+        )
+    }
+
+    /// Initializes a `Spice` property wrapper for a child spice store.
+    /// - Parameters:
+    ///   - wrappedValue: The spice store to create hierarchial navigation to.
+    ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
+    ///   - presentation: Presentation style of the spice store.
+    public init(
+        wrappedValue: Value,
+        name: String? = nil,
+        presentation: ModalPresentationStyle,
+        header: String? = nil,
+        footer: String? = nil
+    ) where Value: SpiceStore {
+        self.name = Name(name)
+        self.storage = AnyStorage(ThrowingStorage(
+            default: wrappedValue,
+            setterMessage: "Cannot assign new reference to nested spice store."
+        ))
+        self.menuItem = ChildSpiceStoreMenuItem(
+            name: self.name,
+            presentationStyle: .modal,
+            spiceStore: wrappedValue
+        )
+    }
+
+    /// Initializes a `Spice` property wrapper for a child spice store.
+    /// - Parameters:
+    ///   - wrappedValue: The spice store to create hierarchial navigation to.
+    ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
+    ///   - presentation: Presentation style of the spice store.
+    ///   - header: Title of the section header.
+    ///   - footer: Title of the section footer.
+    public init(
+        wrappedValue: Value,
+        name: String? = nil,
+        presentation: InlinePresentationStyle,
+        header: String? = nil,
+        footer: String? = nil
+    ) where Value: SpiceStore {
+        self.name = Name(name)
+        self.storage = AnyStorage(ThrowingStorage(
+            default: wrappedValue,
+            setterMessage: "Cannot assign new reference to nested spice store."
+        ))
+        self.menuItem = ChildSpiceStoreMenuItem(
+            name: self.name,
+            presentationStyle: .inline(header: header, footer: footer),
+            spiceStore: wrappedValue
+        )
     }
 
     /// A static subscript that provides access to the `Spice` property wrapper's value within a `SpiceStore`.

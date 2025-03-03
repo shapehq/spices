@@ -14,9 +14,7 @@ struct MenuItemListView: View {
 
     var body: some View {
         Form {
-            ForEach(menuItems, id: \.id) { menuItem in
-                MenuItemView(menuItem: menuItem, dismiss: dismiss)
-            }
+            MenuItemListContent(menuItems: menuItems, dismiss: dismiss)
         }
         .disabled(!userInteraction.isEnabled)
         .navigationTitle(title)
