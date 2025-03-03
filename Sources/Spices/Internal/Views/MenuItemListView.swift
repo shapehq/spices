@@ -1,10 +1,10 @@
 import SwiftUI
 
 struct MenuItemListView: View {
+    @EnvironmentObject private var userInteraction: UserInteraction
     private let title: String
     private let menuItems: [MenuItem]
     private let dismiss: () -> Void
-    @State private var enableUserInteraction = true
 
     init(items menuItems: [MenuItem], title: String, dismiss: @escaping () -> Void) {
         self.title = title
@@ -15,14 +15,10 @@ struct MenuItemListView: View {
     var body: some View {
         Form {
             ForEach(menuItems, id: \.id) { menuItem in
-                MenuItemView(
-                    menuItem: menuItem,
-                    enableUserInteraction: $enableUserInteraction,
-                    dismiss: dismiss
-                )
+                MenuItemView(menuItem: menuItem, dismiss: dismiss)
             }
         }
-        .disabled(!enableUserInteraction)
+        .disabled(!userInteraction.isEnabled)
         .navigationTitle(title)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {

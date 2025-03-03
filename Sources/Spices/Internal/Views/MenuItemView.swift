@@ -2,7 +2,6 @@ import SwiftUI
 
 struct MenuItemView: View {
     let menuItem: any MenuItem
-    @Binding var enableUserInteraction: Bool
     let dismiss: () -> Void
 
     var body: some View {
@@ -15,7 +14,7 @@ struct MenuItemView: View {
         } else if let menuItem = menuItem as? ButtonMenuItem {
             ButtonMenuItemView(menuItem: menuItem)
         } else if let menuItem = menuItem as? AsyncButtonMenuItem {
-            AsyncButtonMenuItemView(menuItem: menuItem, enableUserInteraction: $enableUserInteraction)
+            AsyncButtonMenuItemView(menuItem: menuItem)
         } else if let menuItem = menuItem as? ChildSpiceStoreMenuItem {
             ChildSpiceStoreMenuItemView(menuItem: menuItem, dismiss: dismiss)
         } else {

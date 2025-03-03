@@ -70,5 +70,6 @@ public struct SpiceEditor: View {
             }
         }
         .configureSheetPresentation()
+        .environmentObject(UserInteraction())
     }
 }
