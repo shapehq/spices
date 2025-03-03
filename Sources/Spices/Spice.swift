@@ -77,7 +77,6 @@ import Foundation
     }
 
     let name: Name
-    let section: SpiceSection
     let menuItem: any MenuItem
 
     private let storage: AnyStorage<Value>
@@ -88,17 +87,14 @@ import Foundation
     ///   - key: The key used to store the setting in UserDefaults. Defaults to a key generated from the property name.
     ///   - name: The display name of the setting. Defaults to a formatted version of the property name.
     ///   - requiresRestart: Set to `true` to restart the application when changing the value. Defaults to `false`.
-    ///   - section: Section to add the setting to in the in-app debug menu. Defaults to ``SpiceSection/default``.
     public init(
         wrappedValue: Value,
         key: String? = nil,
         name: String? = nil,
-        requiresRestart: Bool = false,
-        section: SpiceSection = .default
+        requiresRestart: Bool = false
     ) where Value == Bool {
         self.name = Name(name)
         self.storage = AnyStorage(UserDefaultsStorage(default: wrappedValue, key: key))
-        self.section = section
         self.menuItem = ToggleMenuItem(
             name: self.name,
             requiresRestart: requiresRestart,
@@ -112,17 +108,14 @@ import Foundation
     ///   - key: The key used to store the setting in UserDefaults. Defaults to a key generated from the property name.
     ///   - name: The display name of the setting. Defaults to a formatted version of the property name.
     ///   - requiresRestart: Set to `true` to restart the application when changing the value. Defaults to `false`.
-    ///   - section: Section to add the setting to in the in-app debug menu. Defaults to ``SpiceSection/default``.
     public init(
         wrappedValue: Value,
         key: String? = nil,
         name: String? = nil,
-        requiresRestart: Bool = false,
-        section: SpiceSection = .default
+        requiresRestart: Bool = false
     ) where Value == String {
         self.name = Name(name)
         self.storage = AnyStorage(UserDefaultsStorage(default: wrappedValue, key: key))
-        self.section = section
         self.menuItem = TextFieldMenuItem(
             name: self.name,
             requiresRestart: requiresRestart,
@@ -136,17 +129,14 @@ import Foundation
     ///   - key: The key used to store the setting in UserDefaults. Defaults to a key generated from the property name.
     ///   - name: The display name of the setting. Defaults to a formatted version of the property name.
     ///   - requiresRestart: Set to `true` to restart the application when changing the value. Defaults to `false`.
-    ///   - section: Section to add the setting to in the in-app debug menu. Defaults to ``SpiceSection/default``.
     public init(
         wrappedValue: Value,
         key: String? = nil,
         name: String? = nil,
-        requiresRestart: Bool = false,
-        section: SpiceSection = .default
+        requiresRestart: Bool = false
     ) where Value: RawRepresentable & CaseIterable {
         self.name = Name(name)
         self.storage = AnyStorage(UserDefaultsStorage(default: wrappedValue, key: key))
-        self.section = section
         self.menuItem = PickerMenuItem(
             name: self.name,
             storage: self.storage,
@@ -159,19 +149,16 @@ import Foundation
     ///   - wrappedValue: The closure representing the button's action.
     ///   - name: The display name of the setting. Defaults to a formatted version of the property name.
     ///   - requiresRestart: Set to `true` to restart the application when changing the value. Defaults to `false`.
-    ///   - section: Section to add the setting to in the in-app debug menu. Defaults to ``SpiceSection/default``.
     public init(
         wrappedValue: Value,
         name: String? = nil,
-        requiresRestart: Bool = false,
-        section: SpiceSection = .default
+        requiresRestart: Bool = false
     ) where Value == ButtonHandler {
         self.name = Name(name)
         self.storage = AnyStorage(ThrowingStorage(
             default: wrappedValue,
             setterMessage: "Cannot set closure of Spices button."
         ))
-        self.section = section
         self.menuItem = ButtonMenuItem(
             name: self.name,
             requiresRestart: requiresRestart,
@@ -184,19 +171,16 @@ import Foundation
     ///   - wrappedValue: The closure representing the button's action.
     ///   - name: The display name of the setting. Defaults to a formatted version of the property name.
     ///   - requiresRestart: Set to `true` to restart the application when changing the value. Defaults to `false`.
-    ///   - section: Section to add the setting to in the in-app debug menu. Defaults to ``SpiceSection/default``.
     public init(
         wrappedValue: Value,
         name: String? = nil,
-        requiresRestart: Bool = false,
-        section: SpiceSection = .default
+        requiresRestart: Bool = false
     ) where Value == AsyncButtonHandler {
         self.name = Name(name)
         self.storage = AnyStorage(ThrowingStorage(
             default: wrappedValue,
             setterMessage: "Cannot set closure of Spices button."
         ))
-        self.section = section
         self.menuItem = AsyncButtonMenuItem(
             name: self.name,
             requiresRestart: requiresRestart,
@@ -208,19 +192,90 @@ import Foundation
     /// - Parameters:
     ///   - wrappedValue: The spice store to create hierarchial navigation to.
     ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
-    ///   - section: Section to add the setting to in the in-app debug menu. Defaults to ``SpiceSection/default``.
+    ///   - presentation: Presentation style of the spice store.
+    public init(wrappedValue: Value, name: String? = nil) where Value: SpiceStore {
+        self.name = Name(name)
+        self.storage = AnyStorage(ThrowingStorage(
+            default: wrappedValue,
+            setterMessage: "Cannot assign new reference to nested spice store."
+        ))
+        self.menuItem = ChildSpiceStoreMenuItem(
+            name: self.name,
+            presentationStyle: .push,
+            spiceStore: wrappedValue
+        )
+    }
+
+    /// Initializes a `Spice` property wrapper for a child spice store.
+    /// - Parameters:
+    ///   - wrappedValue: The spice store to create hierarchial navigation to.
+    ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
+    ///   - presentation: Presentation style of the spice store.
     public init(
         wrappedValue: Value,
         name: String? = nil,
-        section: SpiceSection = .default
+        presentation: PushPresentationStyle
     ) where Value: SpiceStore {
         self.name = Name(name)
         self.storage = AnyStorage(ThrowingStorage(
             default: wrappedValue,
             setterMessage: "Cannot assign new reference to nested spice store."
         ))
-        self.section = section
-        self.menuItem = ChildSpiceStoreMenuItem(name: self.name, spiceStore: wrappedValue)
+        self.menuItem = ChildSpiceStoreMenuItem(
+            name: self.name,
+            presentationStyle: .push,
+            spiceStore: wrappedValue
+        )
+    }
+
+    /// Initializes a `Spice` property wrapper for a child spice store.
+    /// - Parameters:
+    ///   - wrappedValue: The spice store to create hierarchial navigation to.
+    ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
+    ///   - presentation: Presentation style of the spice store.
+    public init(
+        wrappedValue: Value,
+        name: String? = nil,
+        presentation: ModalPresentationStyle,
+        header: String? = nil,
+        footer: String? = nil
+    ) where Value: SpiceStore {
+        self.name = Name(name)
+        self.storage = AnyStorage(ThrowingStorage(
+            default: wrappedValue,
+            setterMessage: "Cannot assign new reference to nested spice store."
+        ))
+        self.menuItem = ChildSpiceStoreMenuItem(
+            name: self.name,
+            presentationStyle: .modal,
+            spiceStore: wrappedValue
+        )
+    }
+
+    /// Initializes a `Spice` property wrapper for a child spice store.
+    /// - Parameters:
+    ///   - wrappedValue: The spice store to create hierarchial navigation to.
+    ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
+    ///   - presentation: Presentation style of the spice store.
+    ///   - header: Title of the section header.
+    ///   - footer: Title of the section footer.
+    public init(
+        wrappedValue: Value,
+        name: String? = nil,
+        presentation: InlinePresentationStyle,
+        header: String? = nil,
+        footer: String? = nil
+    ) where Value: SpiceStore {
+        self.name = Name(name)
+        self.storage = AnyStorage(ThrowingStorage(
+            default: wrappedValue,
+            setterMessage: "Cannot assign new reference to nested spice store."
+        ))
+        self.menuItem = ChildSpiceStoreMenuItem(
+            name: self.name,
+            presentationStyle: .inline(header: header, footer: footer),
+            spiceStore: wrappedValue
+        )
     }
 
     /// A static subscript that provides access to the `Spice` property wrapper's value within a `SpiceStore`.

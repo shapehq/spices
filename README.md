@@ -27,8 +27,7 @@
   - [Pickers](#pickers)
   - [Buttons](#buttons)
   - [Text Fields](#text-fields)
-  - [Group Settings in Sections](#group-settings-in-sections)
-  - [Hierarchical Navigation](#hierarchical-navigation)
+  - [Group Settings using Nested Spice Stores](#group-settings-using-nested-spice-stores)
   - [Require Restart](#require-restart)
   - [Display Custom Name](#display-custom-name)
   - [Specify Editor Title](#specify-editor-title)
@@ -306,46 +305,7 @@ Text fields are created for string variables in a spice store.
 @Spice var url = "http://example.com"
 ```
 
-### Group Settings in Sections
-
-Grouping settings into sections improves organization and enhances readability. Settings can be grouped by providing an instance of `SpiceSection` when initializing a `Spice`.
-
-```swift
-private extension SpiceSection {
-    static var environment: Self {
-        SpiceSection("env")
-    }
-
-    static var debug: Self {
-        SpiceSection("debug")
-    }
-}
-
-final class AppSpiceStore: SpiceStore {
-    @Spice(requiresRestart: true, section: .environment)
-    var environment: ServiceEnvironment = .production
-
-    @Spice(name: "API URL", section: .environment)
-    var apiURL = "https://api.example.com"
-
-    @Spice(section: .debug)
-    var enableLogging = false
-}
-```
-
-A `SpiceSection` can include a header text, a footer text, or both.
-
-```swift
-private extension SpiceSection {
-    static var debug: Self {
-        SpiceSection("debug", header: "Debugging", footer: "Clearing the cache can lead to longer loading times.")
-    }
-}
-```
-
-If no section is specified, settings are placed in `SpiceSection.default`.
-
-### Hierarchical Navigation
+### Group Settings with Nested Spice Stores
 
 Spice stores can be nested to create a hierarchical user interface.
 
@@ -358,6 +318,35 @@ class FeatureFlagsSpiceStore: SpiceStore {
     @Spice var notifications = false
     @Spice var fastRefreshWidgets = false
 }
+```
+
+By default, a nested spice store is presented as a new screen in the navigation stack. This behavior is equivalent to:
+
+```swift
+@Spice(presentation: .push) var featureFlags = FeatureFlagsSpiceStore()
+```
+
+A nested spice store can also be presented as a modal instead of being pushed onto the navigation stack:
+
+```swift
+@Spice(presentation: .modal) var featureFlags = FeatureFlagsSpiceStore()
+```
+
+Alternatively, it can be displayed as an inlined section within the settings list:
+
+```swift
+@Spice(presentation: .inline) var featureFlags = FeatureFlagsSpiceStore()
+```
+
+When inlining a nested spice store, a header and footer can be provided for better context:
+
+```swift
+@Spice(
+  presentation: .push,
+  header: "Features",
+  footer: "Test features that are yet to be released."
+)
+var featureFlags = FeatureFlagsSpiceStore()
 ```
 
 ### Require Restart

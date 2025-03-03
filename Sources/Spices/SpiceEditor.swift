@@ -65,7 +65,7 @@ public struct SpiceEditor: View {
     /// The content of the view.
     public var body: some View {
         NavigationView {
-            MenuItemListView(sections: spiceStore.menuItemSections, title: title) {
+            MenuItemListView(items: spiceStore.menuItems, title: title) {
                 dismiss()
             }
         }

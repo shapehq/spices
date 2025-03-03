@@ -17,7 +17,11 @@ struct MenuItemView: View {
         } else if let menuItem = menuItem as? AsyncButtonMenuItem {
             AsyncButtonMenuItemView(menuItem: menuItem, enableUserInteraction: $enableUserInteraction)
         } else if let menuItem = menuItem as? ChildSpiceStoreMenuItem {
-            ChildSpiceStoreMenuItemView(menuItem: menuItem, dismiss: dismiss)
+            ChildSpiceStoreMenuItemView(
+                menuItem: menuItem,
+                enableUserInteraction: $enableUserInteraction,
+                dismiss: dismiss
+            )
         } else {
             fatalError("Unknown menu item of type \(type(of: menuItem))")
         }

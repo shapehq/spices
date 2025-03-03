@@ -22,9 +22,13 @@ struct ContentView: View {
                     LabeledContent("API URL") {
                         Text(spiceStore.apiURL)
                     }
+                }
+                Section {
                     LabeledContent("Enable Logging") {
-                        Text(spiceStore.enableLogging ? "Yes" : "No")
+                        Text(spiceStore.debugging.enableLogging ? "Yes" : "No")
                     }
+                } header: {
+                    Text("Debugging")
                 }
                 Section {
                     LabeledContent("Notifications") {

@@ -5,7 +5,8 @@ import UIKit
 final class ContentViewController: UIViewController {
     private enum Section {
         case intro
-        case general
+        case environment
+        case debugging
         case featureFlags
     }
 
@@ -27,7 +28,7 @@ final class ContentViewController: UIViewController {
             case .text:
                 .default
             case .titleValue:
-                 .value1
+                .value1
             }
         }
 
@@ -48,7 +49,9 @@ final class ContentViewController: UIViewController {
             switch section {
             case .featureFlags:
                 return "Feature Flags"
-            case .intro, .general:
+            case .debugging:
+                return "Debugging"
+            case .intro, .environment:
                 return nil
             }
         }
@@ -95,7 +98,7 @@ private extension ContentViewController {
                 + "The following illustrates how spices can be observed using Combine from UIKit."
             )
         ]
-        let generalItems: [Item] = [
+        let environmentItems: [Item] = [
             .titleValue(
                 title: "Environment",
                 value: String(describing: spiceStore.environment)
@@ -103,10 +106,12 @@ private extension ContentViewController {
             .titleValue(
                 title: "API URL",
                 value: spiceStore.apiURL
-            ),
+            )
+        ]
+        let debuggingItems: [Item] = [
             .titleValue(
                 title: "Enable Logging",
-                value: spiceStore.enableLogging ? "Yes" : "No"
+                value: spiceStore.debugging.enableLogging ? "Yes" : "No"
             )
         ]
         let featureFlagsItems: [Item] = [
@@ -120,9 +125,10 @@ private extension ContentViewController {
             )
         ]
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
-        snapshot.appendSections([.intro, .general, .featureFlags])
+        snapshot.appendSections([.intro, .environment, .debugging, .featureFlags])
         snapshot.appendItems(introItems, toSection: .intro)
-        snapshot.appendItems(generalItems, toSection: .general)
+        snapshot.appendItems(environmentItems, toSection: .environment)
+        snapshot.appendItems(debuggingItems, toSection: .debugging)
         snapshot.appendItems(featureFlagsItems, toSection: .featureFlags)
         diffableDataSource?.apply(snapshot, animatingDifferences: false)
     }
@@ -130,7 +136,7 @@ private extension ContentViewController {
     private func observeSpices() {
         Publishers.CombineLatest4(
             spiceStore.$environment,
-            spiceStore.$enableLogging,
+            spiceStore.debugging.$enableLogging,
             spiceStore.$apiURL,
             spiceStore.featureFlags.$notifications
         )
