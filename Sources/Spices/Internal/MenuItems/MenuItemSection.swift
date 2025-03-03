@@ -21,7 +21,7 @@ struct MenuItemSection: Identifiable {
     }
 
     func appending(_ menuItem: MenuItem) -> Self {
-        MenuItemSection(
+        Self(
             id: id,
             header: header,
             footer: footer,

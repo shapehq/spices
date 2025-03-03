@@ -41,7 +41,7 @@ public struct SpiceSection: Hashable {
 
     /// The default `SpiceSection`.
     public static var `default`: Self {
-        SpiceSection("default")
+        Self("default")
     }
 
     /// Creates a new `SpiceSection` with the given identifier and no header or footer.
