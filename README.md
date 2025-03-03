@@ -27,6 +27,7 @@
   - [Pickers](#pickers)
   - [Buttons](#buttons)
   - [Text Fields](#text-fields)
+  - [Group Settings in Sections](#group-settings-in-sections)
   - [Hierarchical Navigation](#hierarchical-navigation)
   - [Require Restart](#require-restart)
   - [Display Custom Name](#display-custom-name)
@@ -304,6 +305,44 @@ Text fields are created for string variables in a spice store.
 ```swift
 @Spice var url = "http://example.com"
 ```
+
+### Group Settings in Sections
+
+Settings can be grouped in settings by providing an instance of `SpiceSection` when initializing a `Spice`.
+
+```swift
+private extension SpiceSection {
+    static var environment: Self {
+        SpiceSection("env")
+    }
+
+    static var debug: Self {
+        SpiceSection("debug")
+    }
+}
+
+final class AppSpiceStore: SpiceStore {
+    @Spice(requiresRestart: true, section: .environment)
+    var environment: ServiceEnvironment = .production
+    @Spice(name: "API URL", section: .environment)
+    var apiURL = "http://example.com"
+
+    @Spice(section: .debug)
+    var enableLogging = false
+}
+```
+
+A `SpiceSection` can be created with a header text, a footer text, or both.
+
+```swift
+private extension SpiceSection {
+    static var debug: Self {
+        SpiceSection("debug", header: "Debugging", footer: "Clearing the cache can lead to longer loading times.")
+    }
+}
+```
+
+Settings are placed in the `SpiceSection.default` section by default.
 
 ### Hierarchical Navigation
 

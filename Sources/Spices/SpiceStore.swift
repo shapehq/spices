@@ -87,15 +87,24 @@ extension SpiceStore {
         }
     }
 
-    var menuItems: [MenuItem] {
+    var menuItemSections: [MenuItemSection] {
         prepareIfNeeded()
+        var menuItemSections: [MenuItemSection] = []
         let mirror = Mirror(reflecting: self)
-        return mirror.children.compactMap { _, value in
-            guard let spice = value as? MenuItemProvider else {
-                return nil
+        for (_, value) in mirror.children {
+            guard let menuItemProvider = value as? MenuItemProvider else {
+                continue
             }
-            return spice.menuItem
+            let sectionId = menuItemProvider.section.id
+            let menuItem = menuItemProvider.menuItem
+            if let sectionIdx = menuItemSections.firstIndex(where: { $0.id == sectionId }) {
+                menuItemSections[sectionIdx] = menuItemSections[sectionIdx].appending(menuItem)
+            } else {
+                let section = MenuItemSection(section: menuItemProvider.section, menuItems: [menuItem])
+                menuItemSections.append(section)
+            }
         }
+        return menuItemSections
     }
 
     func key(fromPropertyNamed propertyName: String) -> String {

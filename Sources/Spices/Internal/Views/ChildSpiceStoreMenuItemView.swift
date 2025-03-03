@@ -7,7 +7,7 @@ struct ChildSpiceStoreMenuItemView: View {
     var body: some View {
         NavigationLink {
             MenuItemListView(
-                items: menuItem.spiceStore.menuItems,
+                sections: menuItem.spiceStore.menuItemSections,
                 title: menuItem.name.rawValue,
                 dismiss: dismiss
             )
