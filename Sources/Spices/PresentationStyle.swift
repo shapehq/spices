@@ -19,14 +19,10 @@ public struct InlinePresentationStyle: PresentationStyle {
 public extension PresentationStyle {
     /// The modal presentation style, which presents the view modally.
     ///
+    /// ## Example Usage
+    ///
     /// ```swift
-    /// @Spice(presentation: .modal) var helloWorld = VStack {
-    ///     Image(systemName: "globe")
-    ///         .imageScale(.large)
-    ///         .foregroundStyle(.tint)
-    ///     Text("Hello, world!")
-    /// }
-    /// .padding()
+    /// @Spice(presentation: .modal) var featureFlags = FeatureFlagsSpiceStore()
     /// ```
     static var modal: ModalPresentationStyle {
         ModalPresentationStyle()
@@ -34,14 +30,10 @@ public extension PresentationStyle {
 
     /// The push presentation style, which pushes the view onto the navigation stack.
     ///
+    /// ## Example Usage
+    ///
     /// ```swift
-    /// @Spice(presentation: .push) var helloWorld = VStack {
-    ///     Image(systemName: "globe")
-    ///         .imageScale(.large)
-    ///         .foregroundStyle(.tint)
-    ///     Text("Hello, world!")
-    /// }
-    /// .padding()
+    /// @Spice(presentation: .push) var featureFlags = FeatureFlagsSpiceStore()
     /// ```
     static var push: PushPresentationStyle {
         PushPresentationStyle()
@@ -49,8 +41,10 @@ public extension PresentationStyle {
 
     /// The inline presentation style, which inlines the view within the settings list.
     ///
+    /// ## Example Usage
+    ///
     /// ```swift
-    /// @Spice var version = LabeledContent("Version", value: "1.0 (1)")
+    /// @Spice(presentation: .inline) var featureFlags = FeatureFlagsSpiceStore()
     /// ```
     static var inline: InlinePresentationStyle {
         InlinePresentationStyle()
