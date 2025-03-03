@@ -15,7 +15,7 @@ struct ChildSpiceStoreMenuItemView: View {
             } label: {
                 Text(menuItem.name.rawValue)
             }
-        case .inline(let header, let footer):
+        case let .inline(header, footer):
             Section {
                 MenuItemListContent(
                     menuItems: menuItem.spiceStore.menuItems,
