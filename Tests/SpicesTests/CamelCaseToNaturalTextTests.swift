@@ -15,6 +15,7 @@ struct CamelCaseToNaturalTextTests {
         #expect("featureFlags".camelCaseToNaturalText() == "Feature Flags")
         #expect("notifications".camelCaseToNaturalText() == "Notifications")
         #expect("fastRefreshWidgets".camelCaseToNaturalText() == "Fast Refresh Widgets")
+        #expect("ignoreNextHTTPRequest".camelCaseToNaturalText() == "Ignore Next HTTP Request")
 
         // Suboptimal, but heuristics for these would be annoying.
         #expect("httpVersion".camelCaseToNaturalText() == "Http Version")

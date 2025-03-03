@@ -13,13 +13,21 @@ extension String {
         var pieces = [String]()
         var currentPiece = ""
 
-        for (idx, character) in enumerated() {
-            if idx == 0 {
+        for (idx, character) in zip(indices, self) {
+            if idx == startIndex {
                 currentPiece += character.uppercased()
             } else if character.isUppercase {
                 // Small check: recognize runs of multiple uppercase letters and
-                // consider them part of the same word.
-                if let previousChar = currentPiece.last, previousChar.isUppercase {
+                // consider them part of the same word until the start of the next word.
+                let previousIndex = index(before: idx)
+                let nextIndex = index(after: idx)
+                let previous = self[previousIndex]
+                let next = nextIndex < endIndex ? self[nextIndex] : nil
+
+                // If the previous letter was uppercase, continue the initialism. However,
+                // if the next character is lowercase, it's the start of the next camel-case word,
+                // so don't include it in the run.
+                if previous.isUppercase && next?.isLowercase == true {
                     currentPiece.append(character)
                 } else {
                     pieces.append(currentPiece)
