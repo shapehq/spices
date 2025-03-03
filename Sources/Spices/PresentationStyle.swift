@@ -21,6 +21,8 @@ public extension PresentationStyle {
     ///
     /// ## Example Usage
     ///
+    /// Use the presentation style to present a nested spice store modally.
+    ///
     /// ```swift
     /// @Spice(presentation: .modal) var featureFlags = FeatureFlagsSpiceStore()
     /// ```
@@ -32,6 +34,8 @@ public extension PresentationStyle {
     ///
     /// ## Example Usage
     ///
+    /// Use the presentation style to push a nested spice store onto the navigation stack.
+    ///
     /// ```swift
     /// @Spice(presentation: .push) var featureFlags = FeatureFlagsSpiceStore()
     /// ```
@@ -42,6 +46,8 @@ public extension PresentationStyle {
     /// The inline presentation style, which inlines the view within the settings list.
     ///
     /// ## Example Usage
+    ///
+    /// Use the presentation style to inline a nested spice store within the current list.
     ///
     /// ```swift
     /// @Spice(presentation: .inline) var featureFlags = FeatureFlagsSpiceStore()
