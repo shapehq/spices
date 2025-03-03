@@ -309,12 +309,12 @@ import SwiftUI
     /// ```
     /// - Parameters:
     ///   - wrappedValue: The custom view to embed.
+    ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.   
     ///   - presentation: Presentation style of the custom view.
-    ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
     public init(
         wrappedValue: some View,
-        presentation: ModalPresentationStyle,
-        name: String? = nil
+        name: String? = nil,
+        presentation: ModalPresentationStyle
     ) where Value == AnyView {
         self.name = Name(name)
         self.storage = AnyStorage(ThrowingStorage(
@@ -343,12 +343,12 @@ import SwiftUI
     /// ```
     /// - Parameters:
     ///   - wrappedValue: The custom view to embed.
-    ///   - presentation: Presentation style of the custom view.
     ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
+    ///   - presentation: Presentation style of the custom view.
     public init(
         wrappedValue: some View,
-        presentation: PushPresentationStyle,
-        name: String? = nil
+        name: String? = nil,
+        presentation: PushPresentationStyle
     ) where Value == AnyView {
         self.name = Name(name)
         self.storage = AnyStorage(ThrowingStorage(
