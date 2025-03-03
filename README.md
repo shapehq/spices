@@ -308,7 +308,7 @@ Text fields are created for string variables in a spice store.
 
 ### Group Settings in Sections
 
-Settings can be grouped in settings by providing an instance of `SpiceSection` when initializing a `Spice`.
+Grouping settings into sections improves organization and enhances readability. Settings can be grouped by providing an instance of `SpiceSection` when initializing a `Spice`.
 
 ```swift
 private extension SpiceSection {
@@ -324,15 +324,16 @@ private extension SpiceSection {
 final class AppSpiceStore: SpiceStore {
     @Spice(requiresRestart: true, section: .environment)
     var environment: ServiceEnvironment = .production
+
     @Spice(name: "API URL", section: .environment)
-    var apiURL = "http://example.com"
+    var apiURL = "https://api.example.com"
 
     @Spice(section: .debug)
     var enableLogging = false
 }
 ```
 
-A `SpiceSection` can be created with a header text, a footer text, or both.
+A `SpiceSection` can include a header text, a footer text, or both.
 
 ```swift
 private extension SpiceSection {
@@ -342,7 +343,7 @@ private extension SpiceSection {
 }
 ```
 
-Settings are placed in the `SpiceSection.default` section by default.
+If no section is specified, settings are placed in `SpiceSection.default`.
 
 ### Hierarchical Navigation
 
