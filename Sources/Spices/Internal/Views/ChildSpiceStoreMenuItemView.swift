@@ -2,7 +2,6 @@ import SwiftUI
 
 struct ChildSpiceStoreMenuItemView: View {
     let menuItem: ChildSpiceStoreMenuItem
-    @Binding var enableUserInteraction: Bool
     let dismiss: () -> Void
 
     var body: some View {
@@ -19,7 +18,6 @@ struct ChildSpiceStoreMenuItemView: View {
             Section {
                 MenuItemListContent(
                     menuItems: menuItem.spiceStore.menuItems,
-                    enableUserInteraction: $enableUserInteraction,
                     dismiss: dismiss
                 )
             } header: {

@@ -2,8 +2,8 @@ import SwiftUI
 
 struct AsyncButtonMenuItemView: View {
     let menuItem: AsyncButtonMenuItem
-    @Binding var enableUserInteraction: Bool
 
+    @EnvironmentObject private var userInteraction: UserInteraction
     @State private var isLoading = false
     @State private var isErrorPresented = false
     @State private var error: Error?
@@ -12,11 +12,11 @@ struct AsyncButtonMenuItemView: View {
         Button {
             Task {
                 defer {
-                    enableUserInteraction = true
+                    userInteraction.isEnabled = true
                     isLoading = false
                 }
                 do {
-                    enableUserInteraction = false
+                    userInteraction.isEnabled = false
                     isLoading = true
                     try await menuItem.storage.value()
                     if menuItem.requiresRestart {
