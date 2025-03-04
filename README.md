@@ -28,6 +28,7 @@
   - [Buttons](#buttons)
   - [Text Fields](#text-fields)
   - [Group Settings Using Nested Spice Stores](#group-settings-using-nested-spice-stores)
+  - [Inject Your Own Views](#inject-your-own-views)
   - [Require Restart](#require-restart)
   - [Display Custom Name](#display-custom-name)
   - [Specify Editor Title](#specify-editor-title)
@@ -347,6 +348,53 @@ When inlining a nested spice store, a header and footer can be provided for bett
   footer: "Test features that are yet to be released."
 )
 var featureFlags = FeatureFlagsSpiceStore()
+```
+
+### Inject Your Own Views
+
+You can embed your own views into Spices, for example, to display static information.
+
+The `@Spice` property wrapper allows you to define custom views within Spices settings. These views can be inlined by default or presented using different styles.
+
+By default, views are inlined within the settings list:
+
+```swift
+@Spice var version = LabeledContent("Version", value: "1.0 (1)")
+```
+
+You can change the presentation style using the presentation argument.
+
+The `.push` presentation pushes the view onto the navigation stack.
+
+```swift
+@Spice(presentation: .push) var helloWorld = VStack {
+    Image(systemName: "globe")
+        .imageScale(.large)
+        .foregroundStyle(.tint)
+    Text("Hello, world!")
+}
+.padding()
+```
+
+The `.modal` presentation presents the view modally on top of Spices.
+
+```swift
+@Spice(presentation: .modal) var helloWorld = // ...
+```
+
+### Nest Spice Stores
+
+Spice stores can be nested to create a hierarchical user interface.
+
+```swift
+class AppSpiceStore: SpiceStore {
+    @Spice var featureFlags = FeatureFlagsSpiceStore()
+}
+
+class FeatureFlagsSpiceStore: SpiceStore {
+    @Spice var notifications = false
+    @Spice var fastRefreshWidgets = false
+}
 ```
 
 ### Require Restart

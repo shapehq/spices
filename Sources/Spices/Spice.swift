@@ -1,5 +1,6 @@
 import Combine
 import Foundation
+import SwiftUI
 
 /// A property wrapper for exposing settings in a generated in-app debug menus.
 ///
@@ -82,6 +83,12 @@ import Foundation
     private let storage: AnyStorage<Value>
 
     /// Initializes a `Spice` property wrapper for a boolean setting.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    /// @Spice var enableLogging = false
+    /// ```
     /// - Parameters:
     ///   - wrappedValue: The initial value of the boolean setting.
     ///   - key: The key used to store the setting in UserDefaults. Defaults to a key generated from the property name.
@@ -103,6 +110,12 @@ import Foundation
     }
 
     /// Initializes a `Spice` property wrapper for a string setting.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    /// @Spice(name: "API URL") var apiURL = "http://example.com"
+    /// ```
     /// - Parameters:
     ///   - wrappedValue: The initial value of the string setting.
     ///   - key: The key used to store the setting in UserDefaults. Defaults to a key generated from the property name.
@@ -124,6 +137,17 @@ import Foundation
     }
 
     /// Initializes a `Spice` property wrapper for an enum setting.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    /// enum ServiceEnvironment: String, CaseIterable {
+    ///     case production
+    ///     case staging
+    /// }
+    ///
+    /// @Spice(requiresRestart: true) var environment: ServiceEnvironment = .production
+    /// ```
     /// - Parameters:
     ///   - wrappedValue: The initial value of the enum setting.
     ///   - key: The key used to store the setting in UserDefaults. Defaults to a key generated from the property name.
@@ -145,6 +169,14 @@ import Foundation
     }
 
     /// Initializes a `Spice` property wrapper for a synchronous button action.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    ///  @Spice var clearCache = {
+    ///      URLCache.shared.removeAllCachedResponses()
+    ///  }
+    /// ```
     /// - Parameters:
     ///   - wrappedValue: The closure representing the button's action.
     ///   - name: The display name of the setting. Defaults to a formatted version of the property name.
@@ -157,7 +189,7 @@ import Foundation
         self.name = Name(name)
         self.storage = AnyStorage(ThrowingStorage(
             default: wrappedValue,
-            setterMessage: "Cannot set closure of Spices button."
+            setterMessage: "Cannot set closure of a button spice."
         ))
         self.menuItem = ButtonMenuItem(
             name: self.name,
@@ -167,6 +199,15 @@ import Foundation
     }
 
     /// Initializes a `Spice` property wrapper for a asynchronous button action.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    ///  @Spice var clearCache = {
+    ///      try await Task.sleep(for: .seconds(1))
+    ///      URLCache.shared.removeAllCachedResponses()
+    ///  }
+    /// ```
     /// - Parameters:
     ///   - wrappedValue: The closure representing the button's action.
     ///   - name: The display name of the setting. Defaults to a formatted version of the property name.
@@ -179,7 +220,7 @@ import Foundation
         self.name = Name(name)
         self.storage = AnyStorage(ThrowingStorage(
             default: wrappedValue,
-            setterMessage: "Cannot set closure of Spices button."
+            setterMessage: "Cannot set closure of button spice."
         ))
         self.menuItem = AsyncButtonMenuItem(
             name: self.name,
@@ -189,6 +230,13 @@ import Foundation
     }
 
     /// Initializes a `Spice` property wrapper for a child spice store.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    /// @Spice var featureFlags = FeatureFlagsSpiceStore()
+    /// ```
+    ///
     /// - Parameters:
     ///   - wrappedValue: The spice store to create hierarchial navigation to.
     ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
@@ -275,6 +323,119 @@ import Foundation
             name: self.name,
             presentationStyle: .inline(header: header, footer: footer),
             spiceStore: wrappedValue
+        )
+    }
+
+    /// Initializes a `Spice` property wrapper for a custom view.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    /// @Spice var version = LabeledContent("Version", value: "1.0 (1)")
+    /// ```
+    /// - Parameters:
+    ///   - wrappedValue: The custom view to embed.
+    public init(wrappedValue: some View) where Value == AnyView {
+        self.name = Name(nil)
+        self.storage = AnyStorage(ThrowingStorage(
+            default: AnyView(wrappedValue),
+            setterMessage: "Cannot assign new reference to a custom view spice."
+        ))
+        self.menuItem = ViewMenuItem(
+            name: self.name,
+            presentationStyle: .inline,
+            content: AnyView(wrappedValue)
+        )
+    }
+
+    /// Initializes a `Spice` property wrapper for a custom view.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    /// @Spice var version = LabeledContent("Version", value: "1.0 (1)")
+    /// ```
+    /// - Parameters:
+    ///   - wrappedValue: The custom view to embed.
+    ///   - presentation: Presentation style of the custom view.
+    public init(wrappedValue: some View, presentation: InlinePresentationStyle) where Value == AnyView {
+        self.name = Name(nil)
+        self.storage = AnyStorage(ThrowingStorage(
+            default: AnyView(wrappedValue),
+            setterMessage: "Cannot assign new reference to a custom view spice."
+        ))
+        self.menuItem = ViewMenuItem(
+            name: self.name,
+            presentationStyle: .inline,
+            content: AnyView(wrappedValue)
+        )
+    }
+
+    /// Initializes a `Spice` property wrapper for a custom view presented modally.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    /// @Spice(presentation: .modal) var helloWorld = VStack {
+    ///     Image(systemName: "globe")
+    ///         .imageScale(.large)
+    ///         .foregroundStyle(.tint)
+    ///     Text("Hello, world!")
+    /// }
+    /// .padding()
+    /// ```
+    /// - Parameters:
+    ///   - wrappedValue: The custom view to embed.
+    ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.   
+    ///   - presentation: Presentation style of the custom view.
+    public init(
+        wrappedValue: some View,
+        name: String? = nil,
+        presentation: ModalPresentationStyle
+    ) where Value == AnyView {
+        self.name = Name(name)
+        self.storage = AnyStorage(ThrowingStorage(
+            default: AnyView(wrappedValue),
+            setterMessage: "Cannot assign new reference to a custom view spice."
+        ))
+        self.menuItem = ViewMenuItem(
+            name: self.name,
+            presentationStyle: .modal,
+            content: AnyView(wrappedValue)
+        )
+    }
+
+    /// Initializes a `Spice` property wrapper for a custom view pushed onto the navigation stack.
+    ///
+    /// **Example Usage:**
+    ///
+    /// ```swift
+    /// @Spice(presentation: .push) var helloWorld = VStack {
+    ///     Image(systemName: "globe")
+    ///         .imageScale(.large)
+    ///         .foregroundStyle(.tint)
+    ///     Text("Hello, world!")
+    /// }
+    /// .padding()
+    /// ```
+    /// - Parameters:
+    ///   - wrappedValue: The custom view to embed.
+    ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
+    ///   - presentation: Presentation style of the custom view.
+    public init(
+        wrappedValue: some View,
+        name: String? = nil,
+        presentation: PushPresentationStyle
+    ) where Value == AnyView {
+        self.name = Name(name)
+        self.storage = AnyStorage(ThrowingStorage(
+            default: AnyView(wrappedValue),
+            setterMessage: "Cannot assign new reference to a custom view spice."
+        ))
+        self.menuItem = ViewMenuItem(
+            name: self.name,
+            presentationStyle: .push,
+            content: AnyView(wrappedValue)
         )
     }
 

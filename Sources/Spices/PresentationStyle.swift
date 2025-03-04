@@ -1,4 +1,4 @@
-// A type that represents different styles for presenting a view within Spices settings.
+/// A type that represents different styles for presenting a view within the in-app debug menu.
 public protocol PresentationStyle {}
 
 /// A presentation style that displays the view modally on top of the Spices settings.
@@ -25,6 +25,17 @@ public extension PresentationStyle {
     ///
     /// ```swift
     /// @Spice(presentation: .modal) var featureFlags = FeatureFlagsSpiceStore()
+    ///
+    /// The presentation style can also be used to present a view modally.
+    ///
+    /// ```swift
+    /// @Spice(presentation: .modal) var helloWorld = VStack {
+    ///     Image(systemName: "globe")
+    ///         .imageScale(.large)
+    ///         .foregroundStyle(.tint)
+    ///     Text("Hello, world!")
+    /// }
+    /// .padding()
     /// ```
     static var modal: ModalPresentationStyle {
         ModalPresentationStyle()
@@ -38,6 +49,17 @@ public extension PresentationStyle {
     ///
     /// ```swift
     /// @Spice(presentation: .push) var featureFlags = FeatureFlagsSpiceStore()
+    /// 
+    /// The presentation style can also be used to push a view onto the navigation stack.
+    /// 
+    /// ```swift
+    /// @Spice(presentation: .push) var helloWorld = VStack {
+    ///     Image(systemName: "globe")
+    ///         .imageScale(.large)
+    ///         .foregroundStyle(.tint)
+    ///     Text("Hello, world!")
+    /// }
+    /// .padding()
     /// ```
     static var push: PushPresentationStyle {
         PushPresentationStyle()
@@ -51,6 +73,11 @@ public extension PresentationStyle {
     ///
     /// ```swift
     /// @Spice(presentation: .inline) var featureFlags = FeatureFlagsSpiceStore()
+    ///
+    /// The presentation style can also be used to inline a view.
+    ///
+    /// ```swift
+    /// @Spice var version = LabeledContent("Version", value: "1.0 (1)")
     /// ```
     static var inline: InlinePresentationStyle {
         InlinePresentationStyle()
