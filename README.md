@@ -35,6 +35,7 @@
   - [Store Values in Custom UserDefaults](#store-values-in-custom-userdefaults)
   - [Store Values Under Custom Key](#store-values-under-custom-key)
   - [Using with @AppStorage](#using-with-appstorage)
+- [🤔 Why "Spices"?](#-why-spices)
 
 ## 👋 Introduction
 
@@ -478,3 +479,11 @@ struct ExampleView: View {
     }
 }
 ```
+
+## 🤔 Why "Spices"?
+
+The name "Spices" evolved from our original repository, "ConfigVars", which we used internally at [Shape](https://shape.dk) (becoming [Framna](https://framna.com)) for several years. That early version didn’t use reflection, but when we experimented with a new implementation that did, we jokingly called it "spicing it up." The idea stuck, and we realized developers could also use the package to "spice up" their own projects, adding extra debugging "spices" as needed.
+
+For the first few years, the project was called "Config Vars", but we never really loved that name. It felt too generic. When we decided to open-source the package, we considered reverting to the original name or using other generic alternatives like "configs," "variables," "tweaks," or "configuration variables."
+
+However, these terms are so widely used and have so many different meanings that we worried about causing naming conflicts in developers' codebases. Ultimately, we stuck with "Spices" because it’s unique, memorable, and less likely to clash with existing concepts.
