@@ -10,6 +10,13 @@ enum ServiceEnvironment: String, CaseIterable {
 final class AppSpiceStore: SpiceStore {
     @Spice(requiresRestart: true) var environment: ServiceEnvironment = .production
     @Spice(name: "API URL") var apiURL = "http://example.com"
+
+    @Spice(presentation: .inline) var debugging = DebuggingSpiceStore()
+
+    @Spice var featureFlags = FeatureFlagsSpiceStore()
+}
+
+final class DebuggingSpiceStore: SpiceStore {
     @Spice var enableLogging = false
     @Spice var clearCache = {
         try await Task.sleep(for: .seconds(1))
@@ -24,6 +31,8 @@ final class AppSpiceStore: SpiceStore {
     }
     .padding()
     @Spice var version = LabeledContent("Version", value: "1.0 (1)")
+
+    fileprivate init() {}
 }
 
 final class FeatureFlagsSpiceStore: SpiceStore {

@@ -27,8 +27,8 @@
   - [Pickers](#pickers)
   - [Buttons](#buttons)
   - [Text Fields](#text-fields)
+  - [Group Settings Using Nested Spice Stores](#group-settings-using-nested-spice-stores)
   - [Inject Your Own Views](#inject-your-own-views)
-  - [Nest Spice Stores](#nest-spice-stores)
   - [Require Restart](#require-restart)
   - [Display Custom Name](#display-custom-name)
   - [Specify Editor Title](#specify-editor-title)
@@ -304,6 +304,37 @@ Text fields are created for string variables in a spice store.
 
 ```swift
 @Spice var url = "http://example.com"
+```
+
+### Group Settings Using Nested Spice Stores
+
+By default, a nested spice store is presented as a new screen in the navigation stack. This behavior is equivalent to:
+
+```swift
+@Spice(presentation: .push) var featureFlags = FeatureFlagsSpiceStore()
+```
+
+A nested spice store can also be presented as a modal instead of being pushed onto the navigation stack:
+
+```swift
+@Spice(presentation: .modal) var featureFlags = FeatureFlagsSpiceStore()
+```
+
+Alternatively, it can be displayed as an inlined section within the settings list:
+
+```swift
+@Spice(presentation: .inline) var featureFlags = FeatureFlagsSpiceStore()
+```
+
+When inlining a nested spice store, a header and footer can be provided for better context:
+
+```swift
+@Spice(
+  presentation: .push,
+  header: "Features",
+  footer: "Test features that are yet to be released."
+)
+var featureFlags = FeatureFlagsSpiceStore()
 ```
 
 ### Inject Your Own Views
