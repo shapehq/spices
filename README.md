@@ -383,21 +383,6 @@ The `.modal` presentation presents the view modally on top of Spices.
 @Spice(presentation: .modal) var helloWorld = // ...
 ```
 
-### Nest Spice Stores
-
-Spice stores can be nested to create a hierarchical user interface.
-
-```swift
-class AppSpiceStore: SpiceStore {
-    @Spice var featureFlags = FeatureFlagsSpiceStore()
-}
-
-class FeatureFlagsSpiceStore: SpiceStore {
-    @Spice var notifications = false
-    @Spice var fastRefreshWidgets = false
-}
-```
-
 ### Require Restart
 
 Setting `requiresRestart` to true will cause the app to be shut down after changing the value. Use this only when necessary, as users do not expect a restart.
