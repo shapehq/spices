@@ -308,6 +308,19 @@ Text fields are created for string variables in a spice store.
 
 ### Group Settings Using Nested Spice Stores
 
+Spice stores can be nested to create a hierarchical user interface.
+
+```swift
+class AppSpiceStore: SpiceStore {
+    @Spice var featureFlags = FeatureFlagsSpiceStore()
+}
+
+class FeatureFlagsSpiceStore: SpiceStore {
+    @Spice var notifications = false
+    @Spice var fastRefreshWidgets = false
+}
+```
+
 By default, a nested spice store is presented as a new screen in the navigation stack. This behavior is equivalent to:
 
 ```swift
