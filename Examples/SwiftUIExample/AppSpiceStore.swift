@@ -14,15 +14,6 @@ final class AppSpiceStore: SpiceStore {
     @Spice(presentation: .inline) var debugging = DebuggingSpiceStore()
 
     @Spice var featureFlags = FeatureFlagsSpiceStore()
-}
-
-final class DebuggingSpiceStore: SpiceStore {
-    @Spice var enableLogging = false
-    @Spice var clearCache = {
-        try await Task.sleep(for: .seconds(1))
-        URLCache.shared.removeAllCachedResponses()
-    }
-    @Spice var featureFlags = FeatureFlagsSpiceStore()
     @Spice(presentation: .push) var helloWorld = VStack {
         Image(systemName: "globe")
             .imageScale(.large)
@@ -31,6 +22,14 @@ final class DebuggingSpiceStore: SpiceStore {
     }
     .padding()
     @Spice var version = LabeledContent("Version", value: "1.0 (1)")
+}
+
+final class DebuggingSpiceStore: SpiceStore {
+    @Spice var enableLogging = false
+    @Spice var clearCache = {
+        try await Task.sleep(for: .seconds(1))
+        URLCache.shared.removeAllCachedResponses()
+    }
 
     fileprivate init() {}
 }
