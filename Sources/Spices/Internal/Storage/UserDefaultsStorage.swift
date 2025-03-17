@@ -4,11 +4,15 @@ import Foundation
 final class UserDefaultsStorage<Value>: Storage {
     var value: Value {
         get {
-            internalValue
+            backingValue
         }
         set {
-            write?(newValue)
-            internalValue = newValue
+            if !isValuesEqual(newValue, backingValue) {
+                write?(newValue)
+                spiceStoreOrThrow.publishObjectWillChange()
+                backingValue = newValue
+                subject.send(newValue)
+            }
         }
     }
     var publisher: AnyPublisher<Value, Never> {
@@ -39,23 +43,15 @@ final class UserDefaultsStorage<Value>: Storage {
         }
         return spiceStore
     }
-    private var _internalValue: Value
-    private var internalValue: Value {
-        get {
-            _internalValue
-        }
-        set {
-            spiceStoreOrThrow.publishObjectWillChange()
-            _internalValue = newValue
-            subject.send(newValue)
-        }
-    }
+    private var backingValue: Value
+    private let isValuesEqual: (Value, Value) -> Bool
     private var cancellables: Set<AnyCancellable> = []
 
-    init(default value: Value, key: String?) {
-        _internalValue = value
+    init(default value: Value, key: String?) where Value: Equatable {
+        backingValue = value
         preferredKey = key
         subject = CurrentValueSubject(value)
+        isValuesEqual = { $0 == $1 }
         read = { [weak self] in
             guard let self else {
                 return value
@@ -70,10 +66,11 @@ final class UserDefaultsStorage<Value>: Storage {
         }
     }
 
-    init(default value: Value, key: String?) where Value: RawRepresentable {
-        _internalValue = value
+    init(default value: Value, key: String?) where Value: RawRepresentable, Value.RawValue: Equatable {
+        backingValue = value
         preferredKey = key
         subject = CurrentValueSubject(value)
+        isValuesEqual = { $0.rawValue == $1.rawValue }
         read = { [weak self] in
             guard let self, let rawValue = self.userDefaults.object(forKey: self.key) as? Value.RawValue else {
                 return value
@@ -98,7 +95,13 @@ private extension UserDefaultsStorage {
                 guard let self, let read = self.read else {
                     return
                 }
-                self.internalValue = read()
+                let value = read()
+                guard !self.isValuesEqual(value, backingValue) else {
+                    return
+                }
+                self.spiceStoreOrThrow.publishObjectWillChange()
+                self.backingValue = value
+                self.subject.send(value)
             }
             .store(in: &cancellables)
     }
@@ -109,7 +112,11 @@ extension UserDefaultsStorage: Preparable {
         self.propertyName = propertyName
         self.spiceStore = spiceStore
         if let read {
-            _internalValue = read()
+            let value = read()
+            if !isValuesEqual(value, backingValue) {
+                backingValue = value
+                subject.send(value)
+            }
         }
         observeUserDefaults()
     }

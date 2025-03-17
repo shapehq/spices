@@ -74,7 +74,8 @@ import SwiftUI
     /// }
     /// ```
     public var projectedValue: AnyPublisher<Value, Never> {
-        storage.publisher
+        assert(storage.isPrepared, "The projected value of a Spice cannot be accessed until its owning spice store has been prepared. This happens automatically unless the projected value is accessed before the property has been read or written, in which case you must manually call prepareIfNeeded() on the spice store.")
+        return storage.publisher
     }
 
     let name: Name
@@ -158,7 +159,7 @@ import SwiftUI
         key: String? = nil,
         name: String? = nil,
         requiresRestart: Bool = false
-    ) where Value: RawRepresentable & CaseIterable {
+    ) where Value: RawRepresentable & CaseIterable, Value.RawValue: Equatable {
         self.name = Name(name)
         self.storage = AnyStorage(UserDefaultsStorage(default: wrappedValue, key: key))
         self.menuItem = PickerMenuItem(
