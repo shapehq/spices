@@ -1,7 +1,7 @@
 import Combine
 import Foundation
-import Testing
 @testable import Spices
+import Testing
 
 @MainActor @Suite(.serialized)
 final class UserDefaultsStorageTests {
@@ -55,14 +55,14 @@ final class UserDefaultsStorageTests {
     func it_publishes_initial_value() async throws {
         let spiceStore = MockSpiceStore()
         spiceStore.userDefaults.removeAll()
-        spiceStore.userDefaults.set(true, forKey: "foo")
-        let sut = UserDefaultsStorage(default: false, key: nil)
+        spiceStore.userDefaults.set("Hello world!", forKey: "foo")
+        let sut = UserDefaultsStorage(default: "default", key: nil)
         sut.prepare(propertyName: "foo", ownedBy: spiceStore)
-        var readValue: Bool?
+        var readValue: String?
         _ = sut.publisher.sink { value in
             readValue = value
         }
-        #expect(readValue == true)
+        #expect(readValue == "Hello world!")
     }
 
     @Test

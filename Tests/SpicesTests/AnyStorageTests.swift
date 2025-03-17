@@ -1,7 +1,7 @@
 import Combine
 import Foundation
-import Testing
 @testable import Spices
+import Testing
 
 @Suite
 final class AnyStorageTests {
