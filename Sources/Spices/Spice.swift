@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 import Combine
 import Foundation
 import SwiftUI
@@ -74,6 +75,7 @@ import SwiftUI
     /// }
     /// ```
     public var projectedValue: AnyPublisher<Value, Never> {
+        // swiftlint:disable:next line_length
         assert(storage.isPrepared, "The projected value of a Spice cannot be accessed until its owning spice store has been prepared. This happens automatically unless the projected value is accessed before the property has been read or written, in which case you must manually call prepareIfNeeded() on the spice store.")
         return storage.publisher
     }
@@ -482,3 +484,4 @@ private extension Spice {
 }
 
 extension Spice: MenuItemProvider {}
+// swiftlint:enable file_length
