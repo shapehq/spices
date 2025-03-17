@@ -3,7 +3,7 @@ import Foundation
 @testable import Spices
 import Testing
 
-@MainActor @Suite
+@MainActor @Suite(.serialized)
 final class SpiceTests {
     private var cancellables: Set<AnyCancellable> = []
 

@@ -3,7 +3,7 @@ import Foundation
 import Testing
 @testable import Spices
 
-@MainActor @Suite
+@MainActor @Suite(.serialized)
 final class UserDefaultsStorageTests {
     @Test
     func it_returns_default_value() async throws {
