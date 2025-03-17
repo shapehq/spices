@@ -41,6 +41,27 @@ public extension SpiceStore {
     }
 }
 
+public extension SpiceStore {
+    /// Ensures that the `SpiceStore` is prepared before accessing its projected values.
+    ///
+    /// This method checks whether the `SpiceStore` has already been prepared. If not, it marks it as prepared
+    /// and invokes the `prepare()` method.
+    ///
+    /// You typically do not need to call this method manually, as preparation happens automatically. However,
+    /// if ``Spice/projectedValue`` is accessed before the corresponding property has been read or written,
+    /// you must explicitly call `prepareIfNeeded()` to avoid accessing an unprepared state.
+    ///
+    /// - Important: If the `SpiceStore` is not prepared, accessing a projected value will trigger an assertion failure.
+    ///
+    func prepareIfNeeded() {
+        guard !isPrepared else {
+            return
+        }
+        isPrepared = true
+        prepare()
+    }
+}
+
 extension SpiceStore {
     var id: String {
         if let value = objc_getAssociatedObject(self, &idKey) as? String {
@@ -106,14 +127,6 @@ extension SpiceStore {
         let publisher = objectWillChange as? ObservableObjectPublisher
         publisher?.send()
         parent?.publishObjectWillChange()
-    }
-
-    func prepareIfNeeded() {
-        guard !isPrepared else {
-            return
-        }
-        isPrepared = true
-        prepare()
     }
 
     private func prepare() {

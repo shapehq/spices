@@ -1,7 +1,6 @@
 import Foundation
-import Testing
-
 @testable import Spices
+import Testing
 
 @Suite
 struct CamelCaseToNaturalTextTests {

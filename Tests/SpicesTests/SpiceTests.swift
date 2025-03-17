@@ -3,7 +3,7 @@ import Foundation
 @testable import Spices
 import Testing
 
-@MainActor @Suite
+@MainActor @Suite(.serialized)
 final class SpiceTests {
     private var cancellables: Set<AnyCancellable> = []
 
@@ -63,6 +63,7 @@ final class SpiceTests {
         var initialValue: MockEnvironment?
         let sut = MockSpiceStore()
         sut.userDefaults.removeAll()
+        sut.prepareIfNeeded()
         sut.$enumValue.sink { newValue in
             initialValue = newValue
         }
@@ -70,10 +71,24 @@ final class SpiceTests {
         #expect(initialValue == .production)
     }
 
+    @Test func it_sink_receives_initial_value_if_it_has_been_changed() async throws {
+        var initialValue: MockEnvironment?
+        let sut = MockSpiceStore()
+        sut.userDefaults.removeAll()
+        sut.userDefaults.set(MockEnvironment.staging.rawValue, forKey: "enumValue")
+        sut.prepareIfNeeded()
+        sut.$enumValue.sink { newValue in
+            initialValue = newValue
+        }
+        .store(in: &cancellables)
+        #expect(initialValue == .staging)
+    }
+
     @Test func it_publishes_values() async throws {
         var publishedValue: MockEnvironment?
         let sut = MockSpiceStore()
         sut.userDefaults.removeAll()
+        sut.prepareIfNeeded()
         sut.$enumValue.sink { newValue in
             publishedValue = newValue
         }

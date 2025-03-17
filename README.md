@@ -225,6 +225,9 @@ class ContentViewController: UIViewController {
 }
 ```
 
+> [!IMPORTANT]
+> If an observation is setup before the corresponding property has been read or written, you must explicitly call `prepareIfNeeded()` on the spice store to avoid accessing an unprepared state. If the SpiceStore is not prepared, accessing a projected value will trigger an assertion failure.
+
 ## 🧪 Example Projects
 
 The example projects in the [Examples](/Examples) folder shows how Spices can be used to add an in-app debug menu to iOS apps with SwiftUI and UIKit lifecycles.
