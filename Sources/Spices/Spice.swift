@@ -243,7 +243,6 @@ import SwiftUI
     /// - Parameters:
     ///   - wrappedValue: The spice store to create hierarchial navigation to.
     ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
-    ///   - presentation: Presentation style of the spice store.
     public init(wrappedValue: Value, name: String? = nil) where Value: SpiceStore {
         self.name = Name(name)
         self.storage = AnyStorage(ThrowingStorage(
@@ -284,6 +283,8 @@ import SwiftUI
     ///   - wrappedValue: The spice store to create hierarchial navigation to.
     ///   - name: The display name of the spice store. Defaults to a formatted version of the property name.
     ///   - presentation: Presentation style of the spice store.
+    ///   - header: Title of the section header.
+    ///   - footer: Title of the section footer.
     public init(
         wrappedValue: Value,
         name: String? = nil,
