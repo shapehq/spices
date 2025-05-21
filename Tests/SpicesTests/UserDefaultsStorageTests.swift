@@ -66,7 +66,7 @@ final class UserDefaultsStorageTests {
     }
 
     @Test
-    func it_publishes_valuyes() async throws {
+    func it_publishes_values() async throws {
         let spiceStore = MockSpiceStore()
         spiceStore.userDefaults.removeAll()
         let sut = UserDefaultsStorage(default: "foo", key: nil)
