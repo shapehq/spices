@@ -25,8 +25,13 @@ final class AppSpiceStore: SpiceStore {
     }
     .padding()
     @Spice var version = LabeledContent("Version", value: "1.0 (1)")
+    @Spice var userId: String = "Not loaded"
 
     private init() {}
+
+    func onAppear() {
+        userId = "\(Int.random(in: 0...100))"
+    }
 }
 
 final class DebuggingSpiceStore: SpiceStore {
