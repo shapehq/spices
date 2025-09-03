@@ -18,9 +18,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - xcode: 16.1
+          - xcode: 16.4
             destination: iPhone 16 Pro
-            os: 18.1
+            os: 18.5
     env:
       DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
     steps:
