@@ -65,6 +65,7 @@ final class ContentViewController: UIViewController {
         this.translatesAutoresizingMaskIntoConstraints = false
         return this
     }()
+    private lazy var editSpicesItem = UIBarButtonItem(title: "Edit spices", style: .plain, target: self, action: #selector(editSpicesButtonPressed))
 
     override func loadView() {
         view = tableView
@@ -77,6 +78,7 @@ final class ContentViewController: UIViewController {
         setupDataSource()
         updateSnapshot()
         observeSpices()
+        updateNavigationItem()
     }
 }
 
@@ -145,6 +147,19 @@ private extension ContentViewController {
             self?.updateSnapshot()
         }
         .store(in: &cancellables)
+    }
+
+    private func updateNavigationItem() {
+        #if os(visionOS)
+        navigationItem.rightBarButtonItem = editSpicesItem
+        #endif
+    }
+
+    @objc private func editSpicesButtonPressed() {
+        let editor = SpiceEditorViewController(editing: spiceStore)
+        editor.modalPresentationStyle = .popover
+        editor.popoverPresentationController?.sourceItem = editSpicesItem
+        present(editor, animated: true)
     }
 }
 
