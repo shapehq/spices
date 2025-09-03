@@ -18,9 +18,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - xcode: 26.0
-            destination: iPhone 16 Pro
-            os: 26.0
           - xcode: 16.4
             destination: iPhone 16 Pro
             os: 18.5
