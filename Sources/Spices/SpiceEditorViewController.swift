@@ -37,7 +37,9 @@ public final class SpiceEditorViewController: UIHostingController<SpiceEditor> {
 
 private extension SpiceEditorViewController {
     private func configureSheetPresentation() {
+        #if !os(visionOS)
         sheetPresentationController?.detents = [.medium(), .large()]
+        #endif
     }
 }
 #endif

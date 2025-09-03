@@ -3,6 +3,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject private var spiceStore: AppSpiceStore
+    @State private var isShowingEditorPopover = false
 
     var body: some View {
         NavigationStack {
@@ -46,6 +47,18 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Example")
+            .toolbar {
+                #if os(visionOS)
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Edit spices") {
+                        isShowingEditorPopover = true
+                    }
+                    .popover(isPresented: $isShowingEditorPopover) {
+                        SpiceEditor(editing: spiceStore)
+                    }
+                }
+                #endif
+            }
         }
         #if DEBUG
         .presentSpiceEditorOnShake(editing: spiceStore)
