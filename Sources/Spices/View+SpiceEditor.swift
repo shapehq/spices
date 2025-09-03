@@ -91,7 +91,9 @@ private struct PresentSpiceEditorOnShakeViewModifier<Editor: View>: ViewModifier
                     return
                 }
                 let viewController = UIHostingController(rootView: editor)
+                #if !os(visionOS)
                 viewController.sheetPresentationController?.detents = [.medium(), .large()]
+                #endif
                 window.rootViewController?.shp_topViewController.present(viewController, animated: true)
                 PresentedSpiceEditorBox.viewController = viewController
             }

@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "Spices",
-    platforms: [.iOS(.v15)],
+    platforms: [.iOS(.v15), .visionOS(.v1)],
     products: [
         .library(name: "Spices", targets: ["Spices"])
     ],
