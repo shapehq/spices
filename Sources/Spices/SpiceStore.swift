@@ -33,11 +33,17 @@ public protocol SpiceStore: AnyObject, ObservableObject {
     ///
     /// The default implementation returns `UserDefaults.standard`.
     var userDefaults: UserDefaults { get }
+    
+    /// Call when the store appear on the screen
+    func onAppear()
 }
 
 public extension SpiceStore {
     var userDefaults: UserDefaults {
         .standard
+    }
+    
+    func onAppear() {
     }
 }
 

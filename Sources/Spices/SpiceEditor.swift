@@ -68,6 +68,9 @@ public struct SpiceEditor: View {
             MenuItemListView(items: spiceStore.menuItems, title: title) {
                 dismiss()
             }
+            .onAppear {
+                spiceStore.onAppear()
+            }
         }
         .configureSheetPresentation()
         .environmentObject(UserInteraction())
